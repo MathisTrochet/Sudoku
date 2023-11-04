@@ -1,0 +1,93 @@
+# depslib dependency file v1.0
+1695727931 source:d:\mes études\fac\l3\gestion de projet\sudoku\sudoku\main.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	"ExempleModelesSudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695717877 d:\mes études\fac\l3\gestion de projet\sudoku\sudoku\sudoku.h
+
+1695728453 source:d:\mes études\fac\l3\gestion de projet\sudoku\sudoku\sudoku.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695301353 d:\mes études\fac\l3\gestion de projet\sudoku\sudoku\exemplemodelessudoku.h
+	<stdio.h>
+	<stdlib.h>
+
+1695301331 d:\mes études\fac\l3\gestion de projet\sudoku\sudoku\sudoku.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	<stdbool.h>
+
+1695915530 source:c:\users\flore\desktop\projet sudoku\main.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	"ExempleModelesSudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695911273 c:\users\flore\desktop\projet sudoku\sudoku.h
+
+1695910944 c:\users\flore\desktop\projet sudoku\exemplemodelessudoku.h
+	<stdio.h>
+	<stdlib.h>
+
+1695915388 source:c:\users\flore\desktop\projet sudoku\sudoku.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695915532 source:c:\users\asus\desktop\projet sudoku\main.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	"ExempleModelesSudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695916992 c:\users\asus\desktop\projet sudoku\sudoku.h
+	<stdbool.h>
+
+1695910946 c:\users\asus\desktop\projet sudoku\exemplemodelessudoku.h
+	<stdio.h>
+	<stdlib.h>
+
+1695917629 source:c:\users\asus\desktop\projet sudoku\sudoku.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1696530745 source:d:\mes études\fac\l3\gestion de projet\sudoku\maj\main.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	"ExempleModelesSudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695973493 d:\mes études\fac\l3\gestion de projet\sudoku\maj\exemplemodelessudoku.h
+	<stdio.h>
+	<stdlib.h>
+
+1696530677 source:d:\mes études\fac\l3\gestion de projet\sudoku\maj\sudoku.c
+	<stdio.h>
+	<stdlib.h>
+	"sudoku.h"
+	<stdbool.h>
+	<math.h>
+
+1695973735 d:\mes études\fac\l3\gestion de projet\sudoku\maj\sudoku.h
+	<stdbool.h>
+
