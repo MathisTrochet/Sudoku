@@ -4,18 +4,21 @@
 #include "ExempleModelesSudoku.h"
 #include <stdbool.h>
 #include <math.h>
+#include <time.h>
 
 int main()
 {
     srand( time( NULL ) );
 
     //structCase **grille = create_grille(9);
+
 /*
     grille = add_case(grille, 2, 2, 1);
 
     printf("%d", grille[2][1]->valeur);
 
     grille = rem_case(grille, 2, 1);
+    
 */
 
     structCase **grille1 = create_grille();
