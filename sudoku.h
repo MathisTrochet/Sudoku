@@ -33,6 +33,6 @@ typedef struct{
     bool verifColonne (structCase **grille, int colonne);
     bool verifCarre (structCase **grille, int x, int y);
     bool verifGrille(structCase **grille);
-    structCase **regle1(structCase **grille);
+    structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax);
 
     #endif // SUDOKU_H_INCLUDED

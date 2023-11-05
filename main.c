@@ -8,6 +8,7 @@
 
 int main()
 {
+
     srand( time( NULL ) );
 
     //structCase **grille = create_grille(9);
@@ -18,13 +19,13 @@ int main()
     printf("%d", grille[2][1]->valeur);
 
     grille = rem_case(grille, 2, 1);
-    
+
 */
 
     structCase **grille1 = create_grille();
 
-    remplirGrille(grille1);
-    afficheGrille(grille1);
+    //remplirGrille(grille1);
+    //afficheGrille(grille1);
 
 
 
@@ -121,56 +122,24 @@ grille1 = add_case(grille1, 8, 6, 8);
 grille1 = add_case(grille1, 9, 7, 8);
 grille1 = add_case(grille1, 3, 8, 8);
 
-    afficheGrille(grille1);
+    //afficheGrille(grille1);
 
 
-    /*printf("%d", grille[2][1]->valeur);
+structCase **grille2 = create_grille();
 
-    if (grille[2][1]->valeur !=NULL){
-        printf("%d", grille[2][1]->valeur);
-    }
-
-    /*
-
-
-    if ((verif_grille(grille, 9)) == true){
-    printf("true");
-    }
-    else printf("false");
-
-    //
+grille2 = add_case(grille2, 7, 0, 0);
+grille2 = add_case(grille2, 9, 1, 0);
+grille2 = add_case(grille2, 8, 2, 0);
+grille2 = add_case(grille2, 1, 3, 0);
+grille2 = add_case(grille2, 2, 5, 0);
+grille2 = add_case(grille2, 3, 6, 0);
+grille2 = add_case(grille2, 5, 7, 0);
+grille2 = add_case(grille2, 4, 8, 0);
+//regle1(grille2, 0, 0, 8, 0 ); // on check la premiere ligne
+structCase **test = regle1(grille2, 0, 0, 8, 0 );
+afficheGrille(test);
 
 
-*/
-
-
-
-
-
-
-    if (verifLigne(grille1, 0))
-        printf(" **Ligne Complete ** ");
-    else printf(" ** Ligne Incomplete ** ");
-
-
-    if (verifColonne(grille1, 0))
-        printf(" ** Colonne Complete ** ");
-    else printf(" ** Colonne Incomplete ** ");
-
-
-    if (verifCarre(grille1, 0, 0))
-        printf(" ** Carre Complet ** ");
-    else printf(" ** Carre Incomplet ** ");
-
-
-     if (verifGrille(grille1))
-        printf(" ** Grille Complete ** ");
-    else printf(" ** Grille Incomplete ** ");
-
-    //else printf(" \n GRILLE NON COMPLETE ");
-
-
-    return 0;
-
+return EXIT_SUCCESS;
 
 }

@@ -135,3 +135,53 @@ bool verifGrille(structCase **grille){
     }
     return true;
 }
+
+/*
+int probaTab(structCase **grille, int posX, int posY){
+
+    int *false[10]
+    
+    if (grille[posX][posY]->proba_1 ){
+
+    }
+}
+*/
+
+
+
+
+structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax){
+    int height = ymax - ymin +1;
+    int width = xmax - xmin + 1;
+    int length = height*width ;
+    bool tab[length]; // dans les cas testé length sera 9 
+    int resPosX, resPosY;
+    
+    for (int x = xmin ; x<=xmax ; x++){
+            for (int y=ymin ; y<=ymax ; y++){
+                   //tab[tab[getValeur(grille[x][y])]]=getValeur(grille[x][y]);
+                if (getValeur(grille[x][y]) == 0){
+                     printf("Salut");
+                    resPosX = (grille[x][y])->posX;
+                    resPosY = (grille[x][y])->posY; // on sauvegarde les positions de la valeur non définie
+                     printf("Salut");
+                }
+                else // dans le tableau de booléean, on mets toutes les valeurs != de 0 a true
+                { 
+                    if (tab[getValeur(grille[x][y])-1]== false)
+                    {
+                        tab[getValeur(grille[x][y])-1]=true; 
+                    }
+                }
+            }
+    }
+
+    for (int i=0; i<length; i++){
+        if (tab[i] == false){
+             printf("Nombre manquant : %d"), (i+1);
+             grille[resPosX][resPosY]->valeur = (i+1);
+             
+        }
+    }
+    return grille;
+}
