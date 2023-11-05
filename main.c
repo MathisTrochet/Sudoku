@@ -126,11 +126,15 @@ grille1 = add_case(grille1, 3, 8, 8);
 
 
 structCase **grille2 = create_grille();
+//structCase **bitch = initGrille(grille2);
+//printf("yo");
+afficheGrille(grille2);
 
 grille2 = add_case(grille2, 7, 0, 0);
 grille2 = add_case(grille2, 9, 1, 0);
 grille2 = add_case(grille2, 8, 2, 0);
 grille2 = add_case(grille2, 1, 3, 0);
+grille2 = add_case(grille2, 0, 4, 0);
 grille2 = add_case(grille2, 2, 5, 0);
 grille2 = add_case(grille2, 3, 6, 0);
 grille2 = add_case(grille2, 5, 7, 0);

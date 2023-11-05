@@ -10,7 +10,7 @@
 
 structCase **create_grille(){
     structCase **tableau = NULL;
-    tableau = (structCase **)malloc(TAILLE * sizeof(struct structCase *));
+    tableau = (structCase **)malloc(TAILLE * sizeof(structCase *));
 
 for (int i=0; i<TAILLE; i++){
     tableau[i] = (structCase*)malloc(TAILLE * sizeof(structCase));
@@ -59,11 +59,11 @@ void afficheGrille (structCase **grille){
     }
 }
 
-structCase **initGrille(structCase **grille){
+structCase ** initGrille(structCase **grille){
 
     for (int i=0; i<TAILLE; i++){
         for (int j=0; j<TAILLE; j++){
-            grille[i][j] = 0;
+            grille[i][j]->valeur = 0;
         }
     }
     return grille;

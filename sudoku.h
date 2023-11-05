@@ -6,7 +6,7 @@
 typedef struct {
     int valeur;
     int posX;
-    int posY;
+    int posY; /*
     int proba_1;
     int proba_2;
     int proba_3;
@@ -16,6 +16,7 @@ typedef struct {
     int proba_7;
     int proba_8;
     int proba_9;
+    */
 } *structCase;
 
 typedef struct{
@@ -27,6 +28,8 @@ typedef struct{
     structCase **add_case(structCase **grille, int val, int posX, int posY);
     structCase **rem_case(structCase **grille, int posX, int posY);
     void afficheGrille (structCase **grille);
+    structCase **initGrille(structCase **grille);
+    //void initGrille(structCase ***grille);
     structCase **remplirGrille(structCase **grille);
     bool verifTab (structCase **grille,int xmin, int ymin, int xmax, int ymax);
     bool verifLigne (structCase **grille, int ligne);
