@@ -9,22 +9,22 @@
 
 
 structCase **create_grille(){
-    structCase **tableau = NULL;
-    tableau = (structCase **)malloc(TAILLE * sizeof(structCase *));
+    structCase **grille = (structCase **)malloc(TAILLE * sizeof(structCase *));
 
 for (int i=0; i<TAILLE; i++){
-    tableau[i] = (structCase*)malloc(TAILLE * sizeof(structCase));
+    grille[i] = (structCase*)malloc(TAILLE * sizeof(structCase));
+    for (int j=0; j< TAILLE; j++){
+        grille[i][j]->valeur = 0;
+        grille[i][j]->posX = i;
+        grille[i][j]->posY = j;
+    }
 }
-return tableau;
+return grille;
 
 }
 
 structCase **add_case(structCase **grille, int val, int posX, int posY){
-    structCase new_case = (structCase)malloc(sizeof(structCase));
-    new_case->valeur = val;
-    new_case->posX = posX;
-    new_case->posY = posY;
-    grille[posX][posY] = new_case;
+    grille[posX][posY]->valeur = val;
     return grille;
 }
 
