@@ -21,10 +21,8 @@ int main()
     grille = rem_case(grille, 2, 1);
 
 */
-printf("yo");
-
     structCase **grille1 = create_grille();
-    printf("yo");
+    
 
     //remplirGrille(grille1);
     //afficheGrille(grille1);
@@ -123,14 +121,12 @@ grille1 = add_case(grille1, 8, 6, 8);
 grille1 = add_case(grille1, 9, 7, 8);
 grille1 = add_case(grille1, 3, 8, 8);
 
-    //afficheGrille(grille1);
+    afficheGrille(grille1);
 
 
 //structCase **bitch = initGrille(grille2); 
 
-printf("yo");
 structCase **grille2 = create_grille();
-afficheGrille(grille2);
 
 grille2 = add_case(grille2, 7, 0, 0);
 grille2 = add_case(grille2, 9, 1, 0);

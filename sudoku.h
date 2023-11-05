@@ -17,7 +17,7 @@ typedef struct {
     int proba_8;
     int proba_9;
     */
-} *structCase;
+} structCase;
 
 typedef struct{
     structCase cellule;
