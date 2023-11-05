@@ -29,7 +29,7 @@ structCase **add_case(structCase **grille, int val, int posX, int posY){
 }
 
 structCase **rem_case(structCase **grille, int posX, int posY){
-     grille[posX][posY].valeur = NULL;
+     grille[posX][posY].valeur = 0;
      return grille;
 
 }
@@ -165,16 +165,16 @@ structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax)
     int width = xmax - xmin + 1;
     int length = height*width ;
     bool tab[length]; // dans les cas testé length sera 9 
+    for (int i = 0; i < length; i++) {
+        tab[i] = false;
+    }
     int resPosX, resPosY;
     
     for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
-                   //tab[tab[getValeur(grille[x][y])]]=getValeur(grille[x][y]);
-                if (getValeur(grille[x][y]) == 0){
-                     printf("Salut");
+                    if (getValeur(grille[x][y]) == 0){
                     resPosX = (grille[x][y]).posX;
                     resPosY = (grille[x][y]).posY; // on sauvegarde les positions de la valeur non définie
-                     printf("Salut");
                 }
                 else // dans le tableau de booléean, on mets toutes les valeurs != de 0 a true
                 { 
@@ -188,7 +188,7 @@ structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax)
 
     for (int i=0; i<length; i++){
         if (tab[i] == false){
-             printf("Nombre manquant : %d"), (i+1);
+             printf("Nombre manquant : %d", i+1);
              grille[resPosX][resPosY].valeur = (i+1);
              
         }
