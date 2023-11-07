@@ -3,20 +3,14 @@
 
 #include <stdbool.h>
 
+#define TAILLE 9
+#define CARRE 3 //srt(TAILLE)
+
 typedef struct {
     int valeur;
     int posX;
-    int posY; /*
-    int proba_1;
-    int proba_2;
-    int proba_3;
-    int proba_4;
-    int proba_5;
-    int proba_6;
-    int proba_7;
-    int proba_8;
-    int proba_9;
-    */
+    int posY; 
+    int note[TAILLE];
 } structCase;
 
 typedef struct{

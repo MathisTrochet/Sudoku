@@ -4,8 +4,8 @@
 #include <stdbool.h>
 #include <math.h>
 
-#define TAILLE 9
-#define CARRE 3 //srt(TAILLE)
+
+
 
 
 structCase **create_grille(){
@@ -157,6 +157,8 @@ int probaTab(structCase **grille, int posX, int posY){
 }
 */
 
+structCase **
+
 
 
 
@@ -172,6 +174,7 @@ structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax)
     
     for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
+
                     if (getValeur(grille[x][y]) == 0){
                     resPosX = (grille[x][y]).posX;
                     resPosY = (grille[x][y]).posY; // on sauvegarde les positions de la valeur non définie
