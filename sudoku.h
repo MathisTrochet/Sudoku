@@ -9,7 +9,7 @@
 typedef struct {
     int valeur;
     int posX;
-    int posY; 
+    int posY;
     int note[TAILLE];
 } structCase;
 
@@ -18,7 +18,8 @@ typedef struct{
 }grille;
 
 //appel des fonctions utilis�es
-    structCase **create_grille();
+    structCase **create_grille();  
+    structCase **initGrille(structCase **grille);
     structCase **add_case(structCase **grille, int val, int posX, int posY);
     structCase **rem_case(structCase **grille, int posX, int posY);
     void afficheGrille (structCase **grille);
@@ -30,6 +31,9 @@ typedef struct{
     bool verifColonne (structCase **grille, int colonne);
     bool verifCarre (structCase **grille, int x, int y);
     bool verifGrille(structCase **grille);
+    structCase **zonesActuNotes(structCase **grille, int posX, int posY, int val);
+    structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, int xmax, int ymax, int val);
     structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax);
+
 
     #endif // SUDOKU_H_INCLUDED

@@ -11,16 +11,6 @@ int main()
 
     srand( time( NULL ) );
 
-    //structCase **grille = create_grille(9);
-
-/*
-    grille = add_case(grille, 2, 2, 1);
-
-    printf("%d", grille[2][1]->valeur);
-
-    grille = rem_case(grille, 2, 1);
-
-*/
     structCase **grille1 = create_grille();
     
 
@@ -31,15 +21,17 @@ int main()
 
 //GRILLE JUSTE
 
-grille1 = add_case(grille1, 7, 0, 0);
-grille1 = add_case(grille1, 9, 1, 0);
-grille1 = add_case(grille1, 8, 2, 0);
-grille1 = add_case(grille1, 1, 3, 0);
-grille1 = add_case(grille1, 6, 4, 0);
-grille1 = add_case(grille1, 2, 5, 0);
-grille1 = add_case(grille1, 3, 6, 0);
-grille1 = add_case(grille1, 5, 7, 0);
-grille1 = add_case(grille1, 4, 8, 0);
+
+
+//grille1 = add_case(grille1, 7, 0, 0);
+//grille1 = add_case(grille1, 9, 1, 0);
+//grille1 = add_case(grille1, 8, 2, 0);
+//grille1 = add_case(grille1, 1, 3, 0);
+//grille1 = add_case(grille1, 6, 4, 0);
+//grille1 = add_case(grille1, 2, 5, 0);
+//grille1 = add_case(grille1, 3, 6, 0);
+//grille1 = add_case(grille1, 5, 7, 0);
+//grille1 = add_case(grille1, 4, 8, 0);
 
 grille1 = add_case(grille1, 6, 0, 1);
 grille1 = add_case(grille1, 4, 1, 1);
@@ -121,14 +113,11 @@ grille1 = add_case(grille1, 8, 6, 8);
 grille1 = add_case(grille1, 9, 7, 8);
 grille1 = add_case(grille1, 3, 8, 8);
 
-    //afficheGrille(grille1);
-
-
-//structCase **bitch = initGrille(grille2); 
 
 structCase **grille2 = create_grille();
+grille2 = initGrille(grille2);
 
-//grille2 = add_case(grille2, 7, 0, 0);
+grille2 = add_case(grille2, 7, 0, 0);
 grille2 = add_case(grille2, 9, 1, 0);
 grille2 = add_case(grille2, 8, 2, 0);
 grille2 = add_case(grille2, 1, 3, 0);
@@ -157,15 +146,37 @@ grille2 = add_case(grille2, 5, 5, 2);
 grille2 = add_case(grille2, 6, 6, 2);
 grille2 = add_case(grille2, 8, 7, 2);
 grille2 = add_case(grille2, 7, 8, 2);
+
+
+
 //regle1(grille2, 0, 0, 8, 0 ); // on check la premiere ligne
 //structCase **test1 = regle1(grille2, 0, 0, 8, 0 );
-afficheGrille(grille2);
+//afficheGrille(grille2);
 
-structCase **test2 = regle1(grille2, 0, 0, 2, 2 );
+    //structCase **test2 = regle1(grille2, 0, 0, 2, 2 );
 //structCase **test3 = regle1(grille2, 0, 0, 8, 0 );
 //afficheGrille(test1);
-afficheGrille(test2);
+    //afficheGrille(test2);
 //afficheGrille(test3);
+/*
+structCase **grille3 = create_grille();
+grille3 = initGrille(grille3);
+afficheGrille(grille3);
+grille3 = add_case(grille3, 7, 0, 0);
+grille3 = add_case(grille3, 9, 1, 0);
+*/
+
+printf("\n");
+printf("|");
+for(int i=0; i<TAILLE ; i++){
+    
+
+    printf("%d", grille1[0][0].note[i]);
+    
+
+}
+printf("|");
+
 
 
 return EXIT_SUCCESS;

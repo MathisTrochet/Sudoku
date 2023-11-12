@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "sudoku.h"
+#include "sudoku.h" 
 #include <stdbool.h>
 #include <math.h>
 
@@ -25,6 +25,7 @@ return grille;
 
 structCase **add_case(structCase **grille, int val, int posX, int posY){
     grille[posX][posY].valeur = val;
+    grille = zonesActuNotes(grille, posX, posY, val);
     return grille;
 }
 
@@ -63,7 +64,12 @@ structCase ** initGrille(structCase **grille){
 
     for (int i=0; i<TAILLE; i++){
         for (int j=0; j<TAILLE; j++){
-            grille[i][j].valeur = 0;
+            //grille[i][j].valeur = 0; (déjà fait dans la fonction create_grille)
+            int *tab = (int*)malloc(TAILLE * sizeof(int));
+            for (int k=0; k<TAILLE; k++){
+                tab[k]=1;
+                grille[i][j].note[k]= tab[k];
+            }
         }
     }
     return grille;
@@ -145,20 +151,46 @@ bool verifGrille(structCase **grille){
     }
     return true;
 }
+structCase **zonesActuNotes(structCase **grille, int posX, int posY, int val){
+    //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en quesiton
 
-/*
-int probaTab(structCase **grille, int posX, int posY){
 
-    int *false[10]
-    
-    if (grille[posX][posY]->proba_1 ){
+    //ligne
+    grille = actuNotesZoneApresAjout(grille, 0, posY, TAILLE-1, posY, val);
+    printf("test");
+    //colonne
+    grille = actuNotesZoneApresAjout(grille, posX, 0, posX, TAILLE-1, val);
+    //carre 
+    grille = actuNotesZoneApresAjout(grille, posX - posX%CARRE, posY - posY%CARRE, (posX - posX%CARRE) + CARRE -1, (posY - posY%CARRE) + CARRE -1, val);
 
-    }
+    return grille;
 }
-*/
 
-structCase **
+structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, int xmax, int ymax, int val){
+    //printf("xmin : %d, ymin : %d, xmax : %d, ymax : %d, val : %d", xmin, ymin, xmax, ymax, val); a enlever (pour test)
 
+     for (int x = xmin ; x<=xmax ; x++){
+            for (int y=ymin ; y<=ymax ; y++){
+                if (grille[x][y].valeur == val){
+                    for(int i=0; i<TAILLE; i++){
+                        grille[x][y].note[i] = 0;
+                        ;
+                    }
+                    
+                    grille[x][y].note[val-1] = 1;
+                    
+                   
+                }
+                
+                else grille[x][y].note[val-1] = 0;
+                
+
+            }
+            
+     }
+     return grille;
+     
+}
 
 
 
@@ -196,5 +228,6 @@ structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax)
              
         }
     }
+    
     return grille;
 }
