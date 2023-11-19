@@ -25,7 +25,7 @@ return grille;
 
 structCase **add_case(structCase **grille, int val, int posX, int posY){
     grille[posX][posY].valeur = val;
-    grille = zonesActuNotes(grille, posX, posY, val);
+    grille = zonesActuNotes(grille, posX, posY, val); // met toutes les lignes colonnes et carrés communs à "val", à jour 
     return grille;
 }
 
@@ -157,7 +157,7 @@ structCase **zonesActuNotes(structCase **grille, int posX, int posY, int val){
 
     //ligne
     grille = actuNotesZoneApresAjout(grille, 0, posY, TAILLE-1, posY, val);
-    printf("test");
+    //printf("test");
     //colonne
     grille = actuNotesZoneApresAjout(grille, posX, 0, posX, TAILLE-1, val);
     //carre 
@@ -174,7 +174,6 @@ structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, in
                 if (grille[x][y].valeur == val){
                     for(int i=0; i<TAILLE; i++){
                         grille[x][y].note[i] = 0;
-                        ;
                     }
                     
                     grille[x][y].note[val-1] = 1;
@@ -183,6 +182,10 @@ structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, in
                 }
                 
                 else grille[x][y].note[val-1] = 0;
+
+            if (x == 0 && y ==0 && grille[0][0].valeur==0){
+                printf("test");
+            }
                 
 
             }
@@ -190,6 +193,32 @@ structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, in
      }
      return grille;
      
+}
+
+structCase **implanterNote(structCase **grille){
+    
+    for (int i=0; i<TAILLE ; i++){
+        for (int j=0; j<TAILLE ; j++){
+            int compteur=0;
+            int val;
+            for(int k=0; k<TAILLE; k++){
+                
+                
+                if (grille[i][j].note[k]==1){
+                    compteur++;
+                    val = k+1;
+                }
+            }
+            if (compteur==1 && grille[i][j].valeur ==0){
+                grille[i][j].valeur=val;
+                grille = zonesActuNotes(grille, i, j, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
+                printf("test; %d; (%d, %d) | ", val, i, j);
+            }
+
+            
+        }
+    }
+    return grille;
 }
 
 

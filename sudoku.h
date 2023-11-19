@@ -35,5 +35,7 @@ typedef struct{
     structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, int xmax, int ymax, int val);
     structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax);
 
+    structCase **implanterNote(structCase **grille);
+
 
     #endif // SUDOKU_H_INCLUDED

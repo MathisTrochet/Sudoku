@@ -12,6 +12,7 @@ int main()
     srand( time( NULL ) );
 
     structCase **grille1 = create_grille();
+    grille1 = initGrille(grille1);
     
 
     //remplirGrille(grille1);
@@ -33,9 +34,9 @@ int main()
 //grille1 = add_case(grille1, 5, 7, 0);
 //grille1 = add_case(grille1, 4, 8, 0);
 
-grille1 = add_case(grille1, 6, 0, 1);
-grille1 = add_case(grille1, 4, 1, 1);
-grille1 = add_case(grille1, 5, 2, 1);
+//grille1 = add_case(grille1, 6, 0, 1);
+//grille1 = add_case(grille1, 4, 1, 1);
+//grille1 = add_case(grille1, 5, 2, 1);
 grille1 = add_case(grille1, 7, 3, 1);
 grille1 = add_case(grille1, 8, 4, 1);
 grille1 = add_case(grille1, 3, 5, 1);
@@ -167,7 +168,7 @@ grille3 = add_case(grille3, 9, 1, 0);
 */
 
 printf("\n");
-printf("|");
+printf("[0][0] -> |");
 for(int i=0; i<TAILLE ; i++){
     
 
@@ -176,6 +177,22 @@ for(int i=0; i<TAILLE ; i++){
 
 }
 printf("|");
+
+printf("\n[0][1] -> |");
+for(int i=0; i<TAILLE ; i++){
+    
+
+    printf("%d", grille1[0][1].note[i]);
+    
+
+}
+printf("|");
+
+
+
+grille1 = implanterNote(grille1);
+//grille1 = implanterNote(grille1);
+afficheGrille(grille1);
 
 
 
