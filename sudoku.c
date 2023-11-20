@@ -127,7 +127,6 @@ bool verifGrille(structCase **grille){
     for (int i=0; i<TAILLE; i++){
         if (verifLigne(grille, i)){
             printf("true %d", i);
-
         }
         else return true;
     }
@@ -155,7 +154,7 @@ structCase **zonesActuNotes(structCase **grille, int posX, int posY, int val){
     //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en quesiton
 
 
-    //ligne
+    //ligne 
     grille = actuNotesZoneApresAjout(grille, 0, posY, TAILLE-1, posY, val);
     //printf("test");
     //colonne
@@ -211,8 +210,8 @@ structCase **implanterNote(structCase **grille){
             }
             if (compteur==1 && grille[i][j].valeur ==0){
                 grille[i][j].valeur=val;
-                grille = zonesActuNotes(grille, i, j, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
-                printf("test; %d; (%d, %d) | ", val, i, j);
+                grille = zonesActuNotes(grille,  i, j, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
+                grille = implanterNote(grille); //
             }
 
             
@@ -223,7 +222,8 @@ structCase **implanterNote(structCase **grille){
 
 
 
-structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax){
+
+structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax){ // premiere version qui correspond a la prmiere regle du sudoku
     int height = ymax - ymin +1;
     int width = xmax - xmin + 1;
     int length = height*width ;
