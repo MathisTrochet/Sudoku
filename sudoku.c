@@ -7,52 +7,80 @@
 
 
 
+int getValeur(structGrille grille, int x, int y){
+    return grille.cellules[x][y].valeur; 
+}
+int getPosX(structGrille grille, int x, int y){
+    return grille.cellules[x][y].posX; 
+}
+int getPosY(structGrille grille, int x, int y){
+    return grille.cellules[x][y].posY; 
+}
+int getNote(structGrille grille, int x, int y, int ind){
+    return grille.cellules[x][y].note[ind]; 
+}
 
-structCase **create_grille(){
-    structCase **grille = (structCase **)malloc(TAILLE * sizeof(structCase *));
+void setValeur(structGrille *grille, int x, int y, int val){
+    (*grille).cellules[x][y].valeur = val; 
+}
+void setPosX(structGrille *grille, int x, int y, int posX){
+    (*grille).cellules[x][y].posX = posX;  
+}
+void setPosY(structGrille *grille, int x, int y, int posY){
+    (*grille).cellules[x][y].posY = posY; 
+}
 
-for (int i=0; i<TAILLE; i++){
-    grille[i] = (structCase*)malloc(TAILLE * sizeof(structCase));
-    for (int j=0; j< TAILLE; j++){
-        grille[i][j].valeur = 0;
-        grille[i][j].posX = i;
-        grille[i][j].posY = j;
+void setNote(structGrille *grille, int x, int y, int ind, int note){
+    (*grille).cellules[x][y].note[ind] = note; 
+}
+
+
+structGrille create_grille(){
+    structGrille grille;
+    grille.cellules = (structCellule **)malloc(TAILLE * sizeof(structCellule *));
+
+for (int x=0; x<TAILLE; x++){
+    grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));
+    for (int y=0; y< TAILLE; y++){
+        setValeur(&grille, x, y, 0); //initialise valeurs à 0
+        setPosX(&grille, x, y, x); // initialise posX à i
+        setPosX(&grille, x, y, y); // initialise posY à j
     }
 }
 return grille;
 
 }
 
-structCase **add_case(structCase **grille, int val, int posX, int posY){
-    grille[posX][posY].valeur = val;
+structGrille add_case(structGrille grille, int val, int posX, int posY){
+    setValeur(&grille, posX, posY, val);
     grille = zonesActuNotes(grille, posX, posY, val); // met toutes les lignes colonnes et carrés communs à "val", à jour 
     return grille;
 }
 
-structCase **rem_case(structCase **grille, int posX, int posY){
-     grille[posX][posY].valeur = 0;
+structGrille rem_case(structGrille grille, int posX, int posY){
+     setValeur(&grille, posX, posY, 0);
      return grille;
 
 }
 
-void afficheGrille (structCase **grille){
+void afficheGrille (structGrille grille){
     printf(" \n GRILLE : ");
-    for (int i=0; i<TAILLE; i++){
+    for (int x=0; x<TAILLE; x++){
         printf("\n");
-        if (i==CARRE){
+        if (x==CARRE){
             printf("\n");
         }
-        if (i==CARRE*2){
+        if (x==CARRE*2){
             printf("\n");
         }
-        for (int j=0; j<TAILLE; j++){
-            if (j==CARRE){
+        for (int y=0; y<TAILLE; y++){
+            if (y==CARRE){
             printf(" ");
             }
-            if (j==CARRE*2){
+            if (y==CARRE*2){
             printf(" ");
             }
-            printf("|%d| ", grille[j][i].valeur);
+            printf("|%d| ", getValeur(grille, y, x));
             //printf("(%d, ", grille[i][j]->posX);
             //printf("%d) ", grille[i][j]->posY);
 
@@ -60,36 +88,31 @@ void afficheGrille (structCase **grille){
     }
 }
 
-structCase ** initGrille(structCase **grille){
+structGrille initGrille(structGrille grille){
 
-    for (int i=0; i<TAILLE; i++){
-        for (int j=0; j<TAILLE; j++){
-            //grille[i][j].valeur = 0; (déjà fait dans la fonction create_grille)
+    for (int x=0; x<TAILLE; x++){
+        for (int y=0; y<TAILLE; y++){
+            //grille.cellules[x][y].valeur = 0; //(déjà fait dans la fonction create_grille)
             int *tab = (int*)malloc(TAILLE * sizeof(int));
             for (int k=0; k<TAILLE; k++){
-                tab[k]=1;
-                grille[i][j].note[k]= tab[k];
+                setNote(&grille, x, y, k, 1);
             }
         }
     }
     return grille;
 }
 
-structCase **remplirGrille(structCase **grille){
+structGrille remplirGrille(structGrille grille){
 
-    for (int i=0; i<TAILLE; i++){
-        for (int j=0; j<TAILLE; j++){
-            grille = add_case(grille, rand() %10, i, j);
+    for (int x=0; x<TAILLE; x++){
+        for (int y=0; y<TAILLE; y++){
+            grille = add_case(grille, rand() %10, x, y);
         }
     }
     return grille;
 }
 
-int getValeur(structCase c){
-    return c.valeur;
-}
-
-bool verifTab (structCase **grille,int xmin, int ymin, int xmax, int ymax){
+bool verifTab (structGrille grille,int xmin, int ymin, int xmax, int ymax){
     int height = ymax - ymin +1;
     int width = xmax - xmin + 1;
     int length = height*width;
@@ -99,8 +122,8 @@ bool verifTab (structCase **grille,int xmin, int ymin, int xmax, int ymax){
     }
     for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
-                if (tab[getValeur(grille[x][y])]==false)
-                    tab[getValeur(grille[x][y])]=true;
+                if (tab[getValeur(grille, x, y)]==false)
+                    tab[getValeur(grille, x, y)]=true;
                 else return false;
             }
     }
@@ -108,49 +131,49 @@ bool verifTab (structCase **grille,int xmin, int ymin, int xmax, int ymax){
 
 }
 
-bool verifLigne (structCase **grille, int ligne){
+bool verifLigne (structGrille grille, int ligne){
     return verifTab(grille, 0, ligne, TAILLE-1, ligne);
 
 }
 
-bool verifColonne (structCase **grille, int colonne){
+bool verifColonne (structGrille grille, int colonne){
     return verifTab(grille, colonne, 0, colonne, TAILLE-1);
 
 }
 
-bool verifCarre (structCase **grille, int x, int y){
+bool verifCarre (structGrille grille, int x, int y){
     return verifTab(grille, x, y, x + CARRE-1, y + CARRE-1);
 
 }
 
-bool verifGrille(structCase **grille){
-    for (int i=0; i<TAILLE; i++){
-        if (verifLigne(grille, i)){
-            printf("true %d", i);
-        }
-        else return true;
+bool verifGrille(structGrille grille){
+    for (int x=0; x<TAILLE; x++){
+        if (verifLigne(grille, x)){
+            printf("true %d", x); //(facultatif, pour tester)
+            }
+            else return false;
     }
 
-    for (int j=0; j<TAILLE; j++){
-        if (verifColonne(grille, j)){
-            printf("true %d", j);
-        }
-        else return false;
+    for (int y=0; y<TAILLE; y++){
+        if (verifColonne(grille, y)){
+            printf("true %d", y); //(facultatif, pour tester)
+            }
+            else return false;
     }
 
 
-    for (int i=0; i <TAILLE; i=i+CARRE){
-        for (int j=0; j <TAILLE; j=j+CARRE){
-            if (verifCarre(grille, i, j)){
-                printf("true %d %d", i, j);
-        }
-        else return false;
+    for (int x=0; x<TAILLE; x=x+CARRE){
+        for (int y=0; y<TAILLE; y=y+CARRE){
+            if (verifCarre(grille, x, y)){
+                printf("true %d %d", x, y); //(facultatif, pour tester)
+            }
+            else return false;
 
     }
     }
     return true;
 }
-structCase **zonesActuNotes(structCase **grille, int posX, int posY, int val){
+structGrille zonesActuNotes(structGrille grille, int posX, int posY, int val){
     //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en quesiton
 
 
@@ -165,28 +188,22 @@ structCase **zonesActuNotes(structCase **grille, int posX, int posY, int val){
     return grille;
 }
 
-structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, int xmax, int ymax, int val){
+structGrille actuNotesZoneApresAjout(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val){
     //printf("xmin : %d, ymin : %d, xmax : %d, ymax : %d, val : %d", xmin, ymin, xmax, ymax, val); a enlever (pour test)
 
      for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
-                if (grille[x][y].valeur == val){
-                    for(int i=0; i<TAILLE; i++){
-                        grille[x][y].note[i] = 0;
+                
+                if (getValeur(grille, x, y) == val){ //si val est 5, la condition change le tableau de note comme cela : [000010000]
+                    for(int z=0; z<TAILLE; z++){
+                        setNote(&grille, x, y, z, 0); // met tous les entiers du tableau "note" à 0     ex : [000000000] 
                     }
+                    setNote(&grille, x, y, val-1, 1); // dans ce tableau de note, seul l'indice correspondant à la valeur traité sera mis à 1  ex: de [000000000] à [000010000]
                     
-                    grille[x][y].note[val-1] = 1;
-                    
-                   
                 }
                 
-                else grille[x][y].note[val-1] = 0;
-
-            if (x == 0 && y ==0 && grille[0][0].valeur==0){
-                printf("test");
-            }
-                
-
+                else setNote(&grille, x, y, val-1, 0); // l'indice du tableau de note correspondant à la valeur traité sera mis à 0 dans tous les tableaux de note pour | la ligne, la colonne et le carré | associé a la valeur traitée
+                                                        // ex : tjrs pour val = 5, les autres tableaux de xMin à xMax auront : [111101111]
             }
             
      }
@@ -194,24 +211,25 @@ structCase **actuNotesZoneApresAjout(structCase **grille, int xmin, int ymin, in
      
 }
 
-structCase **implanterNote(structCase **grille){
+structGrille implanterNote(structGrille grille){
     
-    for (int i=0; i<TAILLE ; i++){
-        for (int j=0; j<TAILLE ; j++){
+    for (int x=0; x<TAILLE ; x++){
+        for (int y=0; y<TAILLE ; y++){
             int compteur=0;
             int val;
             for(int k=0; k<TAILLE; k++){
                 
                 
-                if (grille[i][j].note[k]==1){
+                if (getNote(grille, x, y, k)==1){
                     compteur++;
                     val = k+1;
                 }
             }
-            if (compteur==1 && grille[i][j].valeur ==0){
-                grille[i][j].valeur=val;
-                grille = zonesActuNotes(grille,  i, j, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
-                grille = implanterNote(grille); //
+            if (compteur==1 && getValeur(grille, x, y) ==0){
+                setValeur(&grille, x, y, val);
+                grille = zonesActuNotes(grille,  x, y, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
+                grille = implanterNote(grille); // rappelle la fonction pour recommencer autant de fois qu'on aura des valeurs prete à etre implanter 
+                                                // (si tableau seulement de 0 avec un seul 1 alors, il est pret a etre implanté) ex: [000010000]
             }
 
             
@@ -223,7 +241,7 @@ structCase **implanterNote(structCase **grille){
 
 
 
-structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax){ // premiere version qui correspond a la prmiere regle du sudoku
+structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax){ // premiere version qui correspond a la premiere regle du sudoku
     int height = ymax - ymin +1;
     int width = xmax - xmin + 1;
     int length = height*width ;
@@ -236,25 +254,25 @@ structCase **regle1(structCase **grille, int xmin, int ymin, int xmax, int ymax)
     for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
 
-                    if (getValeur(grille[x][y]) == 0){
-                    resPosX = (grille[x][y]).posX;
-                    resPosY = (grille[x][y]).posY; // on sauvegarde les positions de la valeur non définie
+                if (getValeur(grille, x, y) == 0){
+                    resPosX = getPosX(grille, x, y);
+                    resPosY = getPosY(grille, x, y); // on sauvegarde les positions de la valeur non définie
                 }
+
                 else // dans le tableau de booléean, on mets toutes les valeurs != de 0 a true
                 { 
-                    if (tab[getValeur(grille[x][y])-1]== false)
+                    if (tab[ getValeur(grille, x, y) - 1 ]== false)
                     {
-                        tab[getValeur(grille[x][y])-1]=true; 
+                        tab[ getValeur(grille, x, y) - 1 ]=true; 
                     }
                 }
             }
     }
 
-    for (int i=0; i<length; i++){
-        if (tab[i] == false){
-             printf("Nombre manquant : %d", i+1);
-             grille[resPosX][resPosY].valeur = (i+1);
-             
+    for (int x=0; x<length; x++){
+        if (tab[x] == false){
+             printf("Nombre manquant : %d", x+1);
+             setValeur(&grille, resPosX, resPosY, x+1);
         }
     }
     

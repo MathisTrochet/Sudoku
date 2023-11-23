@@ -11,10 +11,10 @@ int main()
 
     srand( time( NULL ) );
 
-    structCase **grille0 = create_grille();
+    structGrille grille0 = create_grille();
     grille0 = initGrille(grille0);
 
-    structCase **grille1 = create_grille();
+    structGrille grille1 = create_grille();
     grille1 = initGrille(grille1);
     
 
@@ -210,7 +210,7 @@ grille1 = add_case(grille1, 9, 7, 8);
 grille1 = add_case(grille1, 3, 8, 8);
 
 
-structCase **grille2 = create_grille();
+structGrille grille2 = create_grille();
 grille2 = initGrille(grille2);
 
 grille2 = add_case(grille2, 7, 0, 0);
@@ -243,7 +243,7 @@ grille2 = add_case(grille2, 6, 6, 2);
 grille2 = add_case(grille2, 8, 7, 2);
 grille2 = add_case(grille2, 7, 8, 2);
 
-structCase **grille3 = create_grille();
+structGrille grille3 = create_grille(); // grille niveau difficile selon sudoku.com
 grille3 = initGrille(grille3);
 
 grille3 = add_case(grille3, 7, 1, 0);
@@ -298,7 +298,7 @@ printf("[0][0] -> |");
 for(int i=0; i<TAILLE ; i++){
     
 
-    printf("%d", grille1[0][0].note[i]);
+    printf("%d", getNote(grille1, 0, 0, i));
     
 
 }
@@ -308,7 +308,7 @@ printf("\n[0][1] -> |");
 for(int i=0; i<TAILLE ; i++){
     
 
-    printf("%d", grille1[0][1].note[i]);
+    printf("%d", getNote(grille1, 0, 1, i));
     
 
 }
@@ -322,7 +322,7 @@ printf("|");
 
 
 
-printf("AVANT \n");
+printf("\n AVANT \n");
 
 afficheGrille(grille0);
 
@@ -336,7 +336,7 @@ printf("[0][0] -> |");
 for(int i=0; i<TAILLE ; i++){
     
 
-    printf("%d", grille0[8][0].note[i]);
+    printf("%d", getNote(grille0, 8, 0, i));
     
 
 }
@@ -365,6 +365,8 @@ for(int i=0; i<TAILLE ; i++){
 
 printf("|");
 */
+
+
 
 
 
