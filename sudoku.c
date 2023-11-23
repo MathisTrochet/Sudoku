@@ -5,7 +5,7 @@
 #include <math.h>
 
 
-
+// getteurs et setteurs pour recuperer et placer des valeurs dans la grille
 
 int getValeur(structGrille grille, int x, int y){
     return grille.cellules[x][y].valeur;
@@ -34,12 +34,13 @@ void setNote(structGrille *grille, int x, int y, int ind, int note){
 }
 
 
+
 structGrille create_grille(){
     structGrille grille;
-    grille.cellules = (structCellule **)malloc(TAILLE * sizeof(structCellule *));
+    grille.cellules = (structCellule **)malloc(TAILLE * sizeof(structCellule *)); // alloue l'espace nécessaire pour chaque colonne
 
 for (int x=0; x<TAILLE; x++){
-    grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));
+    grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));  // alloue l'espace nécessaire pour chaque cellule de chaque colonne 
     for (int y=0; y< TAILLE; y++){
         setValeur(&grille, x, y, 0); //initialise valeurs à 0
         setPosX(&grille, x, y, x); // initialise posX à i
@@ -61,9 +62,13 @@ structGrille rem_case(structGrille grille, int posX, int posY){
      return grille;
 }
 
-void free_grille(structGrille grille){
-
+void free_grille(structGrille *grille) {
+    for (int x = 0; x < TAILLE; x++) {
+        free(grille->cellules[x]);  // Libérer chaque ligne
+    }
+    free(grille->cellules);  // Libérer le tableau de pointeurs
 }
+
 
 void afficheGrille (structGrille grille){
     printf(" \n GRILLE : ");
@@ -90,7 +95,7 @@ void afficheGrille (structGrille grille){
     }
 }
 
-structGrille initGrille(structGrille grille){
+structGrille initGrille(structGrille grille){ //initialise le tableau de notes
 
     for (int x=0; x<TAILLE; x++){
         for (int y=0; y<TAILLE; y++){
@@ -104,6 +109,7 @@ structGrille initGrille(structGrille grille){
     return grille;
 }
 
+
 structGrille remplirGrille(structGrille grille){
 
     for (int x=0; x<TAILLE; x++){
@@ -114,20 +120,27 @@ structGrille remplirGrille(structGrille grille){
     return grille;
 }
 
+
+
+
 bool verifTab (structGrille grille,int xmin, int ymin, int xmax, int ymax){
     int height = ymax - ymin +1;
     int width = xmax - xmin + 1;
     int length = height*width;
     bool tab[length];
-    for (int i=0; i<length ; i++){
+    int i;
+    for (i=0; i<length ; i++){
         tab[i]=false;
     }
     for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
-                if (tab[getValeur(grille, x, y)]==false)
-                    tab[getValeur(grille, x, y)]=true;
-                else return false;
+                if (tab[getValeur(grille, x, y)-1]==false) {tab[getValeur(grille, x, y)-1]=true;}
             }
+    }
+    for (i=0; i<length; i++){
+        if (tab[i]==false){
+            return false;
+        }
     }
     return true;
 
@@ -149,33 +162,36 @@ bool verifCarre (structGrille grille, int x, int y){
 }
 
 bool verifGrille(structGrille grille){
-    for (int x=0; x<TAILLE; x++){
-        if (verifLigne(grille, x)){
-            printf("true %d", x); //(facultatif, pour tester)
-            }
-            else return false;
+    for (int x=0; x<TAILLE; x++){   // si une ligne n'est pas complete alors veriGrille -> false
+        if (!verifLigne(grille, x)){
+            return false;
+        }
+        
     }
 
-    for (int y=0; y<TAILLE; y++){
-        if (verifColonne(grille, y)){
-            printf("true %d", y); //(facultatif, pour tester)
-            }
-            else return false;
+    for (int y=0; y<TAILLE; y++){  // si une colonne n'est pas complete alors veriGrille -> false
+        if (!verifColonne(grille, y)){
+            return false;
+        }
+        
     }
 
 
-    for (int x=0; x<TAILLE; x=x+CARRE){
+    for (int x=0; x<TAILLE; x=x+CARRE){  // si un carré n'est pas complet alors veriGrille -> false
         for (int y=0; y<TAILLE; y=y+CARRE){
-            if (verifCarre(grille, x, y)){
-                printf("true %d %d", x, y); //(facultatif, pour tester)
+            if (!verifCarre(grille, x, y)){
+                return false;
             }
-            else return false;
         }
     }
-    return true;
+
+    return true; // si tout est complet alors grille complete donc true
 }
+
+
+
 structGrille actualiseNotes(structGrille grille, int posX, int posY, int val){
-    //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en quesiton
+    //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en question
 
     //ligne 
     grille = actualiseNotesZone(grille, 0, posY, TAILLE-1, posY, val);
@@ -190,8 +206,12 @@ structGrille actualiseNotes(structGrille grille, int posX, int posY, int val){
 }
 
 structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val){
-    //printf("xmin : %d, ymin : %d, xmax : %d, ymax : %d, val : %d", xmin, ymin, xmax, ymax, val); a enlever (pour test)
-
+    //printf("|%d, %d|",xmax-xmin+1, ymax-ymin+1);
+    int compteur=0;
+    int posX;
+    int posY;
+    int nbcarreX;
+    int nbcarreY;
      for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
                 
@@ -205,8 +225,37 @@ structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xma
                 
                 else setNote(&grille, x, y, val-1, 0); // l'indice du tableau de note correspondant à la valeur traité sera mis à 0 dans tous les tableaux de note pour | la ligne, la colonne et le carré | associé a la valeur traitée
                                                         // ex : tjrs pour val = 5, les autres tableaux de xMin à xMax auront : [111101111]
+
+
+                if ((xmax-xmin) < 3 && (ymax-ymin) < 3){ // on est en train de traiter un carré
+                
+                    if (getNote(grille, x, y, val-1)==0){
+                        compteur++;
+
+                    }
+                    else {
+                        posX = getPosX(grille, nbx, y);
+                        posY = getPosY(grille, x, y);
+                        //printf("%d", grille.cellules[x][y].posY);
+                    }
+                    
+                    
+
+
+                }
+                
             }
             
+     }
+     
+     
+     if (compteur == 8){
+        //printf("posX %d, posY %d", posX, posY);
+        for (int i=0; i<TAILLE; i++){
+            //setNote(&grille, posX, posY, i, 0);
+        }
+        //setNote(&grille, posX, posY, val-1, 1);
+        //printf("test");
      }
      return grille;
      
@@ -226,12 +275,13 @@ structGrille implanterNote(structGrille grille){
                     val = k+1;
                 }
             }
-            if (compteur==1 && getValeur(grille, x, y) ==0){
+            if (compteur==1 && getValeur(grille, x, y) ==0){ 
                 setValeur(&grille, x, y, val);
                 grille = actualiseNotes(grille,  x, y, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
                 grille = implanterNote(grille); // rappelle la fonction pour recommencer autant de fois qu'on aura des valeurs prete à etre implanter 
                                                 // (si tableau seulement de 0 avec un seul 1 alors, il est pret a etre implanté) ex: [000010000]
             }
+            
 
             
         }
@@ -258,6 +308,7 @@ structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax)
                 if (getValeur(grille, x, y) == 0){
                     resPosX = getPosX(grille, x, y);
                     resPosY = getPosY(grille, x, y); // on sauvegarde les positions de la valeur non définie
+                    //printf("posY : %d", resPosX);
                 }
 
                 else // dans le tableau de booléean, on mets toutes les valeurs != de 0 a true

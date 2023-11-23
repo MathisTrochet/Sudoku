@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 #define TAILLE 9
-#define CARRE 3 //srt(TAILLE)
+#define CARRE (int) sqrt(TAILLE)
 
 typedef struct {
     int valeur;
@@ -31,6 +31,7 @@ typedef struct{
     structGrille initGrille(structGrille grille);
     structGrille add_case(structGrille grille, int val, int posX, int posY);
     structGrille rem_case(structGrille grille, int posX, int posY);
+    void free_grille(structGrille *grille);
     void afficheGrille (structGrille grille);
     structGrille initGrille(structGrille grille);
     //void initGrille(structGrille *grille);
