@@ -251,9 +251,10 @@ grille4 = add_case(grille4, 9, 0, 8);
 
 for (int i=0; i<TAILLE; i++){
     for (int j=0; j<TAILLE; j++){
-        printf("posX : %d, posY : %d", getPosX(grille4, i, j), getPosY(grille4, i, j));
+        //printf("posX : %d, posY : %d", getPosX(grille4, i, j), getPosY(grille4, i, j));
     }
 }
+
 
 grille4 = implanterNote(grille4);
 

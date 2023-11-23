@@ -208,6 +208,7 @@ structGrille actualiseNotes(structGrille grille, int posX, int posY, int val){
 structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val){
     //printf("|%d, %d|",xmax-xmin+1, ymax-ymin+1);
     int compteur=0;
+    int compteur2=0;
     int posX;
     int posY;
     int nbcarreX;
@@ -227,36 +228,35 @@ structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xma
                                                         // ex : tjrs pour val = 5, les autres tableaux de xMin à xMax auront : [111101111]
 
 
-                if ((xmax-xmin) < 3 && (ymax-ymin) < 3){ // on est en train de traiter un carré
-                
+                if ((xmax-xmin) < 3 && (ymax-ymin) < 3){ // on est en train de traiter un carré (vérifié c'est bon)
+                //printf(" - carré -");
                     if (getNote(grille, x, y, val-1)==0){
                         compteur++;
-
                     }
                     else {
-                        posX = getPosX(grille, nbx, y);
-                        posY = getPosY(grille, x, y);
-                        //printf("%d", grille.cellules[x][y].posY);
+                        compteur2++;
+                        posX = x; //getPosX(grille, x, y);
+                        posY = y; // getPosY(grille, x, y);
+                        
                     }
                     
-                    
-
-
                 }
-                
+                if (compteur == 8){
+                    printf("A");
+
+                    for (int i=0; i<TAILLE; i++){
+                        setNote(&grille, x, y, i, 0);
+                    }
+                    setNote(&grille, x, y, val-1, 1);
+        
+                }
+
             }
             
      }
      
      
-     if (compteur == 8){
-        //printf("posX %d, posY %d", posX, posY);
-        for (int i=0; i<TAILLE; i++){
-            //setNote(&grille, posX, posY, i, 0);
-        }
-        //setNote(&grille, posX, posY, val-1, 1);
-        //printf("test");
-     }
+     
      return grille;
      
 }
@@ -280,7 +280,7 @@ structGrille implanterNote(structGrille grille){
                 grille = actualiseNotes(grille,  x, y, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
                 grille = implanterNote(grille); // rappelle la fonction pour recommencer autant de fois qu'on aura des valeurs prete à etre implanter 
                                                 // (si tableau seulement de 0 avec un seul 1 alors, il est pret a etre implanté) ex: [000010000]
-            }
+            }   
             
 
             
