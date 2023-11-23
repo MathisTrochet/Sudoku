@@ -6,6 +6,7 @@
 #define TAILLE 9
 #define CARRE (int) sqrt(TAILLE)
 
+
 typedef struct {
     int valeur;
     int posX;
@@ -45,5 +46,7 @@ typedef struct{
     structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val);
     structGrille implanterNote(structGrille grille);
     structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    structGrille calculerNotes(structGrille grille);
 
     #endif // SUDOKU_H_INCLUDED

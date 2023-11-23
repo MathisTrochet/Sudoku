@@ -19,7 +19,7 @@ int main()
 
 
 //GRILLE JUSTE
-
+/*
 grille0 = add_case(grille0, 7, 0, 0);
 grille0 = add_case(grille0, 9, 1, 0);
 grille0 = add_case(grille0, 8, 2, 0);
@@ -109,11 +109,11 @@ grille0 = add_case(grille0, 4, 5, 8);
 grille0 = add_case(grille0, 8, 6, 8);
 grille0 = add_case(grille0, 9, 7, 8);
 grille0 = add_case(grille0, 3, 8, 8);
-
+*/
 
 //GRILLE FACILE  
 
-// /*
+ /*
 grille1 = add_case(grille1, 6, 1, 0);
 grille1 = add_case(grille1, 8, 2, 0);
 grille1 = add_case(grille1, 9, 3, 0);
@@ -159,7 +159,7 @@ grille1 = add_case(grille1, 6, 5, 8);
 grille1 = add_case(grille1, 3, 6, 8);
 grille1 = add_case(grille1, 4, 7, 8);
 grille1 = add_case(grille1, 9, 8, 8);
-// */
+ */
 
 //GRILLE MOYENNE 
 
@@ -256,8 +256,9 @@ for (int i=0; i<TAILLE; i++){
 }
 
 
-grille4 = implanterNote(grille4);
 
+calculerNotes(grille4);
+grille4 = implanterNote(grille4);
 afficheGrille(grille4);
 printf("|");
 for (int i=0; i<TAILLE; i++){

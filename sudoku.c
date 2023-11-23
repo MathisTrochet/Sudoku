@@ -193,6 +193,8 @@ bool verifGrille(structGrille grille){
 structGrille actualiseNotes(structGrille grille, int posX, int posY, int val){
     //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en question
 
+    //printf("|val = %d, x = %d, y = %d |", val, posX, posY); // bonne coordonnées
+
     //ligne 
     grille = actualiseNotesZone(grille, 0, posY, TAILLE-1, posY, val);
 
@@ -205,59 +207,42 @@ structGrille actualiseNotes(structGrille grille, int posX, int posY, int val){
     return grille;
 }
 
+
+
 structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val){
+    structGrille nouvelleGrille = grille;
+    //printf("|val = %d, xmin = %d,  ymin = %d, xmax = %d,  ymax = %d |", val, xmin, ymin, xmax, ymax); // bonne coordonnées
+
     //printf("|%d, %d|",xmax-xmin+1, ymax-ymin+1);
     int compteur=0;
     int compteur2=0;
-    int posX;
-    int posY;
+    int posX=0;
+    int posY=0;
     int nbcarreX;
     int nbcarreY;
      for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
+
                 
-                if (getValeur(grille, x, y) == val){ //si val est 5, la condition change le tableau de note comme cela : [000010000]
+                
+                if (getValeur(nouvelleGrille, x, y) == val){ //si val est 5, la condition change le tableau de note comme cela : [000010000]
                     for(int z=0; z<TAILLE; z++){
-                        setNote(&grille, x, y, z, 0); // met tous les entiers du tableau "note" à 0     ex : [000000000] 
+                        setNote(&nouvelleGrille, x, y, z, 0); // met tous les entiers du tableau "note" à 0     ex : [000000000] 
                     }
-                    setNote(&grille, x, y, val-1, 1); // dans ce tableau de note, seul l'indice correspondant à la valeur traité sera mis à 1  ex: de [000000000] à [000010000]
+                    setNote(&nouvelleGrille, x, y, val-1, 1); // dans ce tableau de note, seul l'indice correspondant à la valeur traité sera mis à 1  ex: de [000000000] à [000010000]
                     
                 }
                 
-                else setNote(&grille, x, y, val-1, 0); // l'indice du tableau de note correspondant à la valeur traité sera mis à 0 dans tous les tableaux de note pour | la ligne, la colonne et le carré | associé a la valeur traitée
+                else setNote(&nouvelleGrille, x, y, val-1, 0); // l'indice du tableau de note correspondant à la valeur traité sera mis à 0 dans tous les tableaux de note pour | la ligne, la colonne et le carré | associé a la valeur traitée
                                                         // ex : tjrs pour val = 5, les autres tableaux de xMin à xMax auront : [111101111]
-
-
-                if ((xmax-xmin) < 3 && (ymax-ymin) < 3){ // on est en train de traiter un carré (vérifié c'est bon)
-                //printf(" - carré -");
-                    if (getNote(grille, x, y, val-1)==0){
-                        compteur++;
-                    }
-                    else {
-                        compteur2++;
-                        posX = x; //getPosX(grille, x, y);
-                        posY = y; // getPosY(grille, x, y);
-                        
-                    }
-                    
-                }
-                if (compteur == 8){
-                    printf("A");
-
-                    for (int i=0; i<TAILLE; i++){
-                        setNote(&grille, x, y, i, 0);
-                    }
-                    setNote(&grille, x, y, val-1, 1);
-        
-                }
-
             }
             
      }
+
      
      
      
-     return grille;
+     return nouvelleGrille;
      
 }
 
@@ -329,4 +314,57 @@ structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax)
     }
     
     return grille;
+}
+
+structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+    int compteur;
+    int posX;
+    int posY;
+    int val;
+
+    //for (int i=1; i<=TAILLE ; i++){
+        val = 8;
+        for (int x = xmin ; x<=xmax ; x++){
+                for (int y=ymin ; y<=ymax ; y++){
+
+                        if (getNote(grille, x, y, val-1)==0){
+                            compteur++;
+                        }
+
+                        if (getNote(grille, x, y, val-1)==1) {
+
+                            posX = x; //getPosX(grille, x, y);
+                            posY = y; // getPosY(grille, x, y);
+
+                        }
+                        
+                    if (compteur == 8){
+                        printf("B");
+                        
+                        printf("|%d, %d, %d|", val, posX, posY);
+
+                        for (int i=0; i<TAILLE; i++){
+                            
+                            setNote(&grille, posX, posY, i, 0);
+                        }
+                        setNote(&grille, posX, posY, val-1, 1);
+            
+                    }
+
+                }
+                
+        }
+    //}
+
+}
+
+structGrille calculerNotes(structGrille grille){
+    int posX=0;
+    int posY=0;
+    for (int i=posX; i<TAILLE; i=i+CARRE){
+        for (int j=posY; j<TAILLE ; j=j+CARRE)
+        //regle2(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
+        regle2(grille, 0, 6, 2, 8);
+
+    }
 }
