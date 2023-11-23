@@ -40,11 +40,9 @@ typedef struct{
     bool verifColonne (structGrille grille, int colonne);
     bool verifCarre (structGrille grille, int x, int y);
     bool verifGrille(structGrille grille);
-    structGrille zonesActuNotes(structGrille grille, int posX, int posY, int val);
-    structGrille actuNotesZoneApresAjout(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val);
-    structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
-
+    structGrille actualiseNotes(structGrille grille, int posX, int posY, int val);
+    structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val);
     structGrille implanterNote(structGrille grille);
-
+    structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
 
     #endif // SUDOKU_H_INCLUDED

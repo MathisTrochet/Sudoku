@@ -8,30 +8,29 @@
 
 
 int getValeur(structGrille grille, int x, int y){
-    return grille.cellules[x][y].valeur; 
+    return grille.cellules[x][y].valeur;
 }
 int getPosX(structGrille grille, int x, int y){
-    return grille.cellules[x][y].posX; 
+    return grille.cellules[x][y].posX;
 }
 int getPosY(structGrille grille, int x, int y){
-    return grille.cellules[x][y].posY; 
+    return grille.cellules[x][y].posY;
 }
 int getNote(structGrille grille, int x, int y, int ind){
-    return grille.cellules[x][y].note[ind]; 
+    return grille.cellules[x][y].note[ind];
 }
 
 void setValeur(structGrille *grille, int x, int y, int val){
-    (*grille).cellules[x][y].valeur = val; 
+    (*grille).cellules[x][y].valeur = val;
 }
 void setPosX(structGrille *grille, int x, int y, int posX){
-    (*grille).cellules[x][y].posX = posX;  
+    (*grille).cellules[x][y].posX = posX;
 }
 void setPosY(structGrille *grille, int x, int y, int posY){
-    (*grille).cellules[x][y].posY = posY; 
+    (*grille).cellules[x][y].posY = posY;
 }
-
 void setNote(structGrille *grille, int x, int y, int ind, int note){
-    (*grille).cellules[x][y].note[ind] = note; 
+    (*grille).cellules[x][y].note[ind] = note;
 }
 
 
@@ -53,13 +52,16 @@ return grille;
 
 structGrille add_case(structGrille grille, int val, int posX, int posY){
     setValeur(&grille, posX, posY, val);
-    grille = zonesActuNotes(grille, posX, posY, val); // met toutes les lignes colonnes et carrés communs à "val", à jour 
+    grille = actualiseNotes(grille, posX, posY, val); // met toutes les lignes colonnes et carrés communs à "val", à jour 
     return grille;
 }
 
 structGrille rem_case(structGrille grille, int posX, int posY){
      setValeur(&grille, posX, posY, 0);
      return grille;
+}
+
+void free_grille(structGrille grille){
 
 }
 
@@ -168,27 +170,26 @@ bool verifGrille(structGrille grille){
                 printf("true %d %d", x, y); //(facultatif, pour tester)
             }
             else return false;
-
-    }
+        }
     }
     return true;
 }
-structGrille zonesActuNotes(structGrille grille, int posX, int posY, int val){
+structGrille actualiseNotes(structGrille grille, int posX, int posY, int val){
     //on actualise après un ajout de valeur les notes des lignes, colonnes et carré de la valeur en quesiton
 
-
     //ligne 
-    grille = actuNotesZoneApresAjout(grille, 0, posY, TAILLE-1, posY, val);
-    //printf("test");
+    grille = actualiseNotesZone(grille, 0, posY, TAILLE-1, posY, val);
+
     //colonne
-    grille = actuNotesZoneApresAjout(grille, posX, 0, posX, TAILLE-1, val);
+    grille = actualiseNotesZone(grille, posX, 0, posX, TAILLE-1, val);
+
     //carre 
-    grille = actuNotesZoneApresAjout(grille, posX - posX%CARRE, posY - posY%CARRE, (posX - posX%CARRE) + CARRE -1, (posY - posY%CARRE) + CARRE -1, val);
+    grille = actualiseNotesZone(grille, posX - posX%CARRE, posY - posY%CARRE, (posX - posX%CARRE) + CARRE -1, (posY - posY%CARRE) + CARRE -1, val);
 
     return grille;
 }
 
-structGrille actuNotesZoneApresAjout(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val){
+structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val){
     //printf("xmin : %d, ymin : %d, xmax : %d, ymax : %d, val : %d", xmin, ymin, xmax, ymax, val); a enlever (pour test)
 
      for (int x = xmin ; x<=xmax ; x++){
@@ -227,7 +228,7 @@ structGrille implanterNote(structGrille grille){
             }
             if (compteur==1 && getValeur(grille, x, y) ==0){
                 setValeur(&grille, x, y, val);
-                grille = zonesActuNotes(grille,  x, y, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
+                grille = actualiseNotes(grille,  x, y, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
                 grille = implanterNote(grille); // rappelle la fonction pour recommencer autant de fois qu'on aura des valeurs prete à etre implanter 
                                                 // (si tableau seulement de 0 avec un seul 1 alors, il est pret a etre implanté) ex: [000010000]
             }
