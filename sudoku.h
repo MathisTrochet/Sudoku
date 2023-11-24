@@ -34,8 +34,6 @@ typedef struct{
     structGrille rem_case(structGrille grille, int posX, int posY);
     void free_grille(structGrille *grille);
     void afficheGrille (structGrille grille);
-    structGrille initGrille(structGrille grille);
-    //void initGrille(structGrille *grille);
     structGrille remplirGrille(structGrille grille);
     bool verifTab (structGrille grille,int xmin, int ymin, int xmax, int ymax);
     bool verifLigne (structGrille grille, int ligne);

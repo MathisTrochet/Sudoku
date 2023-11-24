@@ -19,7 +19,7 @@ int main()
 
 
 //GRILLE JUSTE
-/*
+
 grille0 = add_case(grille0, 7, 0, 0);
 grille0 = add_case(grille0, 9, 1, 0);
 grille0 = add_case(grille0, 8, 2, 0);
@@ -109,11 +109,11 @@ grille0 = add_case(grille0, 4, 5, 8);
 grille0 = add_case(grille0, 8, 6, 8);
 grille0 = add_case(grille0, 9, 7, 8);
 grille0 = add_case(grille0, 3, 8, 8);
-*/
+
 
 //GRILLE FACILE  
 
- /*
+ 
 grille1 = add_case(grille1, 6, 1, 0);
 grille1 = add_case(grille1, 8, 2, 0);
 grille1 = add_case(grille1, 9, 3, 0);
@@ -159,11 +159,11 @@ grille1 = add_case(grille1, 6, 5, 8);
 grille1 = add_case(grille1, 3, 6, 8);
 grille1 = add_case(grille1, 4, 7, 8);
 grille1 = add_case(grille1, 9, 8, 8);
- */
+ 
 
 //GRILLE MOYENNE 
 
- /*
+ 
 structGrille grille2 = create_grille();
 
 grille2 = initGrille(grille2);
@@ -208,10 +208,10 @@ grille2 = add_case(grille2, 4, 2, 8);
 grille2 = add_case(grille2, 8, 4, 8);
 grille2 = add_case(grille2, 1, 7, 8);
 
- */
+ 
 
 // grille DIFFICILE 
-/*
+
 structGrille grille3 = create_grille(); 
 grille3 = initGrille(grille3);
 
@@ -238,44 +238,19 @@ grille3 = add_case(grille3, 6, 8, 7);
 grille3 = add_case(grille3, 8, 0, 8);
 grille3 = add_case(grille3, 5, 5, 8);
 grille3 = add_case(grille3, 4, 8, 8);
-*/
-
-structGrille grille4 = create_grille();  // GRILLE CAS N°2
-grille4 = initGrille(grille4);
-
-grille4 = add_case(grille4, 8, 2, 3);
-grille4 = add_case(grille4, 8, 4, 6);
-grille4 = add_case(grille4, 6, 1, 7);
-grille4 = add_case(grille4, 1, 1, 8);
-grille4 = add_case(grille4, 9, 0, 8);
-
-for (int i=0; i<TAILLE; i++){
-    for (int j=0; j<TAILLE; j++){
-        //printf("posX : %d, posY : %d", getPosX(grille4, i, j), getPosY(grille4, i, j));
-    }
-}
 
 
 
-calculerNotes(grille4);
-grille4 = implanterNote(grille4);
-afficheGrille(grille4);
-printf("|");
-for (int i=0; i<TAILLE; i++){
-    printf("%d", getNote(grille4, 0, 7, i));
-}
-printf("|");
 
-
- /*                                                                                       //GRILLE COMPLETE (grille0) - vérifier
+                                                                                        //GRILLE COMPLETE (grille0) - vérifier
 
     bool isValid = verifGrille(grille0); 
     if (isValid) {printf("Grille0 -> Valide");} else printf("Grille0 -> Non valide ");
 
 
- */
+ 
 
- /*                                                                                          //GRILLE FACILE (grille1) - résoudre
+                                                                                           //GRILLE FACILE (grille1) - résoudre
 
     printf("GRILLE FACILE : \n\n AVANT :\n");
 
@@ -301,11 +276,11 @@ printf("|");
     }
     printf("|");
 
- */
+ 
 
 
 
-/*                                                                                          //GRILLE MOYENNE (grille2) - résoudre
+                                                                                         //GRILLE MOYENNE (grille2) - résoudre
     printf("\n\nGRILLE MOYENNE \n\nAVANT :\n");
     afficheGrille(grille2);
 
@@ -324,9 +299,9 @@ printf("|");
     }
 
     printf("|");
-*/
 
-/*                                                                                         //GRILLE DIFFICILE (grille3) - résoudre 
+
+                                                                                         //GRILLE DIFFICILE (grille3) - résoudre 
     printf("\n\nGRILLE DIFFICILE \n\nAVANT :\n");
     afficheGrille(grille3);
 
@@ -344,13 +319,34 @@ printf("|");
         
     }
 
-    printf("|");
-*/
+    printf("| \n");
 
-//free_grille(&grille0);
-//free_grille(&grille1);
-//free_grille(&grille2);
-//free_grille(&grille3);
+
+
+structGrille grille4 = create_grille();  // GRILLE CAS N°2
+grille4 = initGrille(grille4);
+
+grille4 = add_case(grille4, 8, 2, 3);
+grille4 = add_case(grille4, 8, 4, 6);
+grille4 = add_case(grille4, 6, 1, 7);
+grille4 = add_case(grille4, 1, 1, 8);
+grille4 = add_case(grille4, 9, 0, 8);
+
+
+calculerNotes(grille4);
+grille4 = implanterNote(grille4);
+afficheGrille(grille4);
+printf("|");
+for (int i=0; i<TAILLE; i++){
+    printf("%d", getNote(grille4, 0, 7, i));
+}
+printf("|");
+
+
+free_grille(&grille0);
+free_grille(&grille1);
+free_grille(&grille2);
+free_grille(&grille3);
 
 
 
