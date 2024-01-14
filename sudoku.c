@@ -313,6 +313,7 @@ structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax)
         }
     }
     
+    
     return grille;
 }
 
@@ -367,4 +368,8 @@ structGrille calculerNotes(structGrille grille){
         regle2(grille, 0, 6, 2, 8);
 
     }
+}
+
+structGrille regle5à10(structGrille grille){
+    
 }
