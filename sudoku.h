@@ -3,25 +3,48 @@
 
 #include <stdbool.h>
 
+#define TAILLE 9
+#define CARRE (int) sqrt(TAILLE)
+
+
 typedef struct {
     int valeur;
     int posX;
     int posY;
-} *structCase;
+    int note[TAILLE];
+} structCellule;
 
 typedef struct{
-    structCase cellule;
-}grille;
+    structCellule **cellules;
+} structGrille;
 
-//appel des fonctions utilisées
-    structCase **create_grille();
-    structCase **add_case(structCase **grille, int val, int posX, int posY);
-    structCase **rem_case(structCase **grille, int posX, int posY);
-    void afficheGrille (structCase **grille);
-    structCase **remplirGrille(structCase **grille);
-    bool verifTab (structCase **grille,int xmin, int ymin, int xmax, int ymax);
-    bool verifLigne (structCase **grille, int ligne);
-    bool verifColonne (structCase **grille, int colonne);
-    bool verifCarre (structCase **grille, int x, int y);
-    bool verifGrille(structCase **grille);
-#endif // SUDOKU_H_INCLUDED
+//appel des fonctions utilisï¿½es
+    int getValeur(structGrille grille, int x, int y);
+    int getPosX(structGrille grille, int x, int y);
+    int getPosY(structGrille grille, int x, int y);
+    int getNote(structGrille grille, int x, int y, int ind);
+    void setValeur(structGrille *grille, int x, int y, int val);
+    void setPosX(structGrille *grille, int x, int y, int posX);
+    void setPosY(structGrille *grille, int x, int y, int posY);
+    void setNote(structGrille *grille, int x, int y, int ind, int note);
+
+    structGrille create_grille();  
+    structGrille initGrille(structGrille grille);
+    structGrille add_case(structGrille grille, int val, int posX, int posY);
+    structGrille rem_case(structGrille grille, int posX, int posY);
+    void free_grille(structGrille *grille);
+    void afficheGrille (structGrille grille);
+    structGrille remplirGrille(structGrille grille);
+    bool verifTab (structGrille grille,int xmin, int ymin, int xmax, int ymax);
+    bool verifLigne (structGrille grille, int ligne);
+    bool verifColonne (structGrille grille, int colonne);
+    bool verifCarre (structGrille grille, int x, int y);
+    bool verifGrille(structGrille grille);
+    structGrille actualiseNotes(structGrille grille, int posX, int posY, int val);
+    structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val);
+    structGrille implanterNote(structGrille grille);
+    structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    structGrille calculerRegle2et8(structGrille grille);
+
+    #endif // SUDOKU_H_INCLUDED
