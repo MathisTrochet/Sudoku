@@ -317,29 +317,27 @@ structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax)
     return grille;
 }
 
-structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax){
-    int compteur;
-    int posX;
-    int posY;
+structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+    int compteur=0;
+    int posX=xmax; // si 8 n'a pas été trouvé dans les 8 autres cases, alors il est forcement dans la derniere. Donc on l'initialise ici.
+    int posY=ymax;
     int val;
 
-    //for (int i=1; i<=TAILLE ; i++){
-        val = 8;
+    for (int i=1; i<=TAILLE ; i++){
+        val = i;
+        compteur=0; // on reset 
         for (int x = xmin ; x<=xmax ; x++){
                 for (int y=ymin ; y<=ymax ; y++){
 
                         if (getNote(grille, x, y, val-1)==0){
                             compteur++;
                         }
-
-                        if (getNote(grille, x, y, val-1)==1) {
-
+                        else{   //getNote(grille, x, y, val-1)==1
                             posX = x; //getPosX(grille, x, y);
                             posY = y; // getPosY(grille, x, y);
-
                         }
                         
-                    if (compteur == 8){
+                    if (compteur == 8 && getValeur(grille, posX, posY)==0){
                         printf("B");
                         
                         printf("|%d, %d, %d|", val, posX, posY);
@@ -348,28 +346,26 @@ structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax)
                             
                             setNote(&grille, posX, posY, i, 0);
                         }
-                        setNote(&grille, posX, posY, val-1, 1);
-            
+                        setNote(&grille, posX, posY, val-1, 1);            
                     }
 
                 }
                 
         }
-    //}
+    }
+    return grille;
 
 }
 
-structGrille calculerNotes(structGrille grille){
+structGrille calculerRegle2et8(structGrille grille){ //question : dans l'exemple que j'ai fait 
     int posX=0;
     int posY=0;
     for (int i=posX; i<TAILLE; i=i+CARRE){
-        for (int j=posY; j<TAILLE ; j=j+CARRE)
-        //regle2(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
-        regle2(grille, 0, 6, 2, 8);
-
+        for (int j=posY; j<TAILLE ; j=j+CARRE){
+            regle2et8(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
+        }
+        
     }
-}
-
-structGrille regle5à10(structGrille grille){
-    
+    //grille = regle2(grille, 0, 6, 2, 8);
+    return grille;
 }

@@ -9,6 +9,8 @@
 int main()
 {
 
+    /*
+
     srand( time( NULL ) );
 
     structGrille grille0 = create_grille();
@@ -240,8 +242,6 @@ grille3 = add_case(grille3, 5, 5, 8);
 grille3 = add_case(grille3, 4, 8, 8);
 
 
-
-
                                                                                         //GRILLE COMPLETE (grille0) - vérifier
 
     bool isValid = verifGrille(grille0); 
@@ -321,7 +321,7 @@ grille3 = add_case(grille3, 4, 8, 8);
 
     printf("| \n");
 
-
+*/
 
 structGrille grille4 = create_grille();  // GRILLE CAS N°2
 grille4 = initGrille(grille4);
@@ -331,22 +331,38 @@ grille4 = add_case(grille4, 8, 4, 6);
 grille4 = add_case(grille4, 6, 1, 7);
 grille4 = add_case(grille4, 1, 1, 8);
 grille4 = add_case(grille4, 9, 0, 8);
+grille4 = add_case(grille4, 7, 1, 0);
+grille4 = add_case(grille4, 7, 2, 4);
 
+//grille4 = regle2(grille4, 0, 6, 2, 8);
 
-calculerNotes(grille4);
+grille4 = calculerRegle2et8(grille4);
+grille4 = calculerRegle2et8(grille4);
+
 grille4 = implanterNote(grille4);
+
 afficheGrille(grille4);
-printf("|");
-for (int i=0; i<TAILLE; i++){
-    printf("%d", getNote(grille4, 0, 7, i));
+for(int i = 0; i<=2; i++){
+    
+    for (int j=6; j<=8; j++){
+        printf("\n|");
+        for(int k=0; k<9; k++){
+            
+            printf("%d", getNote(grille4, i, j, k));
+        }
+        printf("|");
+    }
+    
 }
-printf("|");
 
 
+/*
 free_grille(&grille0);
 free_grille(&grille1);
 free_grille(&grille2);
 free_grille(&grille3);
+*/
+free_grille(&grille4);
 
 
 
