@@ -369,3 +369,21 @@ structGrille calculerRegle2et8(structGrille grille){ //question : dans l'exemple
     //grille = regle2(grille, 0, 6, 2, 8);
     return grille;
 }
+
+//parcours du carré + 2 notes(grille): (note1 x note2)
+structGrille FindTWo(structGrille grille){
+    
+}
+
+//compare les 2 notes de 2 cellules
+structGrille CompareTwo(int *x, int *y){
+
+}
+
+//supprime les 2 notes dans le carré
+structGrille Supr(structGrille grille){
+
+}
+
+structGrille regle6(structGrille grille){
+}
