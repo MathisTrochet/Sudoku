@@ -46,5 +46,9 @@ typedef struct{
     structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     structGrille calculerRegle2et8(structGrille grille);
+    int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    int * potentiel_k_uplet(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *tab, int k);
+
+
 
     #endif // SUDOKU_H_INCLUDED

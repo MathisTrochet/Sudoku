@@ -370,20 +370,103 @@ structGrille calculerRegle2et8(structGrille grille){ //question : dans l'exemple
     return grille;
 }
 
+structGrille cachee(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+    int compteur=0;
+    int posX=xmax; // si 8 n'a pas été trouvé dans les 8 autres cases, alors il est forcement dans la derniere. Donc on l'initialise ici.
+    int posY=ymax;
+    int val;
+    int tab[TAILLE];
+
+    for (int x = xmin ; x<=xmax ; x++){
+            for (int y=ymin ; y<=ymax ; y++){
+                for (int z=0; z<TAILLE; z++){
+                    if (getNote(grille, x, y, val-1)==1){
+                        tab[z]++; //on augmente d'un
+                    }
+                }
+
+                    
+                    
+                if (compteur == 8 && getValeur(grille, posX, posY)==0){
+                    printf("B");
+                    
+                    printf("|%d, %d, %d|", val, posX, posY);
+
+                    for (int i=0; i<TAILLE; i++){
+                        
+                        setNote(&grille, posX, posY, i, 0);
+                    }
+                    setNote(&grille, posX, posY, val-1, 1);            
+                }
+
+            }
+            
+    }
+   return grille;
+}
+
 //parcours du carré + 2 notes(grille): (note1 x note2)
-structGrille FindTWo(structGrille grille){
+int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+
+    int *tab = (int*)malloc(TAILLE * sizeof(int));
+    for(int i=0; i<TAILLE; i++){
+        tab[i]=0;
+    }
+
+    for (int x = xmin ; x<=xmax ; x++){
+        for (int y=ymin ; y<=ymax ; y++){
+            for (int z=0; z<TAILLE; z++){
+                if (getNote(grille, x, y, z)==1){
+                    tab[z]++; //on augmente d'un pour calculer l'occurence de l'indice z
+                }
+            }
+    
+        }
+    }
+    
+    return tab;
     
 }
 
-//compare les 2 notes de 2 cellules
-structGrille CompareTwo(int *x, int *y){
+int * potentiel_k_uplet(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *tab, int k){
+    int *returnTab = (int*)malloc(TAILLE * sizeof(int));
+    int ind=1;
+    for(int i=0; i<TAILLE; i++){
+        if (tab[i] == k){
+            returnTab[ind] = i+1; // stock le potentiel element de la paire
+            ind++;
+            returnTab[0] = ind-1; // on place en premier le nombre de valeurs trouvés
+        }
+    }
+    
+    return returnTab; // retourne toutes les éléments faisant parti du k-uplets
+}   
 
+//retourne "nb" qui est le nombre de position différentes des valeurs de tab2(returntab)
+int returnNB(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int k){
+
+    int nb=0;
+
+    for(int k=1; k<=returnTab[0]; k++){ // on test le nombre de fois où 
+        for (int x = xmin ; x<=xmax ; x++){
+            for (int y=ymin ; y<=ymax ; y++){
+                    if (getNote(grille, x, y, returnTab[k]) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
+                        nb++;
+                    }
+        
+            }
+        }
+    }
+    return nb;
 }
+//si nb est egal a k alors on a trouvé une paire 
 
-//supprime les 2 notes dans le carré
+
+//on a trouvé notre paire alors on la supprime
 structGrille Supr(structGrille grille){
 
 }
 
 structGrille regle6(structGrille grille){
+
 }

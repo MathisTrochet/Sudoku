@@ -16,9 +16,6 @@ int main()
     structGrille grille0 = create_grille();
     grille0 = initGrille(grille0);
 
-    structGrille grille1 = create_grille();
-    grille1 = initGrille(grille1);
-
 
 //GRILLE JUSTE
 
@@ -114,7 +111,10 @@ grille0 = add_case(grille0, 3, 8, 8);
 
 
 //GRILLE FACILE  
+*/
 
+structGrille grille1 = create_grille();
+grille1 = initGrille(grille1);
  
 grille1 = add_case(grille1, 6, 1, 0);
 grille1 = add_case(grille1, 8, 2, 0);
@@ -161,11 +161,23 @@ grille1 = add_case(grille1, 6, 5, 8);
 grille1 = add_case(grille1, 3, 6, 8);
 grille1 = add_case(grille1, 4, 7, 8);
 grille1 = add_case(grille1, 9, 8, 8);
- 
+
+int *tab;
+tab = occurenceParIndice(grille1, 6, 0, 8, 2);
+printf(" ||| ");
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab[i]);
+}
+printf(" ||| ");
+
+int * tab2 = potentiel_k_uplet(grille1, 6, 0, 8, 2, tab, 2);
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab2[i]);
+}
 
 //GRILLE MOYENNE 
 
- 
+ /*
 structGrille grille2 = create_grille();
 
 grille2 = initGrille(grille2);
@@ -210,7 +222,21 @@ grille2 = add_case(grille2, 4, 2, 8);
 grille2 = add_case(grille2, 8, 4, 8);
 grille2 = add_case(grille2, 1, 7, 8);
 
- 
+
+int *tab;
+tab = occurenceParIndice(grille2, 0, 6, 2, 8);
+printf(" ||| ");
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab[i]);
+}
+printf(" ||| ");
+
+int * tab2 = potentiel_k_uplet(grille2, 0, 6, 2, 8, tab, 2);
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab2[i]);
+}
+*/
+ /*
 
 // grille DIFFICILE 
 
@@ -248,7 +274,7 @@ grille3 = add_case(grille3, 4, 8, 8);
     if (isValid) {printf("Grille0 -> Valide");} else printf("Grille0 -> Non valide ");
 
 
- 
+ */
 
                                                                                            //GRILLE FACILE (grille1) - résoudre
 
@@ -263,7 +289,7 @@ grille3 = add_case(grille3, 4, 8, 8);
     printf("\n\n APRES :\n");
 
     afficheGrille(grille1);
-
+/*
 
 
     printf("\n\n[0][0] -> |"); // tableau de note pour la premiere case
@@ -279,12 +305,13 @@ grille3 = add_case(grille3, 4, 8, 8);
  
 
 
-
+*/
+/*
                                                                                          //GRILLE MOYENNE (grille2) - résoudre
     printf("\n\nGRILLE MOYENNE \n\nAVANT :\n");
     afficheGrille(grille2);
 
-    grille2 = implanterNote(grille2);
+    //grille2 = implanterNote(grille2);
 
     printf("\n\n APRES \n");
 
@@ -301,7 +328,7 @@ grille3 = add_case(grille3, 4, 8, 8);
     printf("|");
 
 
-                                                                                         //GRILLE DIFFICILE (grille3) - résoudre 
+          /*                                                                               //GRILLE DIFFICILE (grille3) - résoudre 
     printf("\n\nGRILLE DIFFICILE \n\nAVANT :\n");
     afficheGrille(grille3);
 
@@ -322,7 +349,7 @@ grille3 = add_case(grille3, 4, 8, 8);
     printf("| \n");
 
 */
-
+/*
 structGrille grille4 = create_grille();  // GRILLE CAS N°2
 grille4 = initGrille(grille4);
 
@@ -339,6 +366,7 @@ grille4 = add_case(grille4, 7, 2, 4);
 grille4 = calculerRegle2et8(grille4);
 grille4 = calculerRegle2et8(grille4);
 
+
 grille4 = implanterNote(grille4);
 
 afficheGrille(grille4);
@@ -354,6 +382,9 @@ for(int i = 0; i<=2; i++){
     }
     
 }
+*/
+
+
 
 
 /*
@@ -362,7 +393,7 @@ free_grille(&grille1);
 free_grille(&grille2);
 free_grille(&grille3);
 */
-free_grille(&grille4);
+//free_grille(&grille4);
 
 
 
