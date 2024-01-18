@@ -164,16 +164,27 @@ grille1 = add_case(grille1, 9, 8, 8);
 
 int *tab;
 tab = occurenceParIndice(grille1, 6, 0, 8, 2);
+
 printf(" ||| ");
 for(int i=0; i<TAILLE; i++){
     printf("%d", tab[i]);
 }
 printf(" ||| ");
 
-int * tab2 = potentiel_k_uplet(grille1, 6, 0, 8, 2, tab, 2);
+int * tab2 = potentiel_k_uplet(grille1, 6, 0, 8, 2, tab, 2); // les dernier argument est 2 car on s'occupe ici de double (correspond à k)
+
 for(int i=0; i<TAILLE; i++){
     printf("%d", tab2[i]);
 }
+
+int *coordonateTab = calculCoordonateTab(grille1, 6, 0, 8, 2, tab2);
+
+printf(" || ");
+for(int i=0; i<20; i++){
+    printf("%d", coordonateTab[i]);
+}
+printf(" || ");
+
 
 //GRILLE MOYENNE 
 

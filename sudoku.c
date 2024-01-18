@@ -442,23 +442,36 @@ int * potentiel_k_uplet(structGrille grille, int xmin, int ymin, int xmax, int y
     return returnTab; // retourne toutes les éléments faisant parti du k-uplets
 }   
 
-//retourne "nb" qui est le nombre de position différentes des valeurs de tab2(returntab)
-int returnNB(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int k){
+//dans les fonctions potentiel_k_uplets et calculCoordonateTab on stocke dans la premiere position du tableau le nombre d'informations qui nous interesse
 
-    int nb=0;
+//retourne le tableau avec les valeurs à traiter accompagnées de ses coordonnées
+int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
 
-    for(int k=1; k<=returnTab[0]; k++){ // on test le nombre de fois où 
+    int index=1;
+    int *coordonateTab = (int*)malloc(sizeof(int));
+
+    for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où 
         for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
-                    if (getNote(grille, x, y, returnTab[k]) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
-                        nb++;
+                    if (getNote(grille, x, y, returnTab[a]-1) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
+                        coordonateTab = (int*)realloc(coordonateTab, (1 + index * 3) * sizeof(int));
+                        coordonateTab[index] = returnTab[a];
+                        index++;
+                        coordonateTab[index] = x;                                          //ici on stocke une des valeurs à traiter avec ses coordonnées
+                        index++;
+                        coordonateTab[index] = y;
+                        index++;
+                        coordonateTab[0] = index/3; // le nombre de fois qu'on rendre une valeur avec ses coordonnées (divisé par 3 car on rentre 3 informations)
                     }
-        
             }
         }
     }
-    return nb;
+    return coordonateTab;
 }
+
+
+
+
 //si nb est egal a k alors on a trouvé une paire 
 
 
