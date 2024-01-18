@@ -428,7 +428,7 @@ int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int y
     
 }
 
-int * potentiel_k_uplet(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *tab, int k){
+int * potentiel_k_uplet(int *tab, int k){ //si tab[0] != k on arrete tout c'est pas la peine 
     int *returnTab = (int*)malloc(TAILLE * sizeof(int));
     int ind=1;
     for(int i=0; i<TAILLE; i++){
@@ -467,6 +467,19 @@ int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int 
         }
     }
     return coordonateTab;
+}
+
+bool is_k_uplets_cachés(int *coordonateTab, int k){
+    int compteurVal=0;
+    int compteurCoord=0;
+    int *tabModel = (int *)malloc(sizeof(int));
+    for(int i=1; i<coordonateTab[0]; i=i+3){
+        
+        if (coordonateTab[i+1]==coordonateTab[i+1+(3*k)] || coordonateTab[i+2]==coordonateTab[i+2+(3*k)] ){
+            return true;
+        }
+    }
+    return false;
 }
 
 

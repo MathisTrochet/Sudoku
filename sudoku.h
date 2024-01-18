@@ -47,8 +47,10 @@ typedef struct{
     structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     structGrille calculerRegle2et8(structGrille grille);
     int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
-    int * potentiel_k_uplet(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *tab, int k);
+    int * potentiel_k_uplet(int *tab, int k);
     int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
+    bool is_k_uplets_cachés(int *coordonateTab, int k);
+
 
 
 
