@@ -401,6 +401,70 @@ for(int i = 0; i<=2; i++){
 }
 */
 
+structGrille grille5 = create_grille();
+grille5 = initGrille(grille5);
+
+grille5 = add_case(grille5, 9, 2, 0);
+grille5 = add_case(grille5, 3, 4, 0);
+grille5 = add_case(grille5, 2, 5, 0);
+grille5 = add_case(grille5, 7, 3, 1);
+grille5 = add_case(grille5, 1, 0, 2);
+grille5 = add_case(grille5, 6, 1, 2);
+grille5 = add_case(grille5, 2, 2, 2);
+grille5 = add_case(grille5, 1, 1, 3);
+grille5 = add_case(grille5, 2, 4, 3);
+grille5 = add_case(grille5, 5, 6, 3);
+grille5 = add_case(grille5, 6, 7, 3);
+grille5 = add_case(grille5, 9, 3, 4);
+grille5 = add_case(grille5, 5, 1, 5);
+
+grille5 = add_case(grille5, 1, 6, 5);
+grille5 = add_case(grille5, 7, 8, 5);
+grille5 = add_case(grille5, 4, 6, 6);
+grille5 = add_case(grille5, 3, 8, 6);
+grille5 = add_case(grille5, 2, 1, 7);
+
+
+grille5 = add_case(grille5, 6, 2, 7);
+grille5 = add_case(grille5, 9, 5, 7);
+grille5 = add_case(grille5, 5, 2, 8);
+grille5 = add_case(grille5, 8, 3, 8);
+grille5 = add_case(grille5, 7, 4, 8);
+
+
+
+
+afficheGrille(grille5);
+
+int *tab_2;
+tab_2 = occurenceParIndice(grille5, 0, 3, 2, 5);
+
+printf(" ||| ");
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab_2[i]);
+}
+printf(" ||| ");
+
+int * tab2_2 = potentiel_k_uplet(tab_2, 2); // les dernier argument est 2 car on s'occupe ici de double (correspond à k)
+
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab2_2[i]);
+}
+
+int *coordonateTab_2 = calculCoordonateTab(grille5, 0, 0, 2, 2, tab2_2);
+
+printf(" || ");
+for(int i=0; i<=( coordonateTab_2[0]*3 ); i++){
+    printf("%d", coordonateTab_2[i]);
+}
+printf(" || ");
+
+if (is_k_uplets_cachés(coordonateTab_2, 2)==true){
+    printf("true");
+}
+
+else  printf("false");
+
 
 
 

@@ -469,17 +469,80 @@ int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int 
     return coordonateTab;
 }
 
-bool is_k_uplets_cachés(int *coordonateTab, int k){
+structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
+
+    structCellule *tabCell = (structCellule*)malloc(sizeof(structCellule));
+    int index=1;
+
+    //for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où 
+        for (int x = xmin ; x<=xmax ; x++){
+            for (int y=ymin ; y<=ymax ; y++){
+                if (getValeur(grille, x, y) == 0){
+
+                    for(int a=1; a<returnTab[0]; a++){
+
+                        if (getNote(grille, x, y, returnTab[a]-1) == 1 && getNote(grille, x, y, returnTab[a+1]-1) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
+                        tabCell = (structCellule*)realloc(tabCell, (1 + index) * sizeof(structCellule));
+                        
+                        /*
+                        for (int i=0 ; i<TAILLE ; i++){
+                            tabCell[index].note[i] = getNote(grille, x, y, i);
+                        }
+                        */ //peut etre facultatif
+                        tabCell[index].valeur = getValeur(grille, x, y);
+                        tabCell[index].posX = x;
+                        tabCell[index].posY = y;
+                        index++;
+                        //ici on stocke une des valeurs à traiter avec ses coordonnées
+                        
+                        //tabCell[0] = index; // le nombre de fois qu'on rendre une valeur avec ses coordonnées (divisé par 3 car on rentre 3 informations)
+                        }
+                    }
+                    
+                }
+                    
+            }
+        }
+    //}
+    return tabCell;
+} // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
+
+bool is_k_uplets_cachés(structGrille grille, int *tabCell, int k){
     int compteurVal=0;
     int compteurCoord=0;
+    int index=0;
     int *tabModel = (int *)malloc(sizeof(int));
-    for(int i=1; i<coordonateTab[0]; i=i+3){
-        
-        if (coordonateTab[i+1]==coordonateTab[i+1+(3*k)] || coordonateTab[i+2]==coordonateTab[i+2+(3*k)] ){
-            return true;
+    structCellule *temp1 = (structCellule*)malloc(sizeof(structCellule));
+    structCellule *temp2 = (structCellule*)malloc(sizeof(structCellule));
+    while (tabCell[index] != NULL){
+        if (tabCell[index+1] != NULL){
+            if (comp2Cellules(tabCell[index], tabCell[index+1]) ){
+                
+            }
         }
     }
+        
+        
+
+
+        }
+        else{
+            temp1 = grille[coordonateTab[i+1]][coordonateTab[i+2]] 
+        }
+        
+        
+    }
     return false;
+}
+
+bool comp2Cellules(structCellule cell1, structCellule cell2) {
+    if (cell1.valeur != cell2.valeur){
+        if (cell1.posX == cell2.posX && cell1.posY == cell2.posY){
+            return true;
+        }
+        else return false;
+    }
+    else return false;
 }
 
 
