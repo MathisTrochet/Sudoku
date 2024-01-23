@@ -177,18 +177,11 @@ for(int i=0; i<TAILLE; i++){
     printf("%d", tab2[i]);
 }
 
-int *coordonateTab = calculCoordonateTab(grille1, 0, 0, 2, 2, tab2);
 
-printf(" || ");
-for(int i=0; i<=( coordonateTab[0]*3 ); i++){
-    printf("%d", coordonateTab[i]);
-}
-printf(" || ");
-
-if (is_k_uplets_cachés(coordonateTab, 2)==true){
-    printf("true");
-}
-else  printf("false");
+//if (is_k_uplets_cachés(cellTab, 2)==true){
+//    printf("true");
+//}
+//else  printf("false");
 
 
 
@@ -451,19 +444,20 @@ for(int i=0; i<TAILLE; i++){
     printf("%d", tab2_2[i]);
 }
 
-int *coordonateTab_2 = calculCoordonateTab(grille5, 0, 0, 2, 2, tab2_2);
+
+structCellule *cellTab2 = tabPotentiellesBonneValeurs(grille5, 0, 3, 2, 5, tab2_2);
 
 printf(" || ");
-for(int i=0; i<=( coordonateTab_2[0]*3 ); i++){
-    printf("%d", coordonateTab_2[i]);
+for(int i=0; i<=( cellTab2[0].valeur+1 ); i++){
+    if (i == 0){
+        printf("%d. ", cellTab2[i].valeur);
+    }
+    printf("%d:", i);
+    printf("%d", cellTab2[i].posX);
+    printf("%d", cellTab2[i].posY);
+    printf("- ");
 }
 printf(" || ");
-
-if (is_k_uplets_cachés(coordonateTab_2, 2)==true){
-    printf("true");
-}
-
-else  printf("false");
 
 
 

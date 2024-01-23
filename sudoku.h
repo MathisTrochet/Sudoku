@@ -50,6 +50,8 @@ typedef struct{
     int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     int * potentiel_k_uplet(int *tab, int k);
     int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
+    structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
+
     bool is_k_uplets_cachés(structGrille grille, structCellule *cellTab, int k);
 
 

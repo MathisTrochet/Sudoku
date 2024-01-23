@@ -472,27 +472,34 @@ int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int 
 structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
 
     structCellule *tabCell = (structCellule*)malloc(sizeof(structCellule));
-    int index=1;
 
-    //for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où 
+    //for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où
+    int index=1; 
         for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
                 if (getValeur(grille, x, y) == 0){
+                    
+                    for(int a=1; a<=returnTab[0]; a++){
+                        for (int b =a+1; b<returnTab[0]; b++){
+                            
+                            if (getNote(grille, x, y, returnTab[a]-1) == 1 && getNote(grille, x, y, returnTab[b]-1) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
+                                tabCell = (structCellule*)realloc(tabCell, (1 + (index)) * sizeof(structCellule));
 
-                    for(int a=1; a<returnTab[0]; a++){
+                                tabCell[(index)].valeur = getValeur(grille, x, y);
+                                tabCell[(index)].posX = x;
+                                tabCell[(index)].posY = y;
+                                (index)= (index) + 1;
+                                tabCell[0].valeur= (index); // on met l'index dans le valeur de la premiere cellule 
+                            }
 
-                        if (getNote(grille, x, y, returnTab[a]-1) == 1 && getNote(grille, x, y, returnTab[a+1]-1) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
-                        tabCell = (structCellule*)realloc(tabCell, (1 + index) * sizeof(structCellule));
+                        
                         
                         /*
                         for (int i=0 ; i<TAILLE ; i++){
                             tabCell[index].note[i] = getNote(grille, x, y, i);
                         }
                         */ //peut etre facultatif
-                        tabCell[index].valeur = getValeur(grille, x, y);
-                        tabCell[index].posX = x;
-                        tabCell[index].posY = y;
-                        index++;
+                        
                         //ici on stocke une des valeurs à traiter avec ses coordonnées
                         
                         //tabCell[0] = index; // le nombre de fois qu'on rendre une valeur avec ses coordonnées (divisé par 3 car on rentre 3 informations)
@@ -507,18 +514,42 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
     return tabCell;
 } // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
 
-bool is_k_uplets_cachés(structGrille grille, int *tabCell, int k){
+structGrille k_uplet_caché(structGrille grille, int k){
+    for (int i=0; i<TAILLE; i=i+CARRE){
+        for (int j=0; j<TAILLE ; j=j+CARRE){
+            int *tab = occurenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
+            int *returntab = potentiel_k_uplet(tab, k);
+            structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab);
+
+        }
+        
+    }
+}
+
+/*
+structCellule *is_k_uplets_cachés(structGrille grille, structCellule *tabCell, int k){
     int compteurVal=0;
     int compteurCoord=0;
-    int index=0;
+    int index1=0;
+    int index2=0;
+    int index_res=1;
+    structCellule *finalTab = (structCellule*)malloc(sizeof(structCellule));
     int *tabModel = (int *)malloc(sizeof(int));
     structCellule *temp1 = (structCellule*)malloc(sizeof(structCellule));
     structCellule *temp2 = (structCellule*)malloc(sizeof(structCellule));
-    while (tabCell[index] != NULL){
-        if (tabCell[index+1] != NULL){
-            if (comp2Cellules(tabCell[index], tabCell[index+1]) ){
-                
+    while (){
+        index2 = index1+1;
+        if (tabCell != NULL){
+            while (tabCell[index2].note !=NULL){
+                if (comp2Cellules(tabCell[index1], tabCell[index2]) ){
+                    structCellule *finalTab = (structCellule*)realloc(finalTab, index_res * sizeof(structCellule));
+                    finalTab[index_res]= tabCell[index1];
+                    index_res++;
+
+                }
+                index2++;
             }
+            
         }
     }
         
@@ -546,13 +577,13 @@ bool comp2Cellules(structCellule cell1, structCellule cell2) {
 }
 
 
-
+*/
 
 //si nb est egal a k alors on a trouvé une paire 
 
 
 //on a trouvé notre paire alors on la supprime
-structGrille Supr(structGrille grille){
+structGrille Suppr(structGrille grille, structCellule list, int xmin, int ymin, int xmax, int ymax){
 
 }
 
