@@ -58,3 +58,4 @@ typedef struct{
     structGrille regle7(structGrille *grille);
 
     #endif // SUDOKU_H_INCLUDED
+    

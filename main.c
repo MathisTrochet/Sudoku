@@ -504,7 +504,6 @@ afficherNotesCellule(cellule07);
 afficherNotesCellule(cellule08);
 //afficherNotesCellule(cellule09);
 
-
 //******************************************//
 //******************************************//
 
