@@ -317,27 +317,29 @@ structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax)
     return grille;
 }
 
-structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax){
-    int compteur=0;
-    int posX=xmax; // si 8 n'a pas été trouvé dans les 8 autres cases, alors il est forcement dans la derniere. Donc on l'initialise ici.
-    int posY=ymax;
+structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+    int compteur;
+    int posX;
+    int posY;
     int val;
 
-    for (int i=1; i<=TAILLE ; i++){
-        val = i;
-        compteur=0; // on reset 
+    //for (int i=1; i<=TAILLE ; i++){
+        val = 8;
         for (int x = xmin ; x<=xmax ; x++){
                 for (int y=ymin ; y<=ymax ; y++){
 
                         if (getNote(grille, x, y, val-1)==0){
                             compteur++;
                         }
-                        else{   //getNote(grille, x, y, val-1)==1
+
+                        if (getNote(grille, x, y, val-1)==1) {
+
                             posX = x; //getPosX(grille, x, y);
                             posY = y; // getPosY(grille, x, y);
+
                         }
                         
-                    if (compteur == 8 && getValeur(grille, posX, posY)==0){
+                    if (compteur == 8){
                         printf("B");
                         
                         printf("|%d, %d, %d|", val, posX, posY);
@@ -346,44 +348,286 @@ structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ym
                             
                             setNote(&grille, posX, posY, i, 0);
                         }
-                        setNote(&grille, posX, posY, val-1, 1);            
+                        setNote(&grille, posX, posY, val-1, 1);
+            
                     }
 
                 }
                 
         }
-    }
-    return grille;
+    //}
 
 }
 
-structGrille calculerRegle2et8(structGrille grille){ //question : dans l'exemple que j'ai fait 
+structGrille calculerNotes(structGrille grille){
     int posX=0;
     int posY=0;
     for (int i=posX; i<TAILLE; i=i+CARRE){
-        for (int j=posY; j<TAILLE ; j=j+CARRE){
-            regle2et8(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
-        }
-        
+        for (int j=posY; j<TAILLE ; j=j+CARRE)
+        //regle2(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
+        regle2(grille, 0, 6, 2, 8);
+
     }
-    //grille = regle2(grille, 0, 6, 2, 8);
-    return grille;
 }
 
-//parcours du carré + 2 notes(grille): (note1 x note2)
-structGrille FindTWo(structGrille grille){
-    
+
+//******************************************//
+//******************************************//
+//******************************************//
+
+void afficherNotesCellule(structCellule cellule) {
+    printf("Notes de la cellule :\n");
+    for (int i = 0; i < TAILLE; i++) {
+        if (cellule.note[i]) {
+            printf("%d ", i + 1); // Afficher la possibilité (ajouter 1 car les indices commencent à 0)
+        }
+    }
+    printf("\n");
 }
 
-//compare les 2 notes de 2 cellules
-structGrille CompareTwo(int *x, int *y){
+bool sontDeuxPaires(structCellule cell1, structCellule cell2) {
+    int countShared = 0; // Compter les notes partagées entre les deux cellules
+    int countCell1 = 0;  // Compter le total des notes dans cell1
+    int countCell2 = 0;  // Compter le total des notes dans cell2
 
+    for (int i = 0; i < TAILLE; i++) {
+        if (cell1.note[i] && cell2.note[i]) {
+            countShared++;  //nombre de note partgée +1
+        }
+        if (cell1.note[i]) {
+            countCell1++;   //nombre de note dans Cell1
+        }
+        if (cell2.note[i]) {
+            countCell2++;   //nombre de note dans Cell2
+        }
+    }
+
+    return countShared == 2 && countCell1 == 2 && countCell2 == 2;
 }
 
-//supprime les 2 notes dans le carré
-structGrille Supr(structGrille grille){
-
+void eliminerCandidats(structGrille *grille) {
+    // Parcourir chaque cellule de la grille
+    for (int ligne = 0; ligne < TAILLE; ligne++) {
+        for (int colonne = 0; colonne < TAILLE; colonne++) {
+            structCellule cell = grille->cellules[ligne][colonne];
+            // Traiter la ligne
+            for (int i = 0; i < TAILLE; i++) {
+                if (i != colonne && sontDeuxPaires(cell, grille->cellules[ligne][i])) {
+                    // Éliminer ces possibilités des autres cellules de la même ligne
+                    for (int l = 0; l < TAILLE; l++) {
+                        if (l != colonne && l != i) {
+                            // Éliminer les possibilités ici
+                            for (int n = 0; n < TAILLE; n++) {
+                                if (cell.note[n]) {
+                                    grille->cellules[ligne][l].note[n] = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // Traiter la colonne
+            for (int i = 0; i < TAILLE; i++) {
+                if (i != ligne && sontDeuxPaires(cell, grille->cellules[i][colonne])) {
+                    // Éliminer ces possibilités des autres cellules de la même colonne
+                    for (int l = 0; l < TAILLE; l++) {
+                        if (l != ligne && l != i) {
+                            // Éliminer les possibilités ici
+                            for (int n = 0; n < TAILLE; n++) {
+                                if (cell.note[n]) {
+                                    grille->cellules[l][colonne].note[n] = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // Traiter le bloc 3x3
+            int startligne = ligne - ligne % 3;
+            int startColonne = colonne - colonne % 3;
+            for (int i = startligne; i < startligne + 3; i++) {
+                for (int m = startColonne; m < startColonne + 3; m++) {
+                    if ((i != ligne || m != colonne) && sontDeuxPaires(cell, grille->cellules[i][m])) {
+                        // Éliminer ces possibilités des autres cellules du même bloc
+                        for (int x = startligne; x < startligne + 3; x++) {
+                            for (int y = startColonne; y < startColonne + 3; y++) {
+                                if ((x != ligne || y != colonne) && (x != i || y != m)) {
+                                    // Éliminer les possibilités ici
+                                    for (int n = 0; n < TAILLE; n++) {
+                                        if (cell.note[n]) {
+                                            grille->cellules[x][y].note[n] = 0;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
-structGrille regle6(structGrille grille){
+
+void updateGrid(structGrille *grille) {
+    // Parcourir chaque cellule de la grille
+    for (int ligne = 0; ligne < TAILLE; ligne++) {
+        for (int colonne = 0; colonne < TAILLE; colonne++) {
+            structCellule *cell = &grille->cellules[ligne][colonne];
+
+            // Vérifier si la cellule est déjà définie
+            if (cell->valeur != 0) {
+                continue; // La cellule est déjà définie, passer à la suivante
+            }
+
+            // Sinon, compter les possibilités
+            int possCount = 0, lastPoss = -1;
+            for (int i = 0; i < TAILLE; i++) {
+                if (cell->note[i]) {
+                    possCount++;
+                    lastPoss = i;
+                }
+            }
+
+            // Si une seule possibilité, définissez cette valeur
+            if (possCount == 1) {
+                cell->valeur = lastPoss + 1; // +1 car les indices commencent à 0
+            }
+        }
+    }
+}
+
+structGrille regle6(structGrille *grille) {
+    // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
+    eliminerCandidats(grille);
+
+    // Mettre à jour la grille en fonction des nouvelles possibilités
+    updateGrid(grille);
+}
+
+//******************************************//
+//******************************************//
+//******************************************//
+
+bool sontDoubletsNus(structCellule cell1, structCellule cell2) {
+    int countShared = 0;
+    int countCell1 = 0;
+    int countCell2 = 0;
+
+    for (int i = 0; i < TAILLE; i++) {
+        if (cell1.note[i]) {
+            countCell1++;
+        }
+        if (cell2.note[i]) {
+            countCell2++;
+        }
+        if (cell1.note[i] && cell2.note[i]) {
+            countShared++;
+        }
+    }
+
+    return countShared == 2 && countCell1 == countShared && countCell2 == countShared;
+}
+
+bool trouveDoubletNu(structGrille *grille, int blockLigne, int blockColonne, 
+                     int *ligne1, int *colonne1, int *ligne2, int *colonne2) {
+    // Parcourir chaque cellule dans le bloc
+    for (int i = 0; i < 3; i++) {
+        for (int j = 0; j < 3; j++) {
+            structCellule cell1 = grille->cellules[blockLigne + i][blockColonne + j];
+
+            // Comparer avec les autres cellules dans le bloc
+            for (int x = 0; x < 3; x++) {
+                for (int y = 0; y < 3; y++) {
+                    if (i == x && j == y) continue; // Passer la même cellule
+
+                    structCellule cell2 = grille->cellules[blockLigne + x][blockColonne + y];
+                    
+                    if (sontDoubletsNus(cell1, cell2)) {
+                        // Doublet nu trouvé, enregistrer les coordonnées
+                        *ligne1 = blockLigne + i;
+                        *colonne1 = blockColonne + j;
+                        *ligne2 = blockLigne + x;
+                        *colonne2 = blockColonne + y;
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
+}
+
+void eliminerKupletsNus(structGrille *grille) {
+    // Pour les lignes
+    for (int ligne = 0; ligne < TAILLE; ligne++) {
+        for (int colonne = 0; colonne < TAILLE; colonne++) {
+            for (int k = colonne + 1; k < TAILLE; k++) {
+                if (sontDoubletsNus(grille->cellules[ligne][colonne], grille->cellules[ligne][k])) {
+                    // Éliminer les candidats du doublet nu des autres cellules de la ligne
+                    for (int l = 0; l < TAILLE; l++) {
+                        if (l != colonne && l != k) {
+                            for (int n = 0; n < TAILLE; n++) {
+                                if (grille->cellules[ligne][colonne].note[n]) {
+                                    grille->cellules[ligne][l].note[n] = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Pour les colonnes
+    for (int colonne = 0; colonne < TAILLE; colonne++) {
+        for (int ligne = 0; ligne < TAILLE; ligne++) {
+            for (int k = ligne + 1; k < TAILLE; k++) {
+                if (sontDoubletsNus(grille->cellules[ligne][colonne], grille->cellules[k][colonne])) {
+                    // Éliminer les candidats du doublet nu des autres cellules de la colonne
+                    for (int l = 0; l < TAILLE; l++) {
+                        if (l != ligne && l != k) {
+                            for (int n = 0; n < TAILLE; n++) {
+                                if (grille->cellules[ligne][colonne].note[n]) {
+                                    grille->cellules[l][colonne].note[n] = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    // Pour les blocs 3x3
+    for (int blockLigne = 0; blockLigne < TAILLE; blockLigne += 3) {
+        for (int blockColonne = 0; blockColonne < TAILLE; blockColonne += 3) {
+            int ligne1, colonne1, ligne2, colonne2;
+            if (trouveDoubletNu(grille, blockLigne, blockColonne, &ligne1, &colonne1, &ligne2, &colonne2)) {
+                // Éliminer les candidats du doublet nu des autres cellules du bloc
+                for (int x = 0; x < 3; x++) {
+                    for (int y = 0; y < 3; y++) {
+                        int currentLigne = blockLigne + x;
+                        int currentColonne = blockColonne + y;
+
+                        int currentColonne = blockColonne + y;
+                        if (!((currentLigne == ligne1 && currentColonne == colonne1) || 
+                              (currentLigne == ligne2 && currentColonne == colonne2))) {
+                            for (int n = 0; n < TAILLE; n++) {
+                                if (grille->cellules[ligne1][colonne1].note[n]) {
+                                    grille->cellules[currentLigne][currentColonne].note[n] = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+structGrille regle9(structGrille *grille) {
+    // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
+    eliminerKupletsNus(grille);
+
+    // Mettre à jour la grille en fonction des nouvelles possibilités
+    updateGrid(grille);
 }

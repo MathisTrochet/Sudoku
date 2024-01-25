@@ -44,7 +44,19 @@ typedef struct{
     structGrille actualiseNotesZone(structGrille grille, int xmin, int ymin, int xmax, int ymax, int val);
     structGrille implanterNote(structGrille grille);
     structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
-    structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax);
-    structGrille calculerRegle2et8(structGrille grille);
+    structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    structGrille calculerNotes(structGrille grille);
+
+    bool sontDeuxPaires(structCellule cell1, structCellule cell2);
+    void eliminerCandidats(structGrille* grille);
+    void updateGrid(structGrille *grille);
+    structGrille regle6(structGrille *grille);
+    void afficherNotesCellule(structCellule cellule);
+
+    void eliminerKupletsNus(structGrille *grille);
+    bool sontDoubletsNus(structCellule cell1, structCellule cell2);
+    structGrille regle9(structGrille *grille);
+    bool trouveDoubletNu(structGrille *grille, int blockRow, int blockCol, int *row1, int *col1, int *row2, int *col2);
+
 
     #endif // SUDOKU_H_INCLUDED

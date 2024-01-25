@@ -9,8 +9,6 @@
 int main()
 {
 
-    /*
-
     srand( time( NULL ) );
 
     structGrille grille0 = create_grille();
@@ -242,6 +240,8 @@ grille3 = add_case(grille3, 5, 5, 8);
 grille3 = add_case(grille3, 4, 8, 8);
 
 
+
+
                                                                                         //GRILLE COMPLETE (grille0) - vérifier
 
     bool isValid = verifGrille(grille0); 
@@ -321,7 +321,7 @@ grille3 = add_case(grille3, 4, 8, 8);
 
     printf("| \n");
 
-*/
+
 
 structGrille grille4 = create_grille();  // GRILLE CAS N°2
 grille4 = initGrille(grille4);
@@ -331,40 +331,106 @@ grille4 = add_case(grille4, 8, 4, 6);
 grille4 = add_case(grille4, 6, 1, 7);
 grille4 = add_case(grille4, 1, 1, 8);
 grille4 = add_case(grille4, 9, 0, 8);
-grille4 = add_case(grille4, 7, 1, 0);
-grille4 = add_case(grille4, 7, 2, 4);
 
-//grille4 = regle2(grille4, 0, 6, 2, 8);
-
-grille4 = calculerRegle2et8(grille4);
-grille4 = calculerRegle2et8(grille4);
-
+printf("GRILLE 4");
+calculerNotes(grille4);
 grille4 = implanterNote(grille4);
-
 afficheGrille(grille4);
-for(int i = 0; i<=2; i++){
-    
-    for (int j=6; j<=8; j++){
-        printf("\n|");
-        for(int k=0; k<9; k++){
-            
-            printf("%d", getNote(grille4, i, j, k));
-        }
-        printf("|");
-    }
-    
+printf("|");
+for (int i=0; i<TAILLE; i++){
+    printf("%d", getNote(grille4, 0, 7, i));
 }
+printf("|");
+
+//******************************************//
+//******************************************//
+
+//grille teste regle 6
+structGrille grille6 = create_grille(); 
+grille6 = initGrille(grille6);
+printf("\n");
+printf("\n");
+printf("GRILLE 6 ");
+printf("\n");
+
+grille6 = add_case(grille6, 8, 0, 0);
+grille6 = add_case(grille6, 4, 1, 0);
+grille6 = add_case(grille6, 2, 3, 0);
+grille6 = add_case(grille6, 9, 7, 0);
+grille6 = add_case(grille6, 1, 8, 0);
+
+grille6 = add_case(grille6, 1, 3, 1);
+grille6 = add_case(grille6, 6, 4, 1);
+grille6 = add_case(grille6, 9, 5, 1);
+grille6 = add_case(grille6, 4, 6, 1);
+grille6 = add_case(grille6, 8, 8, 1);
+
+grille6 = add_case(grille6, 1, 0, 2);
+grille6 = add_case(grille6, 9, 2, 2);
+grille6 = add_case(grille6, 4, 3, 2);
+grille6 = add_case(grille6, 5, 7, 2);
+grille6 = add_case(grille6, 7, 8, 2);
+
+grille6 = add_case(grille6, 7, 0, 3);
+grille6 = add_case(grille6, 1, 1, 3);
+grille6 = add_case(grille6, 8, 2, 3);
+grille6 = add_case(grille6, 3, 3, 3);
+grille6 = add_case(grille6, 2, 4, 3);
+grille6 = add_case(grille6, 4, 5, 3);
+grille6 = add_case(grille6, 6, 7, 3);
+
+grille6 = add_case(grille6, 2, 2, 4);
+grille6 = add_case(grille6, 6, 5, 4);
+
+grille6 = add_case(grille6, 1, 2, 6);
+grille6 = add_case(grille6, 6, 3, 6);
+grille6 = add_case(grille6, 9, 4, 6);
+grille6 = add_case(grille6, 8, 7, 6);
+
+grille6 = add_case(grille6, 9, 1, 7);
+grille6 = add_case(grille6, 8, 3, 7);
+grille6 = add_case(grille6, 1, 6, 7);
+
+grille6 = add_case(grille6, 5, 0, 8);
+grille6 = add_case(grille6, 8, 1, 8);
+grille6 = add_case(grille6, 7, 3, 8);
+grille6 = add_case(grille6, 4, 4, 8);
+grille6 = add_case(grille6, 1, 5, 8);
+
+regle(&grille6);
+afficheGrille(grille6);
+
+structCellule cellule0 = grille6.cellules[2][0];
+structCellule cellule1 = grille6.cellules[2][1]; 
+structCellule cellule2 = grille6.cellules[2][2]; 
+structCellule cellule3 = grille6.cellules[2][3]; 
+structCellule cellule4 = grille6.cellules[2][4];
+structCellule cellule5 = grille6.cellules[2][5]; 
+structCellule cellule6 = grille6.cellules[2][6];
+structCellule cellule7 = grille6.cellules[2][7]; 
+structCellule cellule8 = grille6.cellules[2][8];
+//structCellule cellule9 = grille6.cellules[2][9];
+printf("\n");
+afficherNotesCellule(cellule0);
+afficherNotesCellule(cellule1);
+afficherNotesCellule(cellule2);
+afficherNotesCellule(cellule3);
+afficherNotesCellule(cellule4);
+afficherNotesCellule(cellule5);
+afficherNotesCellule(cellule6);
+afficherNotesCellule(cellule7);
+afficherNotesCellule(cellule8);
+//afficherNotesCellule(cellule9);
 
 
-/*
+//******************************************//
+//******************************************//
+
 free_grille(&grille0);
 free_grille(&grille1);
 free_grille(&grille2);
 free_grille(&grille3);
-*/
-free_grille(&grille4);
-
-
+free_grille(&grille6);
 
 
 
