@@ -474,7 +474,7 @@ void updateGrid(structGrille *grille) {
     for (int ligne = 0; ligne < TAILLE; ligne++) {
         for (int colonne = 0; colonne < TAILLE; colonne++) {
             structCellule *cell = &grille->cellules[ligne][colonne];
-
+            
             // Vérifier si la cellule est déjà définie
             if (cell->valeur != 0) {
                 continue; // La cellule est déjà définie, passer à la suivante
@@ -509,111 +509,91 @@ structGrille regle6(structGrille *grille) {
 //******************************************//
 //******************************************//
 
-bool sontDoubletsNus(structCellule cell1, structCellule cell2) {
+bool sontTroisPaires(structCellule cell1, structCellule cell2, structCellule cell3) {
     int countShared = 0;
-    int countCell1 = 0;
-    int countCell2 = 0;
-
     for (int i = 0; i < TAILLE; i++) {
-        if (cell1.note[i]) {
-            countCell1++;
-        }
-        if (cell2.note[i]) {
-            countCell2++;
-        }
-        if (cell1.note[i] && cell2.note[i]) {
+        if (cell1.note[i] || cell2.note[i] || cell3.note[i]) {
             countShared++;
         }
     }
-
-    return countShared == 2 && countCell1 == countShared && countCell2 == countShared;
+    return countShared == 3;
 }
-
-bool trouveDoubletNu(structGrille *grille, int blockLigne, int blockColonne, 
-                     int *ligne1, int *colonne1, int *ligne2, int *colonne2) {
-    // Parcourir chaque cellule dans le bloc
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 3; j++) {
-            structCellule cell1 = grille->cellules[blockLigne + i][blockColonne + j];
-
-            // Comparer avec les autres cellules dans le bloc
-            for (int x = 0; x < 3; x++) {
-                for (int y = 0; y < 3; y++) {
-                    if (i == x && j == y) continue; // Passer la même cellule
-
-                    structCellule cell2 = grille->cellules[blockLigne + x][blockColonne + y];
-                    
-                    if (sontDoubletsNus(cell1, cell2)) {
-                        // Doublet nu trouvé, enregistrer les coordonnées
-                        *ligne1 = blockLigne + i;
-                        *colonne1 = blockColonne + j;
-                        *ligne2 = blockLigne + x;
-                        *colonne2 = blockColonne + y;
-                        return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
-}
-
-void eliminerKupletsNus(structGrille *grille) {
-    // Pour les lignes
+void eliminerTripletNus(structGrille *grille) {
+    // Parcourir chaque cellule de la grille
     for (int ligne = 0; ligne < TAILLE; ligne++) {
         for (int colonne = 0; colonne < TAILLE; colonne++) {
-            for (int k = colonne + 1; k < TAILLE; k++) {
-                if (sontDoubletsNus(grille->cellules[ligne][colonne], grille->cellules[ligne][k])) {
-                    // Éliminer les candidats du doublet nu des autres cellules de la ligne
-                    for (int l = 0; l < TAILLE; l++) {
-                        if (l != colonne && l != k) {
-                            for (int n = 0; n < TAILLE; n++) {
-                                if (grille->cellules[ligne][colonne].note[n]) {
-                                    grille->cellules[ligne][l].note[n] = 0;
+            structCellule cell1 = grille->cellules[ligne][colonne];
+            // Traiter la ligne
+            for (int i = 0; i < TAILLE; i++) {
+                if (i != colonne) {
+                    structCellule cell2 = grille->cellules[ligne][i];
+                    for (int j = i + 1; j < TAILLE; j++) {
+                        if (j != colonne) {
+                            structCellule cell3 = grille->cellules[ligne][j];
+                            if (sontTroisPaires(cell1, cell2, cell3)) {
+                                // Éliminer ces possibilités des autres cellules de la même ligne
+                                for (int l = 0; l < TAILLE; l++) {
+                                    if (l != colonne && l != i && l != j) {
+                                        for (int n = 0; n < TAILLE; n++) {
+                                            if (cell1.note[n] || cell2.note[n] || cell3.note[n]) {
+                                                grille->cellules[ligne][l].note[n] = 0;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-    // Pour les colonnes
-    for (int colonne = 0; colonne < TAILLE; colonne++) {
-        for (int ligne = 0; ligne < TAILLE; ligne++) {
-            for (int k = ligne + 1; k < TAILLE; k++) {
-                if (sontDoubletsNus(grille->cellules[ligne][colonne], grille->cellules[k][colonne])) {
-                    // Éliminer les candidats du doublet nu des autres cellules de la colonne
-                    for (int l = 0; l < TAILLE; l++) {
-                        if (l != ligne && l != k) {
-                            for (int n = 0; n < TAILLE; n++) {
-                                if (grille->cellules[ligne][colonne].note[n]) {
-                                    grille->cellules[l][colonne].note[n] = 0;
+            // Traiter la colonne
+            for (int i = 0; i < TAILLE; i++) {
+                if (i != ligne) {
+                    structCellule cell2 = grille->cellules[i][colonne];
+                    for (int j = i + 1; j < TAILLE; j++) {
+                        if (j != ligne) {
+                            structCellule cell3 = grille->cellules[j][colonne];
+                            if (sontTroisPaires(cell1, cell2, cell3)) {
+                                // Éliminer ces possibilités des autres cellules de la même colonne
+                                for (int l = 0; l < TAILLE; l++) {
+                                    if (l != ligne && l != i && l != j) {
+                                        for (int n = 0; n < TAILLE; n++) {
+                                            if (cell1.note[n] || cell2.note[n] || cell3.note[n]) {
+                                                grille->cellules[l][colonne].note[n] = 0;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
-    }
-    // Pour les blocs 3x3
-    for (int blockLigne = 0; blockLigne < TAILLE; blockLigne += 3) {
-        for (int blockColonne = 0; blockColonne < TAILLE; blockColonne += 3) {
-            int ligne1, colonne1, ligne2, colonne2;
-            if (trouveDoubletNu(grille, blockLigne, blockColonne, &ligne1, &colonne1, &ligne2, &colonne2)) {
-                // Éliminer les candidats du doublet nu des autres cellules du bloc
-                for (int x = 0; x < 3; x++) {
-                    for (int y = 0; y < 3; y++) {
-                        int currentLigne = blockLigne + x;
-                        int currentColonne = blockColonne + y;
-
-                        int currentColonne = blockColonne + y;
-                        if (!((currentLigne == ligne1 && currentColonne == colonne1) || 
-                              (currentLigne == ligne2 && currentColonne == colonne2))) {
-                            for (int n = 0; n < TAILLE; n++) {
-                                if (grille->cellules[ligne1][colonne1].note[n]) {
-                                    grille->cellules[currentLigne][currentColonne].note[n] = 0;
+            // Traiter le bloc 3x3
+            int startLigne = ligne - ligne % 3;
+            int startColonne = colonne - colonne % 3;
+            for (int i = startLigne; i < startLigne + 3; i++) {
+                for (int j = startColonne; j < startColonne + 3; j++) {
+                    if (i != ligne || j != colonne) {
+                        structCellule cell2 = grille->cellules[i][j];
+                        for (int x = startLigne; x < startLigne + 3; x++) {
+                            for (int y = startColonne; y < startColonne + 3; y++) {
+                                if ((x != ligne || y != colonne) && (x != i || y != j)) {
+                                    structCellule cell3 = grille->cellules[x][y];
+                                    if (sontTroisPaires(cell1, cell2, cell3)) {
+                                        // Éliminer ces possibilités des autres cellules du même bloc
+                                        for (int a = startLigne; a < startLigne + 3; a++) {
+                                            for (int b = startColonne; b < startColonne + 3; b++) {
+                                                if ((a != ligne || b != colonne) && (a != i || b != j) && (a != x || b != y)) {
+                                                    for (int n = 0; n < TAILLE; n++) {
+                                                        if (cell1.note[n] || cell2.note[n] || cell3.note[n]) {
+                                                            grille->cellules[a][b].note[n] = 0;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -623,10 +603,9 @@ void eliminerKupletsNus(structGrille *grille) {
         }
     }
 }
-
-structGrille regle9(structGrille *grille) {
+structGrille regle7(structGrille *grille) {
     // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
-    eliminerKupletsNus(grille);
+    eliminerTripletNus(grille);
 
     // Mettre à jour la grille en fonction des nouvelles possibilités
     updateGrid(grille);

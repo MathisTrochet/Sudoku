@@ -53,10 +53,8 @@ typedef struct{
     structGrille regle6(structGrille *grille);
     void afficherNotesCellule(structCellule cellule);
 
-    void eliminerKupletsNus(structGrille *grille);
-    bool sontDoubletsNus(structCellule cell1, structCellule cell2);
-    structGrille regle9(structGrille *grille);
-    bool trouveDoubletNu(structGrille *grille, int blockRow, int blockCol, int *row1, int *col1, int *row2, int *col2);
-
+    bool sontTroisPaires(structCellule cell1, structCellule cell2, structCellule cell3);
+    void eliminerTripletNus(structGrille *grille);
+    structGrille regle7(structGrille *grille);
 
     #endif // SUDOKU_H_INCLUDED

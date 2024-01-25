@@ -397,7 +397,7 @@ grille6 = add_case(grille6, 7, 3, 8);
 grille6 = add_case(grille6, 4, 4, 8);
 grille6 = add_case(grille6, 1, 5, 8);
 
-regle(&grille6);
+regle6(&grille6);
 afficheGrille(grille6);
 
 structCellule cellule0 = grille6.cellules[2][0];
@@ -422,6 +422,88 @@ afficherNotesCellule(cellule7);
 afficherNotesCellule(cellule8);
 //afficherNotesCellule(cellule9);
 
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+//grille teste regle 7
+structGrille grille7 = create_grille(); 
+grille7 = initGrille(grille7);
+printf("\n");
+printf("\n");
+printf("GRILLE 7 ");
+printf("\n");
+
+grille7 = add_case(grille7, 6, 0, 0);
+grille7 = add_case(grille7, 5, 8, 0);
+
+grille7 = add_case(grille7, 1, 3, 1);
+grille7 = add_case(grille7, 6, 5, 1);
+grille7 = add_case(grille7, 2, 6, 1);
+
+grille7 = add_case(grille7, 3, 4, 2);
+grille7 = add_case(grille7, 6, 7, 2);
+
+grille7 = add_case(grille7, 4, 1, 3);
+grille7 = add_case(grille7, 6, 3, 3);
+grille7 = add_case(grille7, 9, 6, 3);
+grille7 = add_case(grille7, 5, 7, 3);
+grille7 = add_case(grille7, 2, 8, 3);
+
+grille7 = add_case(grille7, 6, 1, 4);
+grille7 = add_case(grille7, 9, 3, 4);
+grille7 = add_case(grille7, 2, 4, 4);
+grille7 = add_case(grille7, 4, 7, 4);
+
+grille7 = add_case(grille7, 2, 1, 5);
+grille7 = add_case(grille7, 9, 2, 5);
+grille7 = add_case(grille7, 4, 3, 5);
+grille7 = add_case(grille7, 5, 4, 5);
+grille7 = add_case(grille7, 8, 6, 5);
+grille7 = add_case(grille7, 6, 8, 5);
+
+grille7 = add_case(grille7, 2, 0, 6);
+grille7 = add_case(grille7, 6, 2, 6);
+grille7 = add_case(grille7, 4, 5, 6);
+grille7 = add_case(grille7, 5, 6, 6);
+
+grille7 = add_case(grille7, 4, 0, 7);
+grille7 = add_case(grille7, 8, 2, 7);
+grille7 = add_case(grille7, 9, 5, 7);
+grille7 = add_case(grille7, 6, 6, 7);
+grille7 = add_case(grille7, 2, 7, 7);
+
+grille7 = add_case(grille7, 9, 0, 8);
+grille7 = add_case(grille7, 1, 2, 8);
+grille7 = add_case(grille7, 2, 3, 8);
+grille7 = add_case(grille7, 6, 4, 8);
+grille7 = add_case(grille7, 4, 6, 8);
+grille7 = add_case(grille7, 3, 8, 8);
+
+regle7(&grille7);
+afficheGrille(grille7);
+
+structCellule cellule00 = grille7.cellules[1][0];
+structCellule cellule01 = grille7.cellules[1][1]; 
+structCellule cellule02 = grille7.cellules[1][2]; 
+structCellule cellule03 = grille7.cellules[1][3]; 
+structCellule cellule04 = grille7.cellules[1][4];
+structCellule cellule05 = grille7.cellules[1][5]; 
+structCellule cellule06 = grille7.cellules[1][6];
+structCellule cellule07 = grille7.cellules[1][7]; 
+structCellule cellule08 = grille7.cellules[1][8];
+//structCellule cellule09 = grille7.cellules[2][9];
+printf("\n");
+afficherNotesCellule(cellule00);
+afficherNotesCellule(cellule01);
+afficherNotesCellule(cellule02);
+afficherNotesCellule(cellule03);
+afficherNotesCellule(cellule04);
+afficherNotesCellule(cellule05);
+afficherNotesCellule(cellule06);
+afficherNotesCellule(cellule07);
+afficherNotesCellule(cellule08);
+//afficherNotesCellule(cellule09);
+
 
 //******************************************//
 //******************************************//
@@ -431,6 +513,7 @@ free_grille(&grille1);
 free_grille(&grille2);
 free_grille(&grille3);
 free_grille(&grille6);
+free_grille(&grille7);
 
 
 
