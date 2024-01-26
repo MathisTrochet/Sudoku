@@ -518,15 +518,17 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
 } // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
 
 structGrille k_uplet_caché(structGrille grille, int k){
+
     for (int i=0; i<TAILLE; i=i+CARRE){
         for (int j=0; j<TAILLE ; j=j+CARRE){
             int *tab = occurenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
             int *returntab = potentiel_k_uplet(tab, k);
             structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab);
-
+            grille = supprK(grille, tabCell, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, k);
         }
         
     }
+    return grille;
 }
 
 /*
@@ -586,8 +588,16 @@ bool comp2Cellules(structCellule cell1, structCellule cell2) {
 
 
 //on a trouvé notre paire alors on la supprime
-structGrille Suppr(structGrille grille, structCellule list, int xmin, int ymin, int xmax, int ymax){
+structGrille supprK(structGrille grille, structCellule *list, int xmin, int ymin, int xmax, int ymax, int k){
 
+    for (int i=1; i<=k; i++){
+        int posX = list[k].posX;
+        int posY = list[k].posY;
+        for(int i=0; i<TAILLE; i++){
+            if (i != (getValeur(grille, posX, posY))-1) {setNote(&grille, posX, posY, i, 0);}
+        }
+    }
+    return grille;
 }
 
 structGrille regle6(structGrille grille){
