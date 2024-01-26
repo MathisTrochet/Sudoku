@@ -445,15 +445,18 @@ int * potentiel_k_uplet(int *tab, int k){ //si tab[0] != k on arrete tout c'est 
 //dans les fonctions potentiel_k_uplets et calculCoordonateTab on stocke dans la premiere position du tableau le nombre d'informations qui nous interesse
 
 //retourne le tableau avec les valeurs à traiter accompagnées de ses coordonnées
-int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
+
+/*
+int *calculTabCell(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int k){
 
     int index=1;
     int *coordonateTab = (int*)malloc(sizeof(int));
 
-    for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où 
         for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
-                    if (getNote(grille, x, y, returnTab[a]-1) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
+                for(int i=0; i< k ; i++){
+                    
+                }
                         coordonateTab = (int*)realloc(coordonateTab, (1 + index * 3) * sizeof(int));
                         coordonateTab[index] = returnTab[a];
                         index++;
@@ -465,9 +468,9 @@ int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int 
                     }
             }
         }
-    }
     return coordonateTab;
 }
+*/
 
 structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
 
