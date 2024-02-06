@@ -260,7 +260,7 @@ structGrille implanterNote(structGrille grille){
                     val = k+1;
                 }
             }
-            if (compteur==1 && getValeur(grille, x, y) ==0){ 
+            if (compteur==1 && getValeur(grille, x, y) ==0){
                 setValeur(&grille, x, y, val);
                 grille = actualiseNotes(grille,  x, y, val); // met toutes les lignes colonnes et carrés communs à la case "val", à jour 
                 grille = implanterNote(grille); // rappelle la fonction pour recommencer autant de fois qu'on aura des valeurs prete à etre implanter 
