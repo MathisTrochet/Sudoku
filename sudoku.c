@@ -440,7 +440,65 @@ int * potentiel_k_uplet(int *tab, int k){ //si tab[0] != k on arrete tout c'est 
     }
     
     return returnTab; // retourne toutes les éléments faisant parti du k-uplets
-}   
+}
+
+int *verifPaireCachée(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b){
+    bool *verifTab = (bool*)malloc(TAILLE * sizeof(bool));
+    for(int i = 0; i < TAILLE; i++){
+        verifTab[i] = false;
+    }
+
+    int *tabCell = (int*)malloc((TAILLE * 2) * sizeof(int));
+
+    int indexVerif = 0;
+    int indexCell = 0;
+    int count = 0;
+
+    for(int x = xmin; x <= xmax; x++){
+        for(int y = ymin; y <= ymax; y++){
+            if((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1)){     //on vérifie si le couple (a,b) est présent dans la case courante
+                verifTab[indexVerif] = true;
+                tabCell[indexCell] = x;
+                tabCell[indexCell + 1] = y;
+                indexCell = indexCell + 2;
+            }
+            indexVerif++;
+        }
+    }
+
+    for(int i = 0; i < TAILLE; i++){
+        if(verifTab[i] == true){
+            count ++;
+        }
+    }
+}
+
+
+structCellule *pairesCachées(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
+    bool *verifTab = (bool*)malloc(TAILLE * sizeof(bool));
+    for(int i = 0; i < TAILLE; i++){
+        verifTab[i] = false;
+    }
+
+    int index = 0;
+
+    for(int x = xmin; x <= xmax; x++){
+        for(int y = ymin; y <= ymax; y++){
+
+            for(int a = 1; a <= returnTab[0]; a++){
+                for(int b = a+1; b < returnTab[0]; b++){
+                    if((getNote(grille, x, y, returnTab[a]-1) == 1) && (getNote(grille, x, y, returnTab[b]-1) == 1)){
+                        verifTab[index] = true;
+
+                        
+                    }
+                    index++;
+                }
+            }
+
+        }
+    }
+}
 
 //dans les fonctions potentiel_k_uplets et calculCoordonateTab on stocke dans la premiere position du tableau le nombre d'informations qui nous interesse
 
@@ -477,7 +535,7 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
     structCellule *tabCell = (structCellule*)malloc(sizeof(structCellule));
 
     //for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où
-    int index=1; 
+    int index=1;
         for (int x = xmin ; x<=xmax ; x++){
             for (int y=ymin ; y<=ymax ; y++){
                 if (getValeur(grille, x, y) == 0){
