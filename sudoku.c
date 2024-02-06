@@ -600,6 +600,16 @@ structGrille supprK(structGrille grille, structCellule *list, int xmin, int ymin
     return grille;
 }
 
-structGrille regle6(structGrille grille){
+void afficherNotesCellule(structCellule cellule) {
+    printf("Notes de la cellule :\n");
+    for (int i = 0; i < TAILLE; i++) {
+        if (cellule.note[i]) {
+            printf("%d ", i + 1); // Afficher la possibilité (ajouter 1 car les indices commencent à 0)
+        }
+    }
+    printf("\n");
+}
 
+structGrille regle6(structGrille grille){
+    
 }

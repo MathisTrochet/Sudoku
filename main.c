@@ -459,6 +459,12 @@ for(int i=0; i<=( cellTab2[0].valeur+1 ); i++){
 }
 printf(" || ");
 
+//grille5 = k_uplet_caché(grille5, 2);
+
+afficherNotesCellule(grille5.cellules[0][4]);
+printf(" - ");
+afficherNotesCellule(grille5.cellules[0][5]);
+
 
 
 

@@ -54,10 +54,8 @@ typedef struct{
 
     bool is_k_uplets_cachés(structGrille grille, structCellule *cellTab, int k);
     structGrille supprK(structGrille grille, structCellule *list, int xmin, int ymin, int xmax, int ymax, int k);
-
-
-
-
+    void afficherNotesCellule(structCellule cellule);
+    structGrille k_uplet_caché(structGrille grille, int k);
 
 
     #endif // SUDOKU_H_INCLUDED
