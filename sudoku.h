@@ -57,5 +57,7 @@ typedef struct{
     void afficherNotesCellule(structCellule cellule);
     structGrille k_uplet_caché(structGrille grille, int k);
 
+    int *testPaireCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b);
+    bool estUnePaireCachee(int *testTab);
 
     #endif // SUDOKU_H_INCLUDED

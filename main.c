@@ -428,7 +428,7 @@ grille5 = add_case(grille5, 7, 4, 8);
 
 
 afficheGrille(grille5);
-
+/*
 int *tab_2;
 tab_2 = occurenceParIndice(grille5, 0, 3, 2, 5);
 
@@ -460,11 +460,20 @@ for(int i=0; i<=( cellTab2[0].valeur+1 ); i++){
 printf(" || ");
 
 //grille5 = k_uplet_caché(grille5, 2);
-
+*/
 afficherNotesCellule(grille5.cellules[0][4]);
 printf(" - ");
 afficherNotesCellule(grille5.cellules[0][5]);
 
+int *tab_test =  testPaireCachee(grille5, 0, 3, 2, 5, 2, 6);
+printf("\n tab test pair :\n||");
+for(int i = 0; i < TAILLE * 3; i++){
+    printf("%3d", tab_test[i]);
+}
+printf("||\n");
+
+bool b = estUnePaireCachee(tab_test);
+printf("%d\n", b);
 
 
 
