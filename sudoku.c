@@ -685,13 +685,6 @@ structGrille pairesCachees(structGrille grille){
                             int *testPaires = testPaireCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j);
                             bool verif = estUnePaireCachee(testPaires);
 
-                            printf("\n(%d,%d)(%d,%d) : ||", x, y, i, j);
-                            for(int i = 0; i < TAILLE * 3; i++){
-                            printf("%3d", testPaires[i]);
-                            }
-                            printf("||  %d\n", verif);
-
-
                             if(verif){
                                 for(int k = 0; k < TAILLE*3; k=k+3){
                                     if(testPaires[k] == 1){
