@@ -370,41 +370,6 @@ structGrille calculerRegle2et8(structGrille grille){ //question : dans l'exemple
     return grille;
 }
 
-structGrille cachee(structGrille grille, int xmin, int ymin, int xmax, int ymax){
-    int compteur=0;
-    int posX=xmax; // si 8 n'a pas été trouvé dans les 8 autres cases, alors il est forcement dans la derniere. Donc on l'initialise ici.
-    int posY=ymax;
-    int val;
-    int tab[TAILLE];
-
-    for (int x = xmin ; x<=xmax ; x++){
-            for (int y=ymin ; y<=ymax ; y++){
-                for (int z=0; z<TAILLE; z++){
-                    if (getNote(grille, x, y, val-1)==1){
-                        tab[z]++; //on augmente d'un
-                    }
-                }
-
-                    
-                    
-                if (compteur == 8 && getValeur(grille, posX, posY)==0){
-                    printf("B");
-                    
-                    printf("|%d, %d, %d|", val, posX, posY);
-
-                    for (int i=0; i<TAILLE; i++){
-                        
-                        setNote(&grille, posX, posY, i, 0);
-                    }
-                    setNote(&grille, posX, posY, val-1, 1);            
-                }
-
-            }
-            
-    }
-   return grille;
-}
-
 //parcours du carré + 2 notes(grille): (note1 x note2)
 int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax){
 
@@ -442,37 +407,7 @@ int * potentiel_k_uplet(int *tab, int k){ //si tab[0] != k on arrete tout c'est 
     return returnTab; // retourne toutes les éléments faisant parti du k-uplets
 }   
 
-//dans les fonctions potentiel_k_uplets et calculCoordonateTab on stocke dans la premiere position du tableau le nombre d'informations qui nous interesse
-
-//retourne le tableau avec les valeurs à traiter accompagnées de ses coordonnées
-
-/*
-int *calculTabCell(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int k){
-
-    int index=1;
-    int *coordonateTab = (int*)malloc(sizeof(int));
-
-        for (int x = xmin ; x<=xmax ; x++){
-            for (int y=ymin ; y<=ymax ; y++){
-                for(int i=0; i< k ; i++){
-                    
-                }
-                        coordonateTab = (int*)realloc(coordonateTab, (1 + index * 3) * sizeof(int));
-                        coordonateTab[index] = returnTab[a];
-                        index++;
-                        coordonateTab[index] = x;                                          //ici on stocke une des valeurs à traiter avec ses coordonnées
-                        index++;
-                        coordonateTab[index] = y;
-                        index++;
-                        coordonateTab[0] = index/3; // le nombre de fois qu'on rendre une valeur avec ses coordonnées (divisé par 3 car on rentre 3 informations)
-                    }
-            }
-        }
-    return coordonateTab;
-}
-*/
-
-structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
+structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int **valTab){
 
     structCellule *tabCell = (structCellule*)malloc(sizeof(structCellule));
 
@@ -491,6 +426,8 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
                                 tabCell[(index)].valeur = getValeur(grille, x, y);
                                 tabCell[(index)].posX = x;
                                 tabCell[(index)].posY = y;
+                                if (isInclude((*valTab), returnTab[a]) == false) (*valTab)[index]= returnTab[a];
+                                if (isInclude((*valTab), returnTab[b]) == false) (*valTab)[index+1]= returnTab[b];
                                 (index)= (index) + 1;
                                 tabCell[0].valeur= (index); // on met l'index dans le valeur de la premiere cellule 
                             }
@@ -518,83 +455,61 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
 } // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
 
 structGrille k_uplet_caché(structGrille grille, int k){
+    int *valTab = (int *)malloc(TAILLE * sizeof(int));;
+
+    for (int i = 0; i < TAILLE; i++) {
+        valTab[i] = 0;
+    }
 
     for (int i=0; i<TAILLE; i=i+CARRE){
         for (int j=0; j<TAILLE ; j=j+CARRE){
             int *tab = occurenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
             int *returntab = potentiel_k_uplet(tab, k);
-            structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab);
-            grille = supprK(grille, tabCell, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, k);
+            structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab, &valTab);
+/*
+            printf(" || ");
+for(int i=0; i<=( tabCell[0].valeur+1 ); i++){
+    if (i == 0){
+        printf("%d. ", tabCell[i].valeur);
+    }
+    printf("%d:", i);
+    printf("%d", tabCell[i].posX);
+    printf("%d", tabCell[i].posY);
+    printf("- ");
+}
+printf(" || ");
+*/
+
+            grille = supprK(grille, tabCell, valTab , i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, k);
         }
         
     }
     return grille;
 }
 
-/*
-structCellule *is_k_uplets_cachés(structGrille grille, structCellule *tabCell, int k){
-    int compteurVal=0;
-    int compteurCoord=0;
-    int index1=0;
-    int index2=0;
-    int index_res=1;
-    structCellule *finalTab = (structCellule*)malloc(sizeof(structCellule));
-    int *tabModel = (int *)malloc(sizeof(int));
-    structCellule *temp1 = (structCellule*)malloc(sizeof(structCellule));
-    structCellule *temp2 = (structCellule*)malloc(sizeof(structCellule));
-    while (){
-        index2 = index1+1;
-        if (tabCell != NULL){
-            while (tabCell[index2].note !=NULL){
-                if (comp2Cellules(tabCell[index1], tabCell[index2]) ){
-                    structCellule *finalTab = (structCellule*)realloc(finalTab, index_res * sizeof(structCellule));
-                    finalTab[index_res]= tabCell[index1];
-                    index_res++;
-
-                }
-                index2++;
-            }
-            
-        }
-    }
-        
-        
-
-
-        }
-        else{
-            temp1 = grille[coordonateTab[i+1]][coordonateTab[i+2]] 
-        }
-        
-        
-    }
-    return false;
-}
-
-bool comp2Cellules(structCellule cell1, structCellule cell2) {
-    if (cell1.valeur != cell2.valeur){
-        if (cell1.posX == cell2.posX && cell1.posY == cell2.posY){
-            return true;
-        }
-        else return false;
-    }
-    else return false;
-}
-
-
-*/
-
 //si nb est egal a k alors on a trouvé une paire 
 
 
 //on a trouvé notre paire alors on la supprime
-structGrille supprK(structGrille grille, structCellule *list, int xmin, int ymin, int xmax, int ymax, int k){
+
+bool isInclude(int *tab, int val){
+    for (int i=0; i<TAILLE; i++){
+        if (tab[i]==val){
+            return true;
+        }
+    }
+    return false;
+}
+
+structGrille supprK(structGrille grille, structCellule *list, int *valTab, int xmin, int ymin, int xmax, int ymax, int k){
 
     for (int i=1; i<=k; i++){
         int posX = list[k].posX;
         int posY = list[k].posY;
         for(int i=0; i<TAILLE; i++){
-            if (i != (getValeur(grille, posX, posY))-1) {setNote(&grille, posX, posY, i, 0);}
+            if (isInclude(valTab, i)==false) {
+                setNote(&grille, posX, posY, i, 0);
+            }
         }
     }
     return grille;
@@ -611,5 +526,5 @@ void afficherNotesCellule(structCellule cellule) {
 }
 
 structGrille regle6(structGrille grille){
-    
+
 }

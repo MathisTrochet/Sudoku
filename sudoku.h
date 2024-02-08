@@ -50,12 +50,13 @@ typedef struct{
     int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     int * potentiel_k_uplet(int *tab, int k);
     int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
-    structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
+    structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int **valTab);
 
     bool is_k_uplets_cachés(structGrille grille, structCellule *cellTab, int k);
-    structGrille supprK(structGrille grille, structCellule *list, int xmin, int ymin, int xmax, int ymax, int k);
     void afficherNotesCellule(structCellule cellule);
     structGrille k_uplet_caché(structGrille grille, int k);
+    structGrille supprK(structGrille grille, structCellule *list, int *valTab, int xmin, int ymin, int xmax, int ymax, int k);
+    bool isInclude(int *tab, int val);
 
 
     #endif // SUDOKU_H_INCLUDED

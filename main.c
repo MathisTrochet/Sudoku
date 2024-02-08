@@ -444,22 +444,33 @@ for(int i=0; i<TAILLE; i++){
     printf("%d", tab2_2[i]);
 }
 
+int *valTab = (int *)malloc(TAILLE * sizeof(int));;
 
-structCellule *cellTab2 = tabPotentiellesBonneValeurs(grille5, 0, 3, 2, 5, tab2_2);
+    for (int i = 0; i < TAILLE; i++) {
+        valTab[i] = 0;
+    }
+
+
+structCellule *tabCell = tabPotentiellesBonneValeurs(grille5, 0, 3, 2, 5, tab2_2, &valTab);
 
 printf(" || ");
-for(int i=0; i<=( cellTab2[0].valeur+1 ); i++){
+for(int i=0; i<=( tabCell[0].valeur+1 ); i++){
     if (i == 0){
-        printf("%d. ", cellTab2[i].valeur);
+        printf("%d. ", tabCell[i].valeur);
     }
     printf("%d:", i);
-    printf("%d", cellTab2[i].posX);
-    printf("%d", cellTab2[i].posY);
+    printf("%d", tabCell[i].posX);
+    printf("%d", tabCell[i].posY);
     printf("- ");
 }
 printf(" || ");
 
+int *valTab2 = (int*) malloc (2 * sizeof(int));
+valTab2[0] = 2;
+valTab2[1] = 6;
 //grille5 = k_uplet_caché(grille5, 2);
+
+grille5 = supprK(grille5, tabCell, valTab2 , 0, 3, 2, 5, 2);
 
 afficherNotesCellule(grille5.cellules[0][4]);
 printf(" - ");
