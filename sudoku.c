@@ -455,8 +455,9 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
 } // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
 
 structGrille k_uplet_caché(structGrille grille, int k){
-    int *valTab = (int *)malloc(TAILLE * sizeof(int));;
 
+
+    int *valTab = (int *)malloc(TAILLE * sizeof(int));;
     for (int i = 0; i < TAILLE; i++) {
         valTab[i] = 0;
     }
@@ -464,9 +465,15 @@ structGrille k_uplet_caché(structGrille grille, int k){
     for (int i=0; i<TAILLE; i=i+CARRE){
         for (int j=0; j<TAILLE ; j=j+CARRE){
             int *tab = occurenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
+
+            afficherTab(tab);
+
             int *returntab = potentiel_k_uplet(tab, k);
+
+            afficherTab(returntab);
+
             structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab, &valTab);
-/*
+
             printf(" || ");
 for(int i=0; i<=( tabCell[0].valeur+1 ); i++){
     if (i == 0){
@@ -478,7 +485,7 @@ for(int i=0; i<=( tabCell[0].valeur+1 ); i++){
     printf("- ");
 }
 printf(" || ");
-*/
+
 
             grille = supprK(grille, tabCell, valTab , i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, k);
         }
@@ -503,19 +510,22 @@ bool isInclude(int *tab, int val){
 
 structGrille supprK(structGrille grille, structCellule *list, int *valTab, int xmin, int ymin, int xmax, int ymax, int k){
 
+    int posX = 0;
+    int posY = 0;
     for (int i=1; i<=k; i++){
-        int posX = list[k].posX;
-        int posY = list[k].posY;
-        for(int i=0; i<TAILLE; i++){
-            if (isInclude(valTab, i)==false) {
-                setNote(&grille, posX, posY, i, 0);
+        posX = list[i].posX;
+        posY = list[i].posY;
+        printf("%d, %d", posX, posY);
+        for(int j=1; j<=TAILLE; j++){
+            if (isInclude(valTab, j)==false) {
+                setNote(&grille, posX, posY, j-1, 0);
             }
         }
     }
     return grille;
 }
 
-void afficherNotesCellule(structCellule cellule) {
+void afficherNotes(structCellule cellule) {
     printf("Notes de la cellule :\n");
     for (int i = 0; i < TAILLE; i++) {
         if (cellule.note[i]) {
@@ -525,6 +535,11 @@ void afficherNotesCellule(structCellule cellule) {
     printf("\n");
 }
 
-structGrille regle6(structGrille grille){
-
+void afficherTab(int * tab) {
+    printf(" | ");
+for(int i=0; i<TAILLE; i++){
+    printf("%d", tab[i]);
 }
+printf(" | \n ");
+}
+

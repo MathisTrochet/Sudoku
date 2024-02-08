@@ -53,10 +53,12 @@ typedef struct{
     structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int **valTab);
 
     bool is_k_uplets_cachés(structGrille grille, structCellule *cellTab, int k);
-    void afficherNotesCellule(structCellule cellule);
+    void afficherNotes(structCellule cellule);
     structGrille k_uplet_caché(structGrille grille, int k);
     structGrille supprK(structGrille grille, structCellule *list, int *valTab, int xmin, int ymin, int xmax, int ymax, int k);
     bool isInclude(int *tab, int val);
+    void afficherTab(int * tab);
+
 
 
     #endif // SUDOKU_H_INCLUDED

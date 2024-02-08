@@ -465,16 +465,25 @@ for(int i=0; i<=( tabCell[0].valeur+1 ); i++){
 }
 printf(" || ");
 
-int *valTab2 = (int*) malloc (2 * sizeof(int));
-valTab2[0] = 2;
-valTab2[1] = 6;
-//grille5 = k_uplet_caché(grille5, 2);
+int *valTab2 = (int*) malloc (9 * sizeof(int));
+valTab2[0] = 0;
+valTab2[1] = 2;
+valTab2[2] = 6;
+valTab2[3] = 9;
+valTab2[4] = 0;
+valTab2[5] = 0;
+valTab2[6] = 0;
+valTab2[7] = 0;
+valTab2[8] = 0;
+
+if (isInclude(valTab2, 0) == false)
+printf("yo");
 
 grille5 = supprK(grille5, tabCell, valTab2 , 0, 3, 2, 5, 2);
 
-afficherNotesCellule(grille5.cellules[0][4]);
+afficherNotes(grille5.cellules[0][4]);
 printf(" - ");
-afficherNotesCellule(grille5.cellules[0][5]);
+afficherNotes(grille5.cellules[0][5]);
 
 
 
