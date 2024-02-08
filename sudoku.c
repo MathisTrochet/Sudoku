@@ -517,7 +517,7 @@ structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ym
     return tabCell;
 } // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
 
-structGrille k_uplet_caché(structGrille grille, int k){
+structGrille k_uplet_cache(structGrille grille, int k){
 
     for (int i=0; i<TAILLE; i=i+CARRE){
         for (int j=0; j<TAILLE ; j=j+CARRE){
@@ -610,13 +610,12 @@ void afficherNotesCellule(structCellule cellule) {
     printf("\n");
 }
 
-structGrille regle6(structGrille grille){
-    
-}
 
-// renvoie un tableau avec les coordonnées des cases et un booleen 
-// 0 si (a,b) n'est pas dans la case
-// 1 si (a,b) est dans la case
+
+// teste si un paire est présente ou non dans les cases d'une zone
+
+// renvoie un tableau avec un booleen : 0 si (a,b) n'est pas dans la case et 1 si (a,b) est dans la case
+//et les coordonnées des cases
 int *testPaireCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b){
     int *testTab = (int*)malloc((TAILLE*3) * sizeof(int));
     for(int i = 0; i < TAILLE*3; i++){
@@ -626,11 +625,11 @@ int *testPaireCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax
 
     for(int x = xmin; x <= xmax; x++){
         for(int y = ymin; y <= ymax; y++){
-            if((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1)){     //on vérifie si le couple (a,b) est présent dans la case courante
-                testTab[index] = 1;
+            if((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1)){    
+                testTab[index] = 1;     //le booleen
             }
-            testTab[index+1] = x;
-            testTab[index+2] = y;
+            testTab[index+1] = x;       //première coordonnée de la case
+            testTab[index+2] = y;       //deuxième coordonnée de la case
             index = index + 3;
         }
     }
@@ -655,4 +654,56 @@ bool estUnePaireCachee(int *testTab){
     else{
         return false;
     }
+}
+
+//supprime dans une case toutes les notes qui ne correspondent pas à la paire
+structGrille supprAutresQuePaires(structGrille grille, int x, int y, int a, int b){
+    for(int i = 0; i < TAILLE; i++){
+        if((i == a-1) || (i == b-1)){
+            setNote(&grille, x, y, i, 1);
+        }
+        else{
+            setNote(&grille, x, y, i, 0);
+        }
+    }
+    return grille;
+}
+
+
+structGrille pairesCachees(structGrille grille){
+    for(int x = 0; x <= (TAILLE - CARRE); x=x+CARRE){
+        for(int y = 0; y <= (TAILLE - CARRE); y=y+CARRE){
+            
+            int *occ = occurenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1));
+
+            for(int i = 1; i < TAILLE; i++){
+                if(occ[i-1] == 2){
+
+                    for(int j = i+1; j <= TAILLE; j++){
+                        if(occ[j-1] == 2){
+                    
+                            int *testPaires = testPaireCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j);
+                            bool verif = estUnePaireCachee(testPaires);
+
+                            printf("\n(%d,%d)(%d,%d) : ||", x, y, i, j);
+                            for(int i = 0; i < TAILLE * 3; i++){
+                            printf("%3d", testPaires[i]);
+                            }
+                            printf("||  %d\n", verif);
+
+
+                            if(verif){
+                                for(int k = 0; k < TAILLE*3; k=k+3){
+                                    if(testPaires[k] == 1){
+                                        supprAutresQuePaires(grille, testPaires[k+1], testPaires[k+2], i, j);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return grille;
 }

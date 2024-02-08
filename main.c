@@ -461,19 +461,20 @@ printf(" || ");
 
 //grille5 = k_uplet_caché(grille5, 2);
 */
+
 afficherNotesCellule(grille5.cellules[0][4]);
 printf(" - ");
 afficherNotesCellule(grille5.cellules[0][5]);
 
-int *tab_test =  testPaireCachee(grille5, 0, 3, 2, 5, 2, 6);
-printf("\n tab test pair :\n||");
-for(int i = 0; i < TAILLE * 3; i++){
-    printf("%3d", tab_test[i]);
-}
-printf("||\n");
 
-bool b = estUnePaireCachee(tab_test);
-printf("%d\n", b);
+pairesCachees(grille5);
+afficherNotesCellule(grille5.cellules[0][4]);
+printf(" - ");
+afficherNotesCellule(grille5.cellules[0][5]);
+
+afficherNotesCellule(grille5.cellules[4][4]);
+printf(" - ");
+afficherNotesCellule(grille5.cellules[5][4]);
 
 
 
