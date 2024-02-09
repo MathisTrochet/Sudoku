@@ -50,12 +50,18 @@ typedef struct{
     bool sontDeuxPaires(structCellule cell1, structCellule cell2);
     void eliminerCandidats(structGrille* grille);
     void updateGrid(structGrille *grille);
-    structGrille regle6(structGrille *grille);
+    structGrille reglePairesNus(structGrille *grille);
     void afficherNotesCellule(structCellule cellule);
 
     bool sontTroisPaires(structCellule cell1, structCellule cell2, structCellule cell3);
     void eliminerTripletNus(structGrille *grille);
-    structGrille regle7(structGrille *grille);
+    structGrille regleTripletsNus(structGrille *grille);
+    
+    void eliminerCandidatSiPairePointante(structGrille* grille, int blocStartX, int blocStartY, int x, int ligneOuColonne, bool estLigne);
+    bool estPairePointanteDansBloc(structGrille* grille, int blocStartX, int blocStartY, int* posX1, int* posY1, int* posX2, int* posY2, int candidat);
+    void reglePairesPointantes(structGrille* grille);
+
+  
 
     #endif // SUDOKU_H_INCLUDED
     

@@ -33,22 +33,51 @@ void setNote(structGrille *grille, int x, int y, int ind, int note){
     (*grille).cellules[x][y].note[ind] = note;
 }
 
+/*
+structGrille* create_grille() {
+    structGrille* grille = (structGrille*)malloc(sizeof(structGrille)); // Allocation dynamique de la structure grille
+    if (grille == NULL) {
+        // Gestion de l'erreur d'allocation
+        return NULL;
+    }
+    
+    grille->cellules = (structCellule**)malloc(TAILLE * sizeof(structCellule*)); // Allocation des colonnes
+    if (grille->cellules == NULL) {
+        // Gestion de l'erreur d'allocation
+        free(grille); // Libère la structure grille si l'allocation des colonnes échoue
+        return NULL;
+    }
 
+    for (int x = 0; x < TAILLE; x++) {
+        grille->cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule)); // Allocation des cellules
+        if (grille->cellules[x] == NULL) {
+            // Gestion de l'erreur d'allocation
+            // Ici, vous devriez également libérer la mémoire précédemment allouée pour grille et les colonnes allouées jusqu'à présent
+            return NULL;
+        }
+        
+        for (int y = 0; y < TAILLE; y++) {
+            setValeur(grille, x, y, 0); // Initialise valeurs à 0
+            setPosX(grille, x, y, x); // Initialise posX
+            setPosY(grille, x, y, y); // Initialise posY, corrigeant l'appel de fonction ici
+        }
+    }
+    return grille;
+}*/
 
 structGrille create_grille(){
     structGrille grille;
     grille.cellules = (structCellule **)malloc(TAILLE * sizeof(structCellule *)); // alloue l'espace nécessaire pour chaque colonne
 
-for (int x=0; x<TAILLE; x++){
-    grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));  // alloue l'espace nécessaire pour chaque cellule de chaque colonne 
-    for (int y=0; y< TAILLE; y++){
-        setValeur(&grille, x, y, 0); //initialise valeurs à 0
-        setPosX(&grille, x, y, x); // initialise posX à i
-        setPosX(&grille, x, y, y); // initialise posY à j
+    for (int x=0; x<TAILLE; x++){
+        grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));  // alloue l'espace nécessaire pour chaque cellule de chaque colonne 
+        for (int y=0; y< TAILLE; y++){
+            setValeur(&grille, x, y, 0); //initialise valeurs à 0
+            setPosX(&grille, x, y, x); // initialise posX à i
+            setPosX(&grille, x, y, y); // initialise posY à j
+        }
     }
-}
-return grille;
-
+    return grille;
 }
 
 structGrille add_case(structGrille grille, int val, int posX, int posY){
@@ -497,7 +526,7 @@ void updateGrid(structGrille *grille) {
     }
 }
 
-structGrille regle6(structGrille *grille) {
+structGrille reglePairesNus(structGrille *grille) {
     // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
     eliminerCandidats(grille);
 
@@ -603,10 +632,95 @@ void eliminerTripletNus(structGrille *grille) {
         }
     }
 }
-structGrille regle7(structGrille *grille) {
+structGrille regleTripletsNus(structGrille *grille) {
     // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
     eliminerTripletNus(grille);
 
     // Mettre à jour la grille en fonction des nouvelles possibilités
     updateGrid(grille);
+}
+
+//******************************************//
+//******************************************//
+//******************************************//
+
+void eliminerCandidatSiPairePointante(structGrille* grille, int blocStartX, int blocStartY, int x, int ligneOuColonne, bool estLigne) {
+    int nBloc = sqrt(TAILLE);
+    for (int i = 0; i < TAILLE; i++) {
+        if (estLigne) {
+            // Si c'est la même ligne, éliminez le candidat de toute la ligne sauf du bloc.
+            if (i >= blocStartY && i < blocStartY + nBloc) continue; // Ignorez les cellules dans le bloc.
+            grille->cellules[ligneOuColonne][i].note[x] = 0;
+        } else {
+            // Si c'est la même colonne, éliminez le candidat de toute la colonne sauf du bloc.
+            if (i >= blocStartX && i < blocStartX + nBloc) continue; // Ignorez les cellules dans le bloc.
+            grille->cellules[i][ligneOuColonne].note[x] = 0;
+        }
+    }
+}
+
+bool estPairePointanteDansBloc(structGrille* grille, int blocStartX, int blocStartY, int* posX1, int* posY1, int* posX2, int* posY2, int candidat) {
+    int nBloc = sqrt(TAILLE);
+    bool trouve = false;
+    int premiereCelluleX = -1, premiereCelluleY = -1;
+
+    // Parcourir chaque cellule du bloc pour trouver la première cellule contenant le candidat
+    for (int i = 0; i < nBloc && !trouve; i++) {
+        for (int j = 0; j < nBloc && !trouve; j++) {
+            if (grille->cellules[blocStartX + i][blocStartY + j].note[candidat] > 0) {
+                premiereCelluleX = blocStartX + i;
+                premiereCelluleY = blocStartY + j;
+                trouve = true;
+            }
+        }
+    }
+
+    if (!trouve) return false; // Si le candidat n'est pas trouvé dans le bloc
+
+    trouve = false;
+    // Parcourir à nouveau pour trouver une deuxième cellule sur la même ligne ou colonne
+    for (int i = 0; i < nBloc && !trouve; i++) {
+        for (int j = 0; j < nBloc && !trouve; j++) {
+            int currentX = blocStartX + i;
+            int currentY = blocStartY + j;
+            // Vérifier si c'est une paire pointante (même ligne ou colonne, candidats identiques)
+            if ((currentX == premiereCelluleX || currentY == premiereCelluleY) &&
+                grille->cellules[currentX][currentY].note[candidat] > 0 &&
+                (currentX != premiereCelluleX || currentY != premiereCelluleY)) {
+                trouve = true;
+                *posX1 = premiereCelluleX;
+                *posY1 = premiereCelluleY;
+                *posX2 = currentX;
+                *posY2 = currentY;
+            }
+        }
+    }
+
+    return trouve;
+}
+
+void reglePairesPointantes(structGrille* grille) {
+    int nBloc = sqrt(TAILLE); // Pour une grille 9x9, des blocs 3x3
+
+    for (int bloc = 0; bloc < TAILLE; bloc++) {
+        int blocStartX = (bloc / nBloc) * nBloc;
+        int blocStartY = (bloc % nBloc) * nBloc;
+
+        // Pour chaque candidat x
+        for (int x = 0; x < TAILLE; x++) {
+            int posX1, posY1, posX2, posY2;
+
+            // Vérifie si une paire pointante est présente pour le candidat x dans le bloc courant
+            if (estPairePointanteDansBloc(grille, blocStartX, blocStartY, &posX1, &posY1, &posX2, &posY2, x)) {
+                // Si une paire pointante est trouvée, déterminer si elle est alignée sur une ligne ou une colonne
+                if (posY1 == posY2) { // La paire est alignée sur la même ligne
+                    // Éliminer le candidat x des autres cellules de cette ligne en dehors du bloc
+                    eliminerCandidatSiPairePointante(grille, blocStartX, blocStartY, x, posY1, true);
+                } else if (posX1 == posX2) { // La paire est alignée sur la même colonne
+                    // Éliminer le candidat x des autres cellules de cette colonne en dehors du bloc
+                    eliminerCandidatSiPairePointante(grille, blocStartX, blocStartY, x, posX1, false);
+                }
+            }
+        }
+    }
 }

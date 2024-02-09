@@ -18,6 +18,7 @@ int main()
     grille1 = initGrille(grille1);
 
 
+
 //GRILLE JUSTE
 
 grille0 = add_case(grille0, 7, 0, 0);
@@ -344,7 +345,7 @@ printf("|");
 
 //******************************************//
 //******************************************//
-
+/*
 //grille teste regle 6
 structGrille grille6 = create_grille(); 
 grille6 = initGrille(grille6);
@@ -397,7 +398,7 @@ grille6 = add_case(grille6, 7, 3, 8);
 grille6 = add_case(grille6, 4, 4, 8);
 grille6 = add_case(grille6, 1, 5, 8);
 
-regle6(&grille6);
+//reglePairesNus(&grille6);
 afficheGrille(grille6);
 
 structCellule cellule0 = grille6.cellules[2][0];
@@ -479,7 +480,7 @@ grille7 = add_case(grille7, 6, 4, 8);
 grille7 = add_case(grille7, 4, 6, 8);
 grille7 = add_case(grille7, 3, 8, 8);
 
-regle7(&grille7);
+//regleTripletsNus(&grille7);
 afficheGrille(grille7);
 
 structCellule cellule00 = grille7.cellules[1][0];
@@ -503,6 +504,65 @@ afficherNotesCellule(cellule06);
 afficherNotesCellule(cellule07);
 afficherNotesCellule(cellule08);
 //afficherNotesCellule(cellule09);
+*/
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////
+//grille teste regle 11
+
+structGrille grille11 = create_grille(); 
+grille11 = initGrille(grille11);
+printf("\n");
+printf("\n");
+printf("GRILLE 11 ");
+printf("\n");
+
+grille11 = add_case(grille11, 9, 2, 0);
+grille11 = add_case(grille11, 7, 4, 0);
+grille11 = add_case(grille11, 8, 1, 1);
+grille11 = add_case(grille11, 4, 3, 1);
+grille11 = add_case(grille11, 3, 2, 2);
+grille11 = add_case(grille11, 2, 7, 2);
+grille11 = add_case(grille11, 8, 8, 2);
+grille11 = add_case(grille11, 1, 0, 3);
+grille11 = add_case(grille11, 6, 6, 3);
+grille11 = add_case(grille11, 7, 7, 3);
+grille11 = add_case(grille11, 2, 1, 4);
+grille11 = add_case(grille11, 1, 4, 4);
+grille11 = add_case(grille11, 8, 5, 4);
+grille11 = add_case(grille11, 4, 7, 4);
+grille11 = add_case(grille11, 4, 1, 5);
+grille11 = add_case(grille11, 7, 5, 5);
+grille11 = add_case(grille11, 8, 6, 5);
+grille11 = add_case(grille11, 6, 0, 6);
+grille11 = add_case(grille11, 3, 4, 6);
+grille11 = add_case(grille11, 1, 1, 7);
+grille11 = add_case(grille11, 2, 6, 8);
+grille11 = add_case(grille11, 8, 7, 8);
+grille11 = add_case(grille11, 4, 8, 8);
+
+afficheGrille(grille11);
+reglePairesPointantes(&grille11);
+
+structCellule cellule000 = grille11.cellules[0][0];
+structCellule cellule001 = grille11.cellules[0][1]; 
+structCellule cellule002 = grille11.cellules[0][2]; 
+structCellule cellule003 = grille11.cellules[0][3]; 
+structCellule cellule004 = grille11.cellules[0][4];
+structCellule cellule005 = grille11.cellules[0][5]; 
+structCellule cellule006 = grille11.cellules[0][6];
+structCellule cellule007 = grille11.cellules[0][7]; 
+structCellule cellule008 = grille11.cellules[0][8];
+printf("\n");
+afficherNotesCellule(cellule000);
+afficherNotesCellule(cellule001);
+afficherNotesCellule(cellule002);
+afficherNotesCellule(cellule003);
+afficherNotesCellule(cellule004);
+afficherNotesCellule(cellule005);
+afficherNotesCellule(cellule006);
+afficherNotesCellule(cellule007);
+afficherNotesCellule(cellule008);
 
 //******************************************//
 //******************************************//
@@ -511,8 +571,11 @@ free_grille(&grille0);
 free_grille(&grille1);
 free_grille(&grille2);
 free_grille(&grille3);
+/*
 free_grille(&grille6);
 free_grille(&grille7);
+*/
+free_grille(&grille11);
 
 
 
