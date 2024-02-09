@@ -406,7 +406,7 @@ structGrille cachee(structGrille grille, int xmin, int ymin, int xmax, int ymax)
 }
 
 //parcours du carré + 2 notes(grille): (note1 x note2)
-int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+int *occurrenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax){
 
     int *tab = (int*)malloc(TAILLE * sizeof(int));
     for(int i=0; i<TAILLE; i++){
@@ -417,7 +417,7 @@ int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int y
         for (int y=ymin ; y<=ymax ; y++){
             for (int z=0; z<TAILLE; z++){
                 if (getNote(grille, x, y, z)==1){
-                    tab[z]++; //on augmente d'un pour calculer l'occurence de l'indice z
+                    tab[z]++; //on augmente d'un pour calculer l'occurrence de l'indice z
                 }
             }
     
@@ -521,7 +521,7 @@ structGrille k_uplet_cache(structGrille grille, int k){
 
     for (int i=0; i<TAILLE; i=i+CARRE){
         for (int j=0; j<TAILLE ; j=j+CARRE){
-            int *tab = occurenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
+            int *tab = occurrenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
             int *returntab = potentiel_k_uplet(tab, k);
             structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab);
             grille = supprK(grille, tabCell, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, k);
@@ -612,7 +612,7 @@ void afficherNotesCellule(structCellule cellule) {
 
 
 
-// teste si un paire est présente ou non dans les cases d'une zone
+// teste si une paire est présente ou non dans les cases d'une zone
 
 // renvoie un tableau avec un booleen : 0 si (a,b) n'est pas dans la case et 1 si (a,b) est dans la case
 //et les coordonnées des cases
@@ -669,26 +669,27 @@ structGrille supprAutresQuePaires(structGrille grille, int x, int y, int a, int 
     return grille;
 }
 
-
+//fonction principale de la règle paires cachées
 structGrille pairesCachees(structGrille grille){
     for(int x = 0; x <= (TAILLE - CARRE); x=x+CARRE){
         for(int y = 0; y <= (TAILLE - CARRE); y=y+CARRE){
             
-            int *occ = occurenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1));
+            int *occ = occurrenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1)); //on récupère l'occurrence par indice des notes d'une zone
 
-            for(int i = 1; i < TAILLE; i++){
-                if(occ[i-1] == 2){
+            for(int i = 1; i < TAILLE; i++){    
+                if(occ[i-1] == 2){              //pour une première valeur on vérifie que son occurrence est égale à deux
 
                     for(int j = i+1; j <= TAILLE; j++){
-                        if(occ[j-1] == 2){
+                        if(occ[j-1] == 2){      //pour une seconde valeur on vérifie que son occurrence est aussi égale à deux
                     
-                            int *testPaires = testPaireCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j);
-                            bool verif = is_a_k_uplet_cache(testPaires, 2);
+                            int *testPaires = testPaireCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j); //tableau de test pour savoir
+                                                                                                                  //si le couple appartient ou non à des cases
+                            bool verif = is_a_k_uplet_cache(testPaires, 2);    //on vérifie si le couple forme une paire cachée                                   
 
                             if(verif){
                                 for(int k = 0; k < TAILLE*3; k=k+3){
                                     if(testPaires[k] == 1){
-                                        supprAutresQuePaires(grille, testPaires[k+1], testPaires[k+2], i, j);
+                                        supprAutresQuePaires(grille, testPaires[k+1], testPaires[k+2], i, j); //on supprime les autres notes de la case
                                     }
                                 }
                             }
@@ -701,6 +702,11 @@ structGrille pairesCachees(structGrille grille){
     return grille;
 }
 
+
+// teste si un triplet est présent ou non dans les cases d'une zone
+
+// renvoie un tableau avec un booleen : 0 si (a,b,c) n'est pas dans la case et 1 si (a,b,c) est dans la case
+//et les coordonnées des cases
 int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b, int c){
     int *testTab = (int*)malloc((TAILLE*3) * sizeof(int));
     for(int i = 0; i < TAILLE*3; i++){
@@ -710,9 +716,12 @@ int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ym
 
     for(int x = xmin; x <= xmax; x++){
         for(int y = ymin; y <= ymax; y++){
-            if((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1) && (getNote(grille, x, y, c-1) == 1)){    
+
+            //condition qui couvre le cas ou les 3 valeurs sont toutes présentes dans 3 cases de la zone
+            if((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1) && (getNote(grille, x, y, c-1) == 1)){   
                 testTab[index] = 1;     //le booleen
             }
+            //condition qui couvre le cas ou les 3 valeurs sont présentes 2 à deux dans 3 cases de la zone
             else if(((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1))
                 || ((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, c-1) == 1)) 
                 || ((getNote(grille, x, y, b-1) == 1) && (getNote(grille, x, y, c-1) == 1))){
@@ -726,7 +735,7 @@ int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ym
     return testTab;
 }
 
-//supprime dans une case toutes les notes qui ne correspondent pas à la paire
+//supprime dans une case toutes les notes qui ne correspondent pas au triplet
 structGrille supprAutresQueTriplets(structGrille grille, int x, int y, int a, int b, int c){
     for(int i = 0; i < TAILLE; i++){
         if((i == a-1) || (i == b-1) || (i == c-1)){
@@ -739,21 +748,24 @@ structGrille supprAutresQueTriplets(structGrille grille, int x, int y, int a, in
     return grille;
 }
 
+//fonction principale de la règle paires cachées
+//elle effectue quasiment le même traitement que la fonction paires cachées, à la différence que l'on a 3 valeurs
 structGrille tripletsCaches(structGrille grille){
     for(int x = 0; x <= (TAILLE - CARRE); x=x+CARRE){
         for(int y = 0; y <= (TAILLE - CARRE); y=y+CARRE){
             
-            int *occ = occurenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1));
+            int *occ = occurrenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1));
 
             for(int i = 1; i < TAILLE-1; i++){
-                if((occ[i-1] == 2) || (occ[i-1] == 3)){
+                if((occ[i-1] == 2) || (occ[i-1] == 3)){ //on test l'occurrence de la première valeur qui doit apparaître une ou deux fois
 
                     for(int j = i+1; j < TAILLE; j++){
-                        if((occ[j-1] == 2) || occ[j-1] == 3){
+                        if(occ[j-1] == occ[i-1]){       //la deuxième valeur doit apparaître le même nombre de fois que la première
 
-                            for(int k = j+1; k <= TAILLE; k++  ){
-                                if((occ[k-1] == 2) || occ[k-1] == 3){
+                            for(int k = j+1; k <= TAILLE; k++){
+                                if(occ[k-1] == occ[i-1]){   //la troisième valeur doit apparaître le même nombre de fois que les deux autres
 
+                                    //le reste du traitement est le même que pour les paires cachées
                                     int *testTriplet = testTripleeCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j, k);
                                     bool verif = is_a_k_uplet_cache(testTriplet, 3);
 
