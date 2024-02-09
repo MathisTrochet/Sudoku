@@ -33,38 +33,6 @@ void setNote(structGrille *grille, int x, int y, int ind, int note){
     (*grille).cellules[x][y].note[ind] = note;
 }
 
-/*
-structGrille* create_grille() {
-    structGrille* grille = (structGrille*)malloc(sizeof(structGrille)); // Allocation dynamique de la structure grille
-    if (grille == NULL) {
-        // Gestion de l'erreur d'allocation
-        return NULL;
-    }
-    
-    grille->cellules = (structCellule**)malloc(TAILLE * sizeof(structCellule*)); // Allocation des colonnes
-    if (grille->cellules == NULL) {
-        // Gestion de l'erreur d'allocation
-        free(grille); // Libère la structure grille si l'allocation des colonnes échoue
-        return NULL;
-    }
-
-    for (int x = 0; x < TAILLE; x++) {
-        grille->cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule)); // Allocation des cellules
-        if (grille->cellules[x] == NULL) {
-            // Gestion de l'erreur d'allocation
-            // Ici, vous devriez également libérer la mémoire précédemment allouée pour grille et les colonnes allouées jusqu'à présent
-            return NULL;
-        }
-        
-        for (int y = 0; y < TAILLE; y++) {
-            setValeur(grille, x, y, 0); // Initialise valeurs à 0
-            setPosX(grille, x, y, x); // Initialise posX
-            setPosY(grille, x, y, y); // Initialise posY, corrigeant l'appel de fonction ici
-        }
-    }
-    return grille;
-}*/
-
 structGrille create_grille(){
     structGrille grille;
     grille.cellules = (structCellule **)malloc(TAILLE * sizeof(structCellule *)); // alloue l'espace nécessaire pour chaque colonne
@@ -403,6 +371,12 @@ structGrille calculerNotes(structGrille grille){
 //******************************************//
 //******************************************//
 //******************************************//
+//Regle paire nu decomposé en 5 fonctions : ---> FONCTIONNE
+//-afficheNotesCellule  -> permet d'afficher dans le main les notes pour voir les changements
+//-SontDeuxPaires -> verifie que deux cellules sont paires 
+//-eliminerCandidats -> elimine les candidates qui ne sont pas nécéssaire
+//-upgrade -> met a jour les nontes dans les cellules
+//-reglePairesNus -> appel les fonctions précédentes pour la règle PaireNu
 
 void afficherNotesCellule(structCellule cellule) {
     printf("Notes de la cellule :\n");
@@ -537,6 +511,11 @@ structGrille reglePairesNus(structGrille *grille) {
 //******************************************//
 //******************************************//
 //******************************************//
+//Regle triplet nu decomposé en 4 fonctions : ---> FONCTIONNE
+//-SontTroisPaires -> verifie que trois cellules sont paires 
+//-eliminerTripletsNus -> elimine les candidates qui ne sont pas nécéssaire
+//-upgrade -> met a jour les nontes dans les cellules
+//-regleTripletsNus -> appel les fonctions précédentes pour la règle TripletNus
 
 bool sontTroisPaires(structCellule cell1, structCellule cell2, structCellule cell3) {
     int countShared = 0;
@@ -643,6 +622,10 @@ structGrille regleTripletsNus(structGrille *grille) {
 //******************************************//
 //******************************************//
 //******************************************//
+//Regle paire pointantes decomposé en 4 fonctions : ---> NE FONCTIONNE PAS
+//-estPairePointanteDansBloc -> verifie que deux cellules sont paires pointantes dans un bloc
+//-eliminerCandidatSiPairesPointante -> elimine les candidates qui ne sont pas nécéssaire
+//-reglePairesPointantes -> appel les fonctions précédentes pour la règle PairePointante
 
 void eliminerCandidatSiPairePointante(structGrille* grille, int blocStartX, int blocStartY, int x, int ligneOuColonne, bool estLigne) {
     int nBloc = sqrt(TAILLE);
