@@ -636,8 +636,8 @@ int *testPaireCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax
     return testTab;
 }
 
-// vérifie à partir du tableau testPaireCachee si un couple est une paire cachée
-bool estUnePaireCachee(int *testTab){
+// vérifie à partir du tableau de test si un k_uplet est un k_uplet caché
+bool is_a_k_uplet_cache(int *testTab, int k){
     int count = 0;
     int index = 0;
 
@@ -648,7 +648,7 @@ bool estUnePaireCachee(int *testTab){
         index = index + 3;
     }
 
-    if(count == 2){
+    if(count == k){
         return true;
     }
     else{
@@ -683,7 +683,7 @@ structGrille pairesCachees(structGrille grille){
                         if(occ[j-1] == 2){
                     
                             int *testPaires = testPaireCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j);
-                            bool verif = estUnePaireCachee(testPaires);
+                            bool verif = is_a_k_uplet_cache(testPaires, 2);
 
                             if(verif){
                                 for(int k = 0; k < TAILLE*3; k=k+3){
@@ -699,4 +699,29 @@ structGrille pairesCachees(structGrille grille){
         }
     }
     return grille;
+}
+
+int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b, int c){
+    int *testTab = (int*)malloc((TAILLE*3) * sizeof(int));
+    for(int i = 0; i < TAILLE*3; i++){
+        testTab[i] = 0;
+    }
+    int index = 0;
+
+    for(int x = xmin; x <= xmax; x++){
+        for(int y = ymin; y <= ymax; y++){
+            if((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1) && (getNote(grille, x, y, c-1) == 1)){    
+                testTab[index] = 1;     //le booleen
+            }
+            else if(((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, b-1) == 1))
+                || ((getNote(grille, x, y, a-1) == 1) && (getNote(grille, x, y, c-1) == 1)) 
+                || ((getNote(grille, x, y, b-1) == 1) && (getNote(grille, x, y, c-1) == 1))){
+                testTab[index] = 1;     //le booleen
+            }
+            testTab[index+1] = x;       //première coordonnée de la case
+            testTab[index+2] = y;       //deuxième coordonnée de la case
+            index = index + 3;
+        }
+    }
+    return testTab;
 }

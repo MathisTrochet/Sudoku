@@ -425,8 +425,6 @@ grille5 = add_case(grille5, 8, 3, 8);
 grille5 = add_case(grille5, 7, 4, 8);
 
 
-
-
 afficheGrille(grille5);
 /*
 int *tab_2;
@@ -462,12 +460,13 @@ printf(" || ");
 //grille5 = k_uplet_caché(grille5, 2);
 */
 
+//test paires cachées
 afficherNotesCellule(grille5.cellules[0][4]);
 printf(" - ");
 afficherNotesCellule(grille5.cellules[0][5]);
 
-
 pairesCachees(grille5);
+
 afficherNotesCellule(grille5.cellules[0][4]);
 printf(" - ");
 afficherNotesCellule(grille5.cellules[0][5]);
@@ -476,6 +475,49 @@ afficherNotesCellule(grille5.cellules[4][4]);
 printf(" - ");
 afficherNotesCellule(grille5.cellules[5][4]);
 
+
+/*
+structGrille grille6 = create_grille();
+grille6 = initGrille(grille6);
+
+add_case(grille6, 8, 2, 0);
+add_case(grille6, 7, 5, 0);
+add_case(grille6, 4, 1, 1);
+add_case(grille6, 2, 2, 1);
+add_case(grille6, 5, 5, 1);
+add_case(grille6, 3, 2, 3);
+add_case(grille6, 6, 5, 3);
+add_case(grille6, 8, 6, 3);
+add_case(grille6, 1, 8, 3);
+add_case(grille6, 6, 8, 4);
+add_case(grille6, 9, 0, 5);
+add_case(grille6, 8, 1, 6);
+add_case(grille6, 1, 3, 6);
+add_case(grille6, 3, 4, 6);
+add_case(grille6, 4, 6, 6);
+add_case(grille6, 7, 7, 6);
+add_case(grille6, 9, 4, 7);
+add_case(grille6, 1, 1, 8);
+
+afficheGrille(grille6);
+
+printf("\n - ");
+afficherNotesCellule(grille6.cellules[3][7]);
+printf(" - ");
+afficherNotesCellule(grille6.cellules[3][8]);
+printf(" - ");
+afficherNotesCellule(grille6.cellules[4][8]);
+
+int *test_triplet = testTripleeCachee(grille6, 3, 6, 5, 8, 5, 6, 7);
+printf("||");
+for(int i = 0; i <TAILLE*3; i++){
+    printf("%3d", test_triplet[i]);
+}
+printf(" ||");
+
+bool triplet = is_a_k_uplet_cache(test_triplet, 3);
+printf("\n%d", triplet);
+*/
 
 
 /*
