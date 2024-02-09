@@ -58,11 +58,11 @@ typedef struct{
     structGrille k_uplet_cache(structGrille grille, int k);
 
     int *testPaireCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b);
-    bool estUnePaireCachee(int *testTab);
     structGrille supprAutresQuePaires(structGrille grille, int x, int y, int a, int b);
     structGrille pairesCachees(structGrille grille);
 
     int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b, int c);
     bool is_a_k_uplet_cache(int *testTab, int k);
+    structGrille tripletsCaches(structGrille grille);
 
     #endif // SUDOKU_H_INCLUDED

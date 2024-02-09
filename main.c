@@ -424,7 +424,7 @@ grille5 = add_case(grille5, 5, 2, 8);
 grille5 = add_case(grille5, 8, 3, 8);
 grille5 = add_case(grille5, 7, 4, 8);
 
-
+printf("\n\nGrille d'exemple paire cachee\n");
 afficheGrille(grille5);
 /*
 int *tab_2;
@@ -461,6 +461,7 @@ printf(" || ");
 */
 
 //test paires cachées
+
 afficherNotesCellule(grille5.cellules[0][4]);
 printf(" - ");
 afficherNotesCellule(grille5.cellules[0][5]);
@@ -476,7 +477,7 @@ printf(" - ");
 afficherNotesCellule(grille5.cellules[5][4]);
 
 
-/*
+
 structGrille grille6 = create_grille();
 grille6 = initGrille(grille6);
 
@@ -499,8 +500,10 @@ add_case(grille6, 7, 7, 6);
 add_case(grille6, 9, 4, 7);
 add_case(grille6, 1, 1, 8);
 
+printf("\nGrille d'exemple triplet cache\n");
 afficheGrille(grille6);
 
+//test triplet caché
 printf("\n - ");
 afficherNotesCellule(grille6.cellules[3][7]);
 printf(" - ");
@@ -508,16 +511,14 @@ afficherNotesCellule(grille6.cellules[3][8]);
 printf(" - ");
 afficherNotesCellule(grille6.cellules[4][8]);
 
-int *test_triplet = testTripleeCachee(grille6, 3, 6, 5, 8, 5, 6, 7);
-printf("||");
-for(int i = 0; i <TAILLE*3; i++){
-    printf("%3d", test_triplet[i]);
-}
-printf(" ||");
+tripletsCaches(grille6);
 
-bool triplet = is_a_k_uplet_cache(test_triplet, 3);
-printf("\n%d", triplet);
-*/
+printf("\n - ");
+afficherNotesCellule(grille6.cellules[3][7]);
+printf(" - ");
+afficherNotesCellule(grille6.cellules[3][8]);
+printf(" - ");
+afficherNotesCellule(grille6.cellules[4][8]);
 
 
 /*
@@ -527,9 +528,6 @@ free_grille(&grille2);
 free_grille(&grille3);
 */
 //free_grille(&grille4);
-
-
-
 
 
 return EXIT_SUCCESS;

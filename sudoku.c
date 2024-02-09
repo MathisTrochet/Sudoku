@@ -725,3 +725,54 @@ int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ym
     }
     return testTab;
 }
+
+//supprime dans une case toutes les notes qui ne correspondent pas à la paire
+structGrille supprAutresQueTriplets(structGrille grille, int x, int y, int a, int b, int c){
+    for(int i = 0; i < TAILLE; i++){
+        if((i == a-1) || (i == b-1) || (i == c-1)){
+            setNote(&grille, x, y, i, 1);
+        }
+        else{
+            setNote(&grille, x, y, i, 0);
+        }
+    }
+    return grille;
+}
+
+structGrille tripletsCaches(structGrille grille){
+    for(int x = 0; x <= (TAILLE - CARRE); x=x+CARRE){
+        for(int y = 0; y <= (TAILLE - CARRE); y=y+CARRE){
+            
+            int *occ = occurenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1));
+
+            for(int i = 1; i < TAILLE-1; i++){
+                if((occ[i-1] == 2) || (occ[i-1] == 3)){
+
+                    for(int j = i+1; j < TAILLE; j++){
+                        if((occ[j-1] == 2) || occ[j-1] == 3){
+
+                            for(int k = j+1; k <= TAILLE; k++  ){
+                                if((occ[k-1] == 2) || occ[k-1] == 3){
+
+                                    int *testTriplet = testTripleeCachee(grille, x, y, (x + CARRE -1), (y + CARRE-1), i, j, k);
+                                    bool verif = is_a_k_uplet_cache(testTriplet, 3);
+
+                                    if(verif){
+                                        for(int ind = 0; ind < TAILLE*3; ind=ind+3){
+                                            if(testTriplet[ind] == 1){
+                                                supprAutresQueTriplets(grille, testTriplet[ind+1], testTriplet[ind+2], i, j, k);
+                                            }
+                                        }
+                                    }
+
+                                }
+                            }
+                    
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return grille;
+}
