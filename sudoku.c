@@ -622,6 +622,28 @@ structGrille regleTripletsNus(structGrille *grille) {
 
 // paire cachées et triplets cachées
 
+//parcours du carré + 2 notes(grille): (note1 x note2)
+int *occurrenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax){
+
+    int *tab = (int*)malloc(TAILLE * sizeof(int));
+    for(int i=0; i<TAILLE; i++){
+        tab[i]=0;
+    }
+
+    for (int x = xmin ; x<=xmax ; x++){
+        for (int y=ymin ; y<=ymax ; y++){
+            for (int z=0; z<TAILLE; z++){
+                if (getNote(grille, x, y, z)==1){
+                    tab[z]++; //on augmente d'un pour calculer l'occurrence de l'indice z
+                }
+            }
+    
+        }
+    }
+    
+    return tab;
+    
+}
 
 // teste si une paire est présente ou non dans les cases d'une zone
 
@@ -646,6 +668,8 @@ int *testPaireCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax
     }
     return testTab;
 }
+
+
 
 // vérifie à partir du tableau de test si un k_uplet est un k_uplet caché
 bool is_a_k_uplet_cache(int *testTab, int k){
@@ -798,4 +822,93 @@ structGrille tripletsCaches(structGrille grille){
         }
     }
     return grille;
+}
+
+//******************************************//
+//******************************************//
+//******************************************//
+//Regle paire pointantes decomposé en 4 fonctions : ---> NE FONCTIONNE PAS
+//-estPairePointanteDansBloc -> verifie que deux cellules sont paires pointantes dans un bloc
+//-eliminerCandidatSiPairesPointante -> elimine les candidates qui ne sont pas nécéssaire
+//-reglePairesPointantes -> appel les fonctions précédentes pour la règle PairePointante
+
+void eliminerCandidatSiPairePointante(structGrille* grille, int blocStartX, int blocStartY, int x, int ligneOuColonne, bool estLigne) {
+    int nBloc = sqrt(TAILLE);
+    for (int i = 0; i < TAILLE; i++) {
+        if (estLigne) {
+            // Si c'est la même ligne, éliminez le candidat de toute la ligne sauf du bloc.
+            if (i >= blocStartY && i < blocStartY + nBloc) continue; // Ignorez les cellules dans le bloc.
+            grille->cellules[ligneOuColonne][i].note[x] = 0;
+        } else {
+            // Si c'est la même colonne, éliminez le candidat de toute la colonne sauf du bloc.
+            if (i >= blocStartX && i < blocStartX + nBloc) continue; // Ignorez les cellules dans le bloc.
+            grille->cellules[i][ligneOuColonne].note[x] = 0;
+        }
+    }
+}
+
+bool estPairePointanteDansBloc(structGrille* grille, int blocStartX, int blocStartY, int* posX1, int* posY1, int* posX2, int* posY2, int candidat) {
+    int nBloc = sqrt(TAILLE);
+    bool trouve = false;
+    int premiereCelluleX = -1, premiereCelluleY = -1;
+
+    // Parcourir chaque cellule du bloc pour trouver la première cellule contenant le candidat
+    for (int i = 0; i < nBloc && !trouve; i++) {
+        for (int j = 0; j < nBloc && !trouve; j++) {
+            if (grille->cellules[blocStartX + i][blocStartY + j].note[candidat] > 0) {
+                premiereCelluleX = blocStartX + i;
+                premiereCelluleY = blocStartY + j;
+                trouve = true;
+            }
+        }
+    }
+
+    if (!trouve) return false; // Si le candidat n'est pas trouvé dans le bloc
+
+    trouve = false;
+    // Parcourir à nouveau pour trouver une deuxième cellule sur la même ligne ou colonne
+    for (int i = 0; i < nBloc && !trouve; i++) {
+        for (int j = 0; j < nBloc && !trouve; j++) {
+            int currentX = blocStartX + i;
+            int currentY = blocStartY + j;
+            // Vérifier si c'est une paire pointante (même ligne ou colonne, candidats identiques)
+            if ((currentX == premiereCelluleX || currentY == premiereCelluleY) &&
+                grille->cellules[currentX][currentY].note[candidat] > 0 &&
+                (currentX != premiereCelluleX || currentY != premiereCelluleY)) {
+                trouve = true;
+                *posX1 = premiereCelluleX;
+                *posY1 = premiereCelluleY;
+                *posX2 = currentX;
+                *posY2 = currentY;
+            }
+        }
+    }
+
+    return trouve;
+}
+
+void reglePairesPointantes(structGrille* grille) {
+    int nBloc = sqrt(TAILLE); // Pour une grille 9x9, des blocs 3x3
+
+    for (int bloc = 0; bloc < TAILLE; bloc++) {
+        int blocStartX = (bloc / nBloc) * nBloc;
+        int blocStartY = (bloc % nBloc) * nBloc;
+
+        // Pour chaque candidat x
+        for (int x = 0; x < TAILLE; x++) {
+            int posX1, posY1, posX2, posY2;
+
+            // Vérifie si une paire pointante est présente pour le candidat x dans le bloc courant
+            if (estPairePointanteDansBloc(grille, blocStartX, blocStartY, &posX1, &posY1, &posX2, &posY2, x)) {
+                // Si une paire pointante est trouvée, déterminer si elle est alignée sur une ligne ou une colonne
+                if (posY1 == posY2) { // La paire est alignée sur la même ligne
+                    // Éliminer le candidat x des autres cellules de cette ligne en dehors du bloc
+                    eliminerCandidatSiPairePointante(grille, blocStartX, blocStartY, x, posY1, true);
+                } else if (posX1 == posX2) { // La paire est alignée sur la même colonne
+                    // Éliminer le candidat x des autres cellules de cette colonne en dehors du bloc
+                    eliminerCandidatSiPairePointante(grille, blocStartX, blocStartY, x, posX1, false);
+                }
+            }
+        }
+    }
 }

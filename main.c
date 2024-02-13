@@ -10,7 +10,7 @@ int main()
 {
 
     srand( time( NULL ) );
-
+/*
     structGrille grille0 = create_grille();
     grille0 = initGrille(grille0);
 
@@ -342,10 +342,45 @@ for (int i=0; i<TAILLE; i++){
     printf("%d", getNote(grille4, 0, 7, i));
 }
 printf("|");
+*/
 
 //******************************************//
 //******************************************//
-/*
+
+structGrille grille5 = create_grille();
+grille5 = initGrille(grille5);
+
+grille5 = add_case(grille5, 9, 2, 0);
+grille5 = add_case(grille5, 3, 4, 0);
+grille5 = add_case(grille5, 2, 5, 0);
+grille5 = add_case(grille5, 7, 3, 1);
+grille5 = add_case(grille5, 1, 0, 2);
+grille5 = add_case(grille5, 6, 1, 2);
+grille5 = add_case(grille5, 2, 2, 2);
+grille5 = add_case(grille5, 1, 1, 3);
+grille5 = add_case(grille5, 2, 4, 3);
+grille5 = add_case(grille5, 5, 6, 3);
+grille5 = add_case(grille5, 6, 7, 3);
+grille5 = add_case(grille5, 9, 3, 4);
+grille5 = add_case(grille5, 5, 1, 5);
+
+grille5 = add_case(grille5, 1, 6, 5);
+grille5 = add_case(grille5, 7, 8, 5);
+grille5 = add_case(grille5, 4, 6, 6);
+grille5 = add_case(grille5, 3, 8, 6);
+grille5 = add_case(grille5, 2, 1, 7);
+
+
+grille5 = add_case(grille5, 6, 2, 7);
+grille5 = add_case(grille5, 9, 5, 7);
+grille5 = add_case(grille5, 5, 2, 8);
+grille5 = add_case(grille5, 8, 3, 8);
+grille5 = add_case(grille5, 7, 4, 8);
+
+printf("\n\n----Grille d'exemple paire cachee----\n");
+afficheGrille(grille5);
+
+
 //grille teste regle 6
 structGrille grille6 = create_grille(); 
 grille6 = initGrille(grille6);
@@ -398,7 +433,7 @@ grille6 = add_case(grille6, 7, 3, 8);
 grille6 = add_case(grille6, 4, 4, 8);
 grille6 = add_case(grille6, 1, 5, 8);
 
-//reglePairesNus(&grille6);
+reglePairesNus(&grille6);
 afficheGrille(grille6);
 
 structCellule cellule0 = grille6.cellules[2][0];
@@ -410,7 +445,7 @@ structCellule cellule5 = grille6.cellules[2][5];
 structCellule cellule6 = grille6.cellules[2][6];
 structCellule cellule7 = grille6.cellules[2][7]; 
 structCellule cellule8 = grille6.cellules[2][8];
-//structCellule cellule9 = grille6.cellules[2][9];
+
 printf("\n");
 afficherNotesCellule(cellule0);
 afficherNotesCellule(cellule1);
@@ -426,11 +461,11 @@ afficherNotesCellule(cellule8);
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
-//grille teste regle 7
+
+printf("\n----grille teste regle 7 - Triplets Nus----\n"); 
 structGrille grille7 = create_grille(); 
 grille7 = initGrille(grille7);
-printf("\n");
-printf("\n");
+printf("\n\n");
 printf("GRILLE 7 ");
 printf("\n");
 
@@ -480,7 +515,7 @@ grille7 = add_case(grille7, 6, 4, 8);
 grille7 = add_case(grille7, 4, 6, 8);
 grille7 = add_case(grille7, 3, 8, 8);
 
-//regleTripletsNus(&grille7);
+regleTripletsNus(&grille7);
 afficheGrille(grille7);
 
 structCellule cellule00 = grille7.cellules[1][0];
@@ -504,11 +539,14 @@ afficherNotesCellule(cellule06);
 afficherNotesCellule(cellule07);
 afficherNotesCellule(cellule08);
 //afficherNotesCellule(cellule09);
-*/
+
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////
 //grille teste regle 11
+
+printf("\n----grille teste regle 11 - paire pointante----\n"); 
+
 
 structGrille grille11 = create_grille(); 
 grille11 = initGrille(grille11);
@@ -564,18 +602,84 @@ afficherNotesCellule(cellule006);
 afficherNotesCellule(cellule007);
 afficherNotesCellule(cellule008);
 
+
+// Test de paire et triplets cachés
+printf("\n----grille teste regle 7 - Triplets Nus----\n"); 
+
+
+afficherNotesCellule(grille5.cellules[0][4]);
+printf(" - ");
+afficherNotesCellule(grille5.cellules[0][5]);
+
+pairesCachees(grille5);
+
+afficherNotesCellule(grille5.cellules[0][4]);
+printf(" - ");
+afficherNotesCellule(grille5.cellules[0][5]);
+
+afficherNotesCellule(grille5.cellules[4][4]);
+printf(" - ");
+afficherNotesCellule(grille5.cellules[5][4]);
+
+
+
+structGrille grille8 = create_grille();
+grille8 = initGrille(grille8);
+
+add_case(grille8, 8, 2, 0);
+add_case(grille8, 7, 5, 0);
+add_case(grille8, 4, 1, 1);
+add_case(grille8, 2, 2, 1);
+add_case(grille8, 5, 5, 1);
+add_case(grille8, 3, 2, 3);
+add_case(grille8, 6, 5, 3);
+add_case(grille8, 8, 6, 3);
+add_case(grille8, 1, 8, 3);
+add_case(grille8, 6, 8, 4);
+add_case(grille8, 9, 0, 5);
+add_case(grille8, 8, 1, 6);
+add_case(grille8, 1, 3, 6);
+add_case(grille8, 3, 4, 6);
+add_case(grille8, 4, 6, 6);
+add_case(grille8, 7, 7, 6);
+add_case(grille8, 9, 4, 7);
+add_case(grille8, 1, 1, 8);
+
+printf("\nGrille d'exemple triplet cache\n");
+afficheGrille(grille8);
+
+//test triplet caché
+printf("\n - ");
+afficherNotesCellule(grille8.cellules[3][7]);
+printf(" - ");
+afficherNotesCellule(grille8.cellules[3][8]);
+printf(" - ");
+afficherNotesCellule(grille8.cellules[4][8]);
+
+tripletsCaches(grille8);
+
+printf("\n - ");
+afficherNotesCellule(grille8.cellules[3][7]);
+printf(" - ");
+afficherNotesCellule(grille8.cellules[3][8]);
+printf(" - ");
+afficherNotesCellule(grille8.cellules[4][8]);
+
 //******************************************//
 //******************************************//
 
-free_grille(&grille0);
-free_grille(&grille1);
-free_grille(&grille2);
-free_grille(&grille3);
+//free_grille(&grille0);
+//free_grille(&grille1);
+//free_grille(&grille2);
+//free_grille(&grille3);
 /*
 free_grille(&grille6);
 free_grille(&grille7);
 */
 free_grille(&grille11);
+free_grille(&grille6);
+free_grille(&grille7);
+free_grille(&grille8);
 
 
 

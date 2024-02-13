@@ -47,6 +47,7 @@ typedef struct{
     structGrille regle2(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     structGrille calculerNotes(structGrille grille);
 
+
     bool sontDeuxPaires(structCellule cell1, structCellule cell2);
     void eliminerCandidats(structGrille* grille);
     void updateGrid(structGrille *grille);
@@ -60,6 +61,14 @@ typedef struct{
     void eliminerCandidatSiPairePointante(structGrille* grille, int blocStartX, int blocStartY, int x, int ligneOuColonne, bool estLigne);
     bool estPairePointanteDansBloc(structGrille* grille, int blocStartX, int blocStartY, int* posX1, int* posY1, int* posX2, int* posY2, int candidat);
     void reglePairesPointantes(structGrille* grille);
+
+    int *occurrenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    structGrille pairesCachees(structGrille grille);
+    structGrille supprAutresQueTriplets(structGrille grille, int x, int y, int a, int b, int c);
+    int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b, int c);
+    structGrille tripletsCaches(structGrille grille);
+    
+
 
   
 

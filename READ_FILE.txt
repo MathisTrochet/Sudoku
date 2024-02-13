@@ -1,3 +1,0 @@
-Heures a partir du debut d'utilisation GIT
-
-Mathis +2h pour les fonctions zoneActuNotes et actuNotesZoneApresAjout
