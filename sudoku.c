@@ -33,22 +33,19 @@ void setNote(structGrille *grille, int x, int y, int ind, int note){
     (*grille).cellules[x][y].note[ind] = note;
 }
 
-
-
 structGrille create_grille(){
     structGrille grille;
     grille.cellules = (structCellule **)malloc(TAILLE * sizeof(structCellule *)); // alloue l'espace nécessaire pour chaque colonne
 
-for (int x=0; x<TAILLE; x++){
-    grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));  // alloue l'espace nécessaire pour chaque cellule de chaque colonne 
-    for (int y=0; y< TAILLE; y++){
-        setValeur(&grille, x, y, 0); //initialise valeurs à 0
-        setPosX(&grille, x, y, x); // initialise posX à i
-        setPosX(&grille, x, y, y); // initialise posY à j
+    for (int x=0; x<TAILLE; x++){
+        grille.cellules[x] = (structCellule*)malloc(TAILLE * sizeof(structCellule));  // alloue l'espace nécessaire pour chaque cellule de chaque colonne 
+        for (int y=0; y< TAILLE; y++){
+            setValeur(&grille, x, y, 0); //initialise valeurs à 0
+            setPosX(&grille, x, y, x); // initialise posX à i
+            setPosX(&grille, x, y, y); // initialise posY à j
+        }
     }
-}
-return grille;
-
+    return grille;
 }
 
 structGrille add_case(structGrille grille, int val, int posX, int posY){
@@ -374,6 +371,12 @@ structGrille calculerNotes(structGrille grille){
 //******************************************//
 //******************************************//
 //******************************************//
+//Regle paire nu decomposé en 5 fonctions : ---> FONCTIONNE
+//-afficheNotesCellule  -> permet d'afficher dans le main les notes pour voir les changements
+//-SontDeuxPaires -> verifie que deux cellules sont paires 
+//-eliminerCandidats -> elimine les candidates qui ne sont pas nécéssaire
+//-upgrade -> met a jour les nontes dans les cellules
+//-reglePairesNus -> appel les fonctions précédentes pour la règle PaireNu
 
 void afficherNotesCellule(structCellule cellule) {
     printf("Notes de la cellule :\n");
@@ -497,7 +500,7 @@ void updateGrid(structGrille *grille) {
     }
 }
 
-structGrille regle6(structGrille *grille) {
+structGrille reglePairesNus(structGrille *grille) {
     // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
     eliminerCandidats(grille);
 
@@ -508,6 +511,11 @@ structGrille regle6(structGrille *grille) {
 //******************************************//
 //******************************************//
 //******************************************//
+//Regle triplet nu decomposé en 4 fonctions : ---> FONCTIONNE
+//-SontTroisPaires -> verifie que trois cellules sont paires 
+//-eliminerTripletsNus -> elimine les candidates qui ne sont pas nécéssaire
+//-upgrade -> met a jour les nontes dans les cellules
+//-regleTripletsNus -> appel les fonctions précédentes pour la règle TripletNus
 
 bool sontTroisPaires(structCellule cell1, structCellule cell2, structCellule cell3) {
     int countShared = 0;
@@ -603,7 +611,7 @@ void eliminerTripletNus(structGrille *grille) {
         }
     }
 }
-structGrille regle7(structGrille *grille) {
+structGrille regleTripletsNus(structGrille *grille) {
     // Appeler la fonction pour éliminer les possibilités basées sur les paires nues
     eliminerTripletNus(grille);
 
