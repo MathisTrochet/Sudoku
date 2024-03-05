@@ -47,7 +47,7 @@ typedef struct{
     structGrille regle1(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     structGrille regle2et8(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     structGrille calculerRegle2et8(structGrille grille);
-    int *occurenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
+    int *occurrenceParIndice(structGrille grille, int xmin, int ymin, int xmax, int ymax);
     int * potentiel_k_uplet(int *tab, int k);
     int *calculCoordonateTab(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
     structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab);
@@ -64,5 +64,11 @@ typedef struct{
     int *testTripleeCachee(structGrille grille, int xmin, int ymin, int xmax, int ymax, int a, int b, int c);
     bool is_a_k_uplet_cache(int *testTab, int k);
     structGrille tripletsCaches(structGrille grille);
+
+    int *coordPotentielsPointants(structGrille grille, int xmin, int ymin, int xmax, int ymax, int note, int k);
+    bool verifLignePointants(int *tabVal, int k);
+    bool verifColonnePointants(int *tabVal, int k);
+    structGrille supprAutresInstancesPointants(structGrille grille, int *tabVal, int k);
+    structGrille pairesEtTripletsPointants(structGrille grille);
 
     #endif // SUDOKU_H_INCLUDED

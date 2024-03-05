@@ -163,7 +163,7 @@ grille1 = add_case(grille1, 4, 7, 8);
 grille1 = add_case(grille1, 9, 8, 8);
 
 int *tab;
-tab = occurenceParIndice(grille1, 0, 0, 2, 2);
+tab = occurrenceParIndice(grille1, 0, 0, 2, 2);
 
 printf(" ||| ");
 for(int i=0; i<TAILLE; i++){
@@ -234,7 +234,7 @@ grille2 = add_case(grille2, 1, 7, 8);
 
 
 int *tab;
-tab = occurenceParIndice(grille2, 0, 6, 2, 8);
+tab = occurrenceParIndice(grille2, 0, 6, 2, 8);
 printf(" ||| ");
 for(int i=0; i<TAILLE; i++){
     printf("%d", tab[i]);
@@ -428,7 +428,7 @@ printf("\n\nGrille d'exemple paire cachee\n");
 afficheGrille(grille5);
 /*
 int *tab_2;
-tab_2 = occurenceParIndice(grille5, 0, 3, 2, 5);
+tab_2 = occurrenceParIndice(grille5, 0, 3, 2, 5);
 
 printf(" ||| ");
 for(int i=0; i<TAILLE; i++){
@@ -520,6 +520,122 @@ afficherNotesCellule(grille6.cellules[3][8]);
 printf(" - ");
 afficherNotesCellule(grille6.cellules[4][8]);
 
+
+/********************************************************************************/
+
+//TEST PAIRES ET TRIPLETS POINTANTS
+
+structGrille grille7 = create_grille();
+grille7 = initGrille(grille7);
+
+add_case(grille7, 9, 2, 0);
+add_case(grille7, 7, 4, 0);
+add_case(grille7, 8, 1, 1);
+add_case(grille7, 4, 3, 1);
+add_case(grille7, 3, 2, 2);
+add_case(grille7, 2, 7, 2);
+add_case(grille7, 8, 8, 2);
+add_case(grille7, 1, 0, 3);
+add_case(grille7, 6, 6, 3);
+add_case(grille7, 7, 7, 3);
+add_case(grille7, 2, 1, 4);
+add_case(grille7, 1, 4, 4);
+add_case(grille7, 3, 5, 4);
+add_case(grille7, 4, 7, 4);
+add_case(grille7, 4, 1, 5);
+add_case(grille7, 7, 5, 5);
+add_case(grille7, 8, 6, 5);
+add_case(grille7, 6, 0, 6);
+add_case(grille7, 3, 4, 6);
+add_case(grille7, 1, 1, 7);
+add_case(grille7, 2, 6, 8);
+add_case(grille7, 8, 7, 8);
+add_case(grille7, 4, 8, 8);
+
+printf("\nGrille d'exemple pointants\n");
+afficheGrille(grille7);
+
+int *coordPaires = coordPotentielsPointants(grille7, 0, 0, 2, 2, 4, 2);
+
+printf("\n");
+for(int i = 0; i < 5; i++){
+    printf("%3d", coordPaires[i]);
+}
+printf("\n");
+
+int *coordTriplets = coordPotentielsPointants(grille7, 6, 6, 8, 8, 1, 3);
+
+printf("\n");
+for(int i = 0; i < 7; i++){
+    printf("%3d", coordTriplets[i]);
+}
+printf("\n");
+
+/*
+bool verifPaires = verifLignePointants(coordPaires, 2);
+printf("\n verif ligne paire : %d", verifPaires);
+
+bool verifTriplets = verifLignePointants(coordTriplets, 3);
+printf("\n verif ligne triplets : %d", verifTriplets);
+
+bool verifCPaires = verifColonnePointants(coordPaires, 2);
+printf("\n verif colonne paire : %d", verifCPaires);
+
+bool verifCTriplets = verifColonnePointants(coordTriplets, 3);
+printf("\n verif colonne triplets : %d", verifCTriplets);
+*/
+/*
+afficherNotesCellule(grille7.cellules[0][0]);
+afficherNotesCellule(grille7.cellules[0][2]);
+afficherNotesCellule(grille7.cellules[0][7]);
+grille7 = supprAutresInstancesPointants(grille7, coordPaires, 2);
+printf("\n");
+afficherNotesCellule(grille7.cellules[0][0]);
+afficherNotesCellule(grille7.cellules[0][2]);
+afficherNotesCellule(grille7.cellules[0][7]);
+printf("\n");
+
+
+afficherNotesCellule(grille7.cellules[6][6]);
+afficherNotesCellule(grille7.cellules[7][6]);
+afficherNotesCellule(grille7.cellules[8][6]);
+afficherNotesCellule(grille7.cellules[3][6]);
+afficherNotesCellule(grille7.cellules[5][6]);
+grille7 = supprAutresInstancesPointants(grille7, coordTriplets, 3);
+printf("\n");
+afficherNotesCellule(grille7.cellules[6][6]);
+afficherNotesCellule(grille7.cellules[7][6]);
+afficherNotesCellule(grille7.cellules[8][6]);
+afficherNotesCellule(grille7.cellules[3][6]);
+afficherNotesCellule(grille7.cellules[5][6]);
+*/
+int * occu = occurrenceParIndice(grille7, 0, 0, 2, 2);
+for(int i = 0; i < TAILLE; i++){
+    printf("|%d|", occu[i]);
+}
+afficherNotesCellule(grille7.cellules[0][0]);
+afficherNotesCellule(grille7.cellules[0][2]);
+afficherNotesCellule(grille7.cellules[0][7]);
+printf("\n");
+afficherNotesCellule(grille7.cellules[6][6]);
+afficherNotesCellule(grille7.cellules[7][6]);
+afficherNotesCellule(grille7.cellules[8][6]);
+afficherNotesCellule(grille7.cellules[3][6]);
+afficherNotesCellule(grille7.cellules[5][6]);
+printf("\n");
+grille7 = pairesEtTripletsPointants(grille7);
+afficherNotesCellule(grille7.cellules[0][0]);
+afficherNotesCellule(grille7.cellules[0][2]);
+afficherNotesCellule(grille7.cellules[0][7]);
+printf("\n");
+afficherNotesCellule(grille7.cellules[6][6]);
+afficherNotesCellule(grille7.cellules[7][6]);
+afficherNotesCellule(grille7.cellules[8][6]);
+afficherNotesCellule(grille7.cellules[3][6]);
+afficherNotesCellule(grille7.cellules[5][6]);
+printf("\n");
+
+afficheGrille(grille7);
 
 /*
 free_grille(&grille0);

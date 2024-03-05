@@ -442,164 +442,6 @@ int * potentiel_k_uplet(int *tab, int k){ //si tab[0] != k on arrete tout c'est 
     return returnTab; // retourne toutes les éléments faisant parti du k-uplets
 }
 
-//dans les fonctions potentiel_k_uplets et calculCoordonateTab on stocke dans la premiere position du tableau le nombre d'informations qui nous interesse
-
-//retourne le tableau avec les valeurs à traiter accompagnées de ses coordonnées
-
-/*
-int *calculTabCell(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab, int k){
-
-    int index=1;
-    int *coordonateTab = (int*)malloc(sizeof(int));
-
-        for (int x = xmin ; x<=xmax ; x++){
-            for (int y=ymin ; y<=ymax ; y++){
-                for(int i=0; i< k ; i++){
-                    
-                }
-                        coordonateTab = (int*)realloc(coordonateTab, (1 + index * 3) * sizeof(int));
-                        coordonateTab[index] = returnTab[a];
-                        index++;
-                        coordonateTab[index] = x;                                          //ici on stocke une des valeurs à traiter avec ses coordonnées
-                        index++;
-                        coordonateTab[index] = y;
-                        index++;
-                        coordonateTab[0] = index/3; // le nombre de fois qu'on rendre une valeur avec ses coordonnées (divisé par 3 car on rentre 3 informations)
-                    }
-            }
-        }
-    return coordonateTab;
-}
-*/
-
-structCellule *tabPotentiellesBonneValeurs(structGrille grille, int xmin, int ymin, int xmax, int ymax, int *returnTab){
-
-    structCellule *tabCell = (structCellule*)malloc(sizeof(structCellule));
-
-    //for(int a=1; a<=returnTab[0]; a++){ // on test le nombre de fois où
-    int index=1;
-        for (int x = xmin ; x<=xmax ; x++){
-            for (int y=ymin ; y<=ymax ; y++){
-                if (getValeur(grille, x, y) == 0){
-                    
-                    for(int a=1; a<=returnTab[0]; a++){
-                        for (int b =a+1; b<returnTab[0]; b++){
-                            
-                            if (getNote(grille, x, y, returnTab[a]-1) == 1 && getNote(grille, x, y, returnTab[b]-1) == 1){ //ici on se trouve dans la case qui contient l'une des valeurs a traiter 
-                                tabCell = (structCellule*)realloc(tabCell, (1 + (index)) * sizeof(structCellule));
-
-                                tabCell[(index)].valeur = getValeur(grille, x, y);
-                                tabCell[(index)].posX = x;
-                                tabCell[(index)].posY = y;
-                                (index)= (index) + 1;
-                                tabCell[0].valeur= (index); // on met l'index dans le valeur de la premiere cellule 
-                            }
-
-                        
-                        
-                        /*
-                        for (int i=0 ; i<TAILLE ; i++){
-                            tabCell[index].note[i] = getNote(grille, x, y, i);
-                        }
-                        */ //peut etre facultatif
-                        
-                        //ici on stocke une des valeurs à traiter avec ses coordonnées
-                        
-                        //tabCell[0] = index; // le nombre de fois qu'on rendre une valeur avec ses coordonnées (divisé par 3 car on rentre 3 informations)
-                        }
-                    }
-                    
-                }
-                    
-            }
-        }
-    //}
-    return tabCell;
-} // dans cette fonction je dois faire en sorte de verifier les valeurs de la liste, dans chacune des cases qu'on parcourt.
-
-structGrille k_uplet_cache(structGrille grille, int k){
-
-    for (int i=0; i<TAILLE; i=i+CARRE){
-        for (int j=0; j<TAILLE ; j=j+CARRE){
-            int *tab = occurrenceParIndice(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1);
-            int *returntab = potentiel_k_uplet(tab, k);
-            structCellule *tabCell = tabPotentiellesBonneValeurs(grille, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, returntab);
-            grille = supprK(grille, tabCell, i - i%CARRE, j - j%CARRE, (i - i%CARRE) + CARRE -1, (j - j%CARRE) + CARRE -1, k);
-        }
-        
-    }
-    return grille;
-}
-
-/*
-structCellule *is_k_uplets_cachés(structGrille grille, structCellule *tabCell, int k){
-    int compteurVal=0;
-    int compteurCoord=0;
-    int index1=0;
-    int index2=0;
-    int index_res=1;
-    structCellule *finalTab = (structCellule*)malloc(sizeof(structCellule));
-    int *tabModel = (int *)malloc(sizeof(int));
-    structCellule *temp1 = (structCellule*)malloc(sizeof(structCellule));
-    structCellule *temp2 = (structCellule*)malloc(sizeof(structCellule));
-    while (){
-        index2 = index1+1;
-        if (tabCell != NULL){
-            while (tabCell[index2].note !=NULL){
-                if (comp2Cellules(tabCell[index1], tabCell[index2]) ){
-                    structCellule *finalTab = (structCellule*)realloc(finalTab, index_res * sizeof(structCellule));
-                    finalTab[index_res]= tabCell[index1];
-                    index_res++;
-
-                }
-                index2++;
-            }
-            
-        }
-    }
-        
-        
-
-
-        }
-        else{
-            temp1 = grille[coordonateTab[i+1]][coordonateTab[i+2]] 
-        }
-        
-        
-    }
-    return false;
-}
-
-bool comp2Cellules(structCellule cell1, structCellule cell2) {
-    if (cell1.valeur != cell2.valeur){
-        if (cell1.posX == cell2.posX && cell1.posY == cell2.posY){
-            return true;
-        }
-        else return false;
-    }
-    else return false;
-}
-
-
-*/
-
-//si nb est egal a k alors on a trouvé une paire 
-
-
-//on a trouvé notre paire alors on la supprime
-structGrille supprK(structGrille grille, structCellule *list, int xmin, int ymin, int xmax, int ymax, int k){
-
-    for (int i=1; i<=k; i++){
-        int posX = list[k].posX;
-        int posY = list[k].posY;
-        for(int i=0; i<TAILLE; i++){
-            if (i != (getValeur(grille, posX, posY))-1) {setNote(&grille, posX, posY, i, 0);}
-        }
-    }
-    return grille;
-}
-
 void afficherNotesCellule(structCellule cellule) {
     printf("Notes de la cellule :\n");
     for (int i = 0; i < TAILLE; i++) {
@@ -610,7 +452,8 @@ void afficherNotesCellule(structCellule cellule) {
     printf("\n");
 }
 
-
+/*****************************************************************************************************************/
+//PAIRES ET TRIPLETS CACHEES
 
 // teste si une paire est présente ou non dans les cases d'une zone
 
@@ -784,6 +627,134 @@ structGrille tripletsCaches(structGrille grille){
                     }
                 }
             }
+        }
+    }
+    return grille;
+}
+
+/**************************************************************************************************************/
+
+//PAIRES ET TRIPLETS POINTANTS
+
+//Fonction qui renvoie un tableau avec les coordonnées des cases dans lesquels on retrouve les potentiels pointants
+int *coordPotentielsPointants(structGrille grille, int xmin, int ymin, int xmax, int ymax, int note, int k){
+    int taille = 1 + k*2;
+
+    int *potentielsPointants = (int*)malloc(taille * sizeof(int));
+    potentielsPointants[0] = note;
+    for(int i = 1; i < taille; i++){
+        potentielsPointants[i] = 0;
+    }
+
+    int ind = 1;
+    for(int x = xmin; x <= xmax; x++){
+        for(int y = ymin; y <= ymax; y++){
+            if(getNote(grille, x, y, note-1) == 1){
+                potentielsPointants[ind] = x;
+                potentielsPointants[ind + 1] = y;
+                ind = ind + 2;
+            }
+        }
+    }
+    
+    return potentielsPointants;
+}
+
+//Fonction qui vérifie si les instances de la valeur pouvant formées un k-uplet pointant sont sur la même ligne
+//Tableau tabVal : - première case : la valeur
+//                 - les autres cases : les coordonnées des cellules dans lesquelles on retrouve la note
+
+bool verifLignePointants(int *tabVal, int k){
+    int taille = 1 + k*2;
+   
+    bool areOnOneRow = false;
+
+    for(int i = 2; i < taille-2; i=i+2){
+        if(tabVal[i] == tabVal[i+2]){
+            areOnOneRow = true;
+        }
+        else{
+            areOnOneRow = false;
+        }
+    }
+
+    return areOnOneRow;
+}
+
+//Fonction qui vérifie si les instances de la valeur pouvant formées un k-uplet pointant sont sur la même colonne
+//Tableau tabVal : - première case : la valeur
+//                 - les autres cases : les coordonnées des cellules dans lesquelles on retrouve la note
+bool verifColonnePointants(int *tabVal, int k){
+    int taille = 1 + k*2;
+
+    bool areOnOneColumn = false;
+
+    for(int i = 1; i < taille-3; i=i+2){
+        if(tabVal[i] == tabVal[i+2]){
+            areOnOneColumn = true;
+        }
+        else{
+            areOnOneColumn = false;
+        }
+    }
+
+    return areOnOneColumn;
+}
+
+//
+structGrille supprAutresInstancesPointants(structGrille grille, int *tabVal, int k){
+    int taille = 1 + k*2;
+    int val = tabVal[0];
+
+    if(verifLignePointants(tabVal, k)){
+        int y = tabVal[2];                   //si les pointants sont sur la même ligne, ils ont le même y
+        for(int x = 0; x < TAILLE; x++){
+            bool setLigne = true;
+            for(int i = 1; i < taille; i=i+2){
+                if(x == tabVal[i]){
+                    setLigne = false;
+                }
+            }
+            if(setLigne){
+                setNote(&grille, x, y, val-1, 0);
+            }
+        }
+
+    }
+    else{
+        int x = tabVal[1];                  //si les pointants sont sur la même colonne, ils ont le même x
+        for(int y = 0; y < TAILLE; y++){
+            bool setColonne = true;
+            for(int i = 2; i < taille; i=i+2){
+                if(y == tabVal[i]){
+                    setColonne = false;
+                }
+            }
+            if(setColonne){
+                setNote(&grille, x, y, val-1, 0);
+            }
+        }
+    }
+    return grille;
+}
+
+structGrille pairesEtTripletsPointants(structGrille grille){
+    for(int x = 0; x <= (TAILLE - CARRE); x=x+CARRE){
+        for(int y = 0; y <= (TAILLE - CARRE); y=y+CARRE){
+            
+            int *occ = occurrenceParIndice(grille, x, y, (x + CARRE -1), (y + CARRE-1));
+
+            for(int i = 0; i < TAILLE; i++){
+                for(int k = 2; k <= 3; k++){
+                    if(occ[i] == k){
+                        int *coord = coordPotentielsPointants(grille, x, y, (x + CARRE -1), (y + CARRE-1), i+1, k);
+                        if(verifLignePointants(coord, k) || verifColonnePointants(coord, k)){
+                            grille = supprAutresInstancesPointants(grille, coord, k);
+                        }
+                    }
+                }
+            }
+
         }
     }
     return grille;
